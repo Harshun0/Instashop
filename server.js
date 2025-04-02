@@ -195,7 +195,7 @@ app.get("/api/orders", async (req, res) => {
 });
 
 app.use(cors({
-    origin: ['http://localhost:5000', 'http://127.0.0.1:5000'], // Replace with your frontend URLs
+    origin: ['http://localhost:5000', 'https://instashop-ur4l.onrender.com'],  // Allow both localhost and your render domain
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization']
