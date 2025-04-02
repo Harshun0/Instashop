@@ -440,7 +440,7 @@
             queryParams.push(`sort=${sortOption}`);
         }
 
-        let apiUrl = `http://localhost:5000/api/products/clothing`;
+        let apiUrl = `/api/products/clothing`;
         if (queryParams.length > 0) {
             apiUrl += `?${queryParams.join("&")}`;
         }

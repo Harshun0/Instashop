@@ -3,7 +3,7 @@ async function loadProducts(category) {
         let queryString = `category=${category}`;
         
         // Fetch products from API
-        const response = await fetch(`http://localhost:5000/api/products?${queryString}`);
+        const response = await fetch(`/api/products?${queryString}`);
         const products = await response.json();
         
         if (!Array.isArray(products)) {

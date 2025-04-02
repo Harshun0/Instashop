@@ -198,7 +198,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/shops'); // Fetch data from API
+            const response = await fetch('/api/shops'); // Fetch data from API
             const shops = await response.json();
             displayShops(shops);
         } catch (error) {

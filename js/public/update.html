@@ -433,7 +433,7 @@ async function loadAllProducts(category = "") {
                     </div>
                 `;
                 
-                const response = await fetch(`http://localhost:5000/api/products/search?q=${encodeURIComponent(searchTerm)}`);
+                const response = await fetch(`/api/products/search?q=${encodeURIComponent(searchTerm)}`);
                 const data = await response.json();
 
                 if (response.ok && data.length > 0) {
@@ -453,7 +453,7 @@ async function loadAllProducts(category = "") {
         updateForm.classList.add("hidden");
         uploadStatus.classList.remove("hidden");
 
-        const response = await fetch(`http://localhost:5000/api/products/${productId}`);
+        const response = await fetch(`/api/products/${productId}`);
         const product = await response.json();
 
         if (!response.ok) throw new Error("Failed to load product");
@@ -622,7 +622,7 @@ updateForm.addEventListener("submit", async function (event) {
         
         console.log("Updating product data:", productData);
         
-        const response = await fetch(`http://localhost:5000/api/products/${productId}`, {
+        const response = await fetch(`/api/products/${productId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -666,7 +666,7 @@ confirmDelete.addEventListener("click", async function() {
         deleteModal.classList.add("hidden");
         uploadStatus.classList.remove("hidden");
         
-        const response = await fetch(`http://localhost:5000/api/products/${productId}`, {
+        const response = await fetch(`/api/products/${productId}`, {
             method: "DELETE"
         });
         

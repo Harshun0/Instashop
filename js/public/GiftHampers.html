@@ -417,7 +417,7 @@
             queryParams.push(`sort=${sortOption}`);
         }
 
-        let apiUrl = `http://localhost:5000/api/products/gift_hampers`;
+        let apiUrl = `/api/products/gift_hampers`;
         if (queryParams.length > 0) {
             apiUrl += `?${queryParams.join("&")}`;
         }
