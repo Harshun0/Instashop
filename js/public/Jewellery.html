@@ -389,10 +389,10 @@
                     queryParams.push(`sort=${sortOption}`);
                 }
         
-                let apiUrl = `http://localhost:5000/api/products/jewellery`;
-                if (queryParams.length > 0) {
-                    apiUrl += `?${queryParams.join("&")}`;
-                }
+                let apiUrl = `/api/products/jewellery`;
+if (queryParams.length > 0) {
+    apiUrl += `?${queryParams.join("&")}`;
+}
         
                 console.log("Fetching from:", apiUrl);
                 const response = await fetch(apiUrl);
