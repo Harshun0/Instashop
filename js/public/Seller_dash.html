@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Product Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+
+    <div class="container mx-auto my-8 px-4">
+        <h1 class="text-3xl font-bold text-center mb-8">Product Management</h1>
+
+        <!-- Navigation buttons -->
+        <div class="flex justify-center mb-8 gap-4">
+            <a href="#" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition">
+                <i class="fas fa-plus mr-2"></i>Add New Product
+            </a>
+            <a href="#" class="bg-gray-700 text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition" id="refreshButton">
+                <i class="fas fa-sync-alt mr-2"></i>Refresh List
+            </a>
+        </div>
+
+        <!-- Search and filter -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-grow">
+                    <label class="block text-gray-700 font-bold mb-2">Search</label>
+                    <input type="text" id="searchInput" placeholder="Search by name, category..." class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="md:w-1/4">
+                    <label class="block text-gray-700 font-bold mb-2">Filter by Category</label>
+                    <select id="categoryFilter" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">All Categories</option>
+                        <option value="jewellery">Jewellery</option>
+                        <option value="crochet">Crochet</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="gift_hampers">Gift Hampers</option>
+                        <option value="flower_bouquets">Flower&Bouquets</option>
+                    </select>
+                </div>
+                <div class="md:w-1/4">
+                    <label class="block text-gray-700 font-bold mb-2">Sort By</label>
+                    <select id="sortBy" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="name">Name (A-Z)</option>
+                        <option value="name_desc">Name (Z-A)</option>
+                        <option value="price_asc">Price (Low to High)</option>
+                        <option value="price_desc">Price (High to Low)</option>
+                        <option value="newest">Newest First</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products list -->
+        <div id="productsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Products will be loaded here -->
+            <div class="animate-pulse bg-white rounded-lg shadow-md p-4 h-64">
+                <div class="w-full h-32 bg-gray-300 rounded mb-4"></div>
+                <div class="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
+                <div class="h-4 bg-gray-300 rounded w-1/2 mb-2"></div>
+                <div class="h-4 bg-gray-300 rounded w-1/4"></div>
+            </div>
+            <div class="animate-pulse bg-white rounded-lg shadow-md p-4 h-64">
+                <div class="w-full h-32 bg-gray-300 rounded mb-4"></div>
+                <div class="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
+                <div class="h-4 bg-gray-300 rounded w-1/2 mb-2"></div>
+                <div class="h-4 bg-gray-300 rounded w-1/4"></div>
+            </div>
+            <div class="animate-pulse bg-white rounded-lg shadow-md p-4 h-64">
+                <div class="w-full h-32 bg-gray-300 rounded mb-4"></div>
+                <div class="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
+                <div class="h-4 bg-gray-300 rounded w-1/2 mb-2"></div>
+                <div class="h-4 bg-gray-300 rounded w-1/4"></div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="flex justify-center mt-8">
+            <nav class="inline-flex rounded-md shadow">
+                <button id="prevPage" class="px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-l-md hover:bg-gray-50">
+                    Previous
+                </button>
+                <span class="px-4 py-2 text-sm font-medium bg-blue-50 border border-gray-300">
+                    Page <span id="currentPage">1</span> of <span id="totalPages">1</span>
+                </span>
+                <button id="nextPage" class="px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-r-md hover:bg-gray-50">
+                    Next
+                </button>
+            </nav>
+        </div>
+
+        <!-- No products message -->
+        <div id="noProductsMessage" class="hidden text-center py-12">
+            <i class="fas fa-box-open text-gray-400 text-5xl mb-4"></i>
+            <h2 class="text-2xl font-bold text-gray-500">No Products Found</h2>
+            <p class="text-gray-500 mt-2">Try adjusting your search or filters</p>
+        </div>
+
+        <!-- Loading indicator -->
+        <div id="loadingIndicator" class="hidden text-center py-12">
+            <i class="fas fa-spinner fa-spin text-blue-500 text-5xl mb-4"></i>
+            <p class="text-gray-500">Loading products...</p>
+        </div>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg w-full max-w-2xl max-h-screen overflow-y-auto p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Edit Product</h2>
+                <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <form id="editProductForm">
+                <input type="hidden" id="productId">
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Product Name</label>
+                    <input type="text" id="editName" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Seller Name</label>
+                    <input type="text" id="editSeller" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Stock Status</label>
+                    <select id="editStock" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">-- Select status --</option>
+                        <option value="in_stock">In Stock</option>
+                        <option value="out_of_stock">Out of Stock</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Meta Description</label>
+                    <input type="text" id="editMetaDescription" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Detailed Description</label>
+                    <textarea id="editDetailedDescription" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Category</label>
+                    <select id="editCategory" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">-- Select Category --</option>
+                        <option value="jewellery">Jewellery</option>
+                        <option value="crochet">Crochet</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="gift_hampers">Gift Hampers</option>
+                        <option value="flower_bouquets">Flower&Bouquets</option>
+                    </select>
+                </div>
+
+                <div class="mb-4 hidden" id="editSubcategoryContainer">
+                    <label class="block text-gray-700 font-bold mb-2">Subcategory</label>
+                    <select id="editSubcategory" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </select>
+                </div>
+
+                <div class="mb-4 hidden" id="editMetalContainer">
+                    <label class="block text-gray-700 font-bold mb-2">Metal Type</label>
+                    <select id="editMetal" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="Gold">Gold</option>
+                        <option value="Silver">Silver</option>
+                        <option value="Platinum">Platinum</option>
+                    </select>
+                </div>
+
+                <div class="mb-4 hidden" id="editOccasionContainer">
+                    <label class="block text-gray-700 font-bold mb-2">Occasion</label>
+                    <select id="editOccasion" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="Birthday">Birthday</option>
+                        <option value="Anniversary">Anniversary</option>
+                        <option value="Wedding">Wedding</option>
+                        <option value="Valentine">Valentine's Day</option>
+                        <option value="Festival">Festival</option>
+                        <option value="Congratulations">Congratulations</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Original Price (₹)</label>
+                    <input type="number" id="editOriginalPrice" required min="0" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Discount Percentage (%)</label>
+                    <input type="number" id="editDiscount" required min="0" max="100" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Final Price (₹)</label>
+                    <input type="number" id="editPrice" required min="0" readonly class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <p class="text-sm text-gray-500 mt-1">Final price will be calculated automatically.</p>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Delivery Charge (Nagpur) ₹</label>
+                    <input type="number" id="editDeliveryChargeNagpur" required min="0" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Delivery Charge (Outside Nagpur) ₹</label>
+                    <input type="number" id="editDeliveryChargeOutside" required min="0" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Current Images</label>
+                    <div id="currentImages" class="flex flex-wrap gap-2"></div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Update Image 1</label>
+                    <input type="file" id="editImageUpload1" accept="image/*" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Update Image 2</label>
+                    <input type="file" id="editImageUpload2" accept="image/*" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Update Image 3</label>
+                    <input type="file" id="editImageUpload3" accept="image/*" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div id="editUploadStatus" class="mb-4 hidden">
+                    <div class="flex items-center">
+                        <i class="fas fa-spinner fa-spin mr-2 text-blue-500"></i>
+                        <span>Uploading images, please wait...</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-4">
+                    <button type="button" id="cancelEditButton" class="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400">
+                        Cancel
+                    </button>
+                    <button type="submit" id="saveEditButton" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Add New Product Modal -->
+    <div id="addModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg w-full max-w-2xl max-h-screen overflow-y-auto p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Add New Product</h2>
+                <button id="closeAddModal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <form id="addProductForm">
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Product Name</label>
+                    <input type="text" id="addName" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Seller Name</label>
+                    <input type="text" id="addSeller" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Meta Description</label>
+                    <input type="text" id="addMetaDescription" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Detailed Description</label>
+                    <textarea id="addDetailedDescription" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Category</label>
+                    <select id="addCategory" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">-- Select Category --</option>
+                        <option value="jewellery">Jewellery</option>
+                        <option value="crochet">Crochet</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="gift_hampers">Gift Hampers</option>
+                        <option value="flower_bouquets">Flower&Bouquets</option>
+                    </select>
+                </div>
+                <div class="mb-4 hidden" id="addSubcategoryContainer">
+                    <label class="block text-gray-700 font-bold mb-2">Subcategory</label>
+                    <select id="addSubcategory" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </select>
+                </div>
+
+                <div class="mb-4 hidden" id="addMetalContainer">
+                    <label class="block text-gray-700 font-bold mb-2">Metal Type</label>
+                    <select id="addMetal" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="Gold">Gold</option>
+                        <option value="Silver">Silver</option>
+                        <option value="Platinum">Platinum</option>
+                    </select>
+                </div>
+
+                <div class="mb-4 hidden" id="addOccasionContainer">
+                    <label class="block text-gray-700 font-bold mb-2">Occasion</label>
+                    <select id="addOccasion" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="Birthday">Birthday</option>
+                        <option value="Anniversary">Anniversary</option>
+                        <option value="Wedding">Wedding</option>
+                        <option value="Valentine">Valentine's Day</option>
+                        <option value="Festival">Festival</option>
+                        <option value="Congratulations">Congratulations</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Original Price (₹)</label>
+                    <input type="number" id="addOriginalPrice" required min="0" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Discount Percentage (%)</label>
+                    <input type="number" id="addDiscount" required min="0" max="100" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Final Price (₹)</label>
+                    <input type="number" id="addPrice" required min="0" readonly class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <p class="text-sm text-gray-500 mt-1">Final price will be calculated automatically.</p>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Delivery Charge (Nagpur) ₹</label>
+                    <input type="number" id="addDeliveryChargeNagpur" required min="0" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Delivery Charge (Outside Nagpur) ₹</label>
+                    <input type="number" id="addDeliveryChargeOutside" required min="0" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Product Image 1</label>
+                    <input type="file" id="addImageUpload1" accept="image/*" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Product Image 2</label>
+                    <input type="file" id="addImageUpload2" accept="image/*" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Product Image 3</label>
+                    <input type="file" id="addImageUpload3" accept="image/*" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div id="addUploadStatus" class="mb-4 hidden">
+                    <div class="flex items-center">
+                        <i class="fas fa-spinner fa-spin mr-2 text-blue-500"></i>
+                        <span>Uploading images, please wait...</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-4">
+                    <button type="button" id="cancelAddButton" class="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400">
+                        Cancel
+                    </button>
+                    <button type="submit" id="saveAddButton" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                        Add Product
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteConfirmModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg w-full max-w-md p-6">
+            <div class="text-center mb-6">
+                <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i>
+                <h2 class="text-2xl font-bold">Delete Product</h2>
+                <p class="text-gray-600 mt-2">Are you sure you want to delete this product? This action cannot be undone.</p>
+            </div>
+            
+            <div class="flex justify-center gap-4">
+                <button id="cancelDeleteButton" class="bg-gray-300 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-400">
+                    Cancel
+                </button>
+                <button id="confirmDeleteButton" class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toastNotification" class="fixed bottom-4 right-4 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg transform transition-transform duration-300 translate-y-24 opacity-0 flex items-center">
+        <span id="toastMessage">Operation successful</span>
+        <button id="closeToast" class="ml-4 text-white hover:text-gray-300">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <script>
+        const CLOUDINARY_UPLOAD_PRESET = "Acessories";
+        const CLOUDINARY_CLOUD_NAME = "drvug594q";
+    
+        // Variables for pagination and data
+        let currentPage = 1;
+        let productsPerPage = 9;
+        let totalProducts = 0;
+        let allProducts = [];
+        let productToDelete = null;
+        
+        // DOM elements
+        const productsList = document.getElementById('productsList');
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const sortBy = document.getElementById('sortBy');
+        const noProductsMessage = document.getElementById('noProductsMessage');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const prevPageBtn = document.getElementById('prevPage');
+        const nextPageBtn = document.getElementById('nextPage');
+        const currentPageSpan = document.getElementById('currentPage');
+        const totalPagesSpan = document.getElementById('totalPages');
+        const refreshButton = document.getElementById('refreshButton');
+        
+        // Modal elements
+        const editModal = document.getElementById('editModal');
+        const addModal = document.getElementById('addModal');
+        const deleteConfirmModal = document.getElementById('deleteConfirmModal');
+        const closeModal = document.getElementById('closeModal');
+        const closeAddModal = document.getElementById('closeAddModal');
+        const cancelEditButton = document.getElementById('cancelEditButton');
+        const cancelAddButton = document.getElementById('cancelAddButton');
+        const cancelDeleteButton = document.getElementById('cancelDeleteButton');
+        const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+        const editProductForm = document.getElementById('editProductForm');
+        const addProductForm = document.getElementById('addProductForm');
+        
+        // Toast notification
+        const toastNotification = document.getElementById('toastNotification');
+        const toastMessage = document.getElementById('toastMessage');
+        const closeToast = document.getElementById('closeToast');
+
+        // Add event listeners for UI interactions
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+            
+            // Event listeners for search and filters
+            searchInput.addEventListener('input', filterProducts);
+            categoryFilter.addEventListener('change', filterProducts);
+            sortBy.addEventListener('change', filterProducts);
+            
+            // Pagination events
+            prevPageBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    displayProducts();
+                }
+            });
+            
+            nextPageBtn.addEventListener('click', () => {
+                if (currentPage < Math.ceil(totalProducts / productsPerPage)) {
+                    currentPage++;
+                    displayProducts();
+                }
+            });
+            
+            // Refresh button
+            refreshButton.addEventListener('click', loadProducts);
+            
+            // Modal close buttons
+            closeModal.addEventListener('click', () => {
+                editModal.classList.add('hidden');
+            });
+            
+            closeAddModal.addEventListener('click', () => {
+                addModal.classList.add('hidden');
+            });
+            
+            cancelEditButton.addEventListener('click', () => {
+                editModal.classList.add('hidden');
+            });
+            
+            cancelAddButton.addEventListener('click', () => {
+                addModal.classList.add('hidden');
+            });
+            
+            cancelDeleteButton.addEventListener('click', () => {
+                deleteConfirmModal.classList.add('hidden');
+            });
+            
+            // Form submission
+            editProductForm.addEventListener('submit', handleEditFormSubmit);
+            addProductForm.addEventListener('submit', handleAddFormSubmit);
+            
+            // Calculate final price based on original price and discount
+            document.getElementById('editOriginalPrice').addEventListener('input', calculateEditPrice);
+            document.getElementById('editDiscount').addEventListener('input', calculateEditPrice);
+            document.getElementById('addOriginalPrice').addEventListener('input', calculateAddPrice);
+            document.getElementById('addDiscount').addEventListener('input', calculateAddPrice);
+            
+            // Category change events to show/hide relevant fields
+            document.getElementById('editCategory').addEventListener('change', handleEditCategoryChange);
+            document.getElementById('addCategory').addEventListener('change', handleAddCategoryChange);
+            
+            // Delete confirmation
+            confirmDeleteButton.addEventListener('click', handleDeleteProduct);
+            
+            // Toast close button
+            closeToast.addEventListener('click', hideToast);
+        });
+//cloudinary
+async function uploadToCloudinary(file) {
+    if (!file) return null;
+    
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+    
+    try {
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (!response.ok) {
+            throw new Error('Upload failed');
+        }
+        
+        const data = await response.json();
+        return data.secure_url;
+    } catch (error) {
+        console.error('Error uploading to Cloudinary:', error);
+        showToast('Error uploading image. Please try again.');
+        return null;
+    }
+}
+        // Function to load products from API
+        function loadProducts() {
+    showLoading();
+    
+    fetch('http://localhost:5000/products')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            allProducts = data;
+            totalProducts = allProducts.length;
+            filterProducts();
+            hideLoading();
+        })
+        .catch(error => {
+            console.error('Error fetching products:', error);
+            hideLoading();
+            showToast('Error loading products. Please try again.');
+        });
+}
+        // Function to filter and sort products
+        function filterProducts() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const category = categoryFilter.value;
+            const sortOption = sortBy.value;
+            
+            let filteredProducts = allProducts;
+            
+            // Apply search term filter
+            if (searchTerm) {
+                filteredProducts = filteredProducts.filter(product => 
+                    product.name.toLowerCase().includes(searchTerm) || 
+                    product.category.toLowerCase().includes(searchTerm) ||
+                    (product.subcategory && product.subcategory.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            // Apply category filter
+            if (category) {
+                filteredProducts = filteredProducts.filter(product => 
+                    product.category === category
+                );
+            }
+            
+            // Apply sorting
+            switch(sortOption) {
+    case 'name':
+        filteredProducts.sort((a, b) => {
+            return (a.name || '').localeCompare(b.name || '');
+        });
+        break;
+    case 'name_desc':
+        filteredProducts.sort((a, b) => {
+            return (b.name || '').localeCompare(a.name || '');
+        });
+        break;
+    case 'price_asc':
+        filteredProducts.sort((a, b) => {
+            return (a.price || 0) - (b.price || 0);
+        });
+        break;
+    case 'price_desc':
+        filteredProducts.sort((a, b) => {
+            return (b.price || 0) - (a.price || 0);
+        });
+        break;
+    case 'newest':
+        filteredProducts.sort((a, b) => {
+            // Check if createdAt exists before trying to convert to Date
+            if (!a.createdAt && !b.createdAt) return 0;
+            if (!a.createdAt) return 1; // Items without date go last
+            if (!b.createdAt) return -1; // Items with date go first
+            return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+        break;
+    default:
+        break;
+}
+            totalProducts = filteredProducts.length;
+            currentPage = 1;
+            
+            // Update pagination
+            updatePagination();
+            
+            // Store filtered products and display them
+            allProducts = filteredProducts;
+            displayProducts();
+        }
+        
+        // Function to display products with pagination
+        function displayProducts() {
+            productsList.innerHTML = '';
+
+            const startIndex = (currentPage - 1) * productsPerPage;
+            const endIndex = startIndex + productsPerPage;
+            const displayedProducts = allProducts.slice(startIndex, endIndex);
+
+            if (displayedProducts.length === 0) {
+                noProductsMessage.classList.remove('hidden');
+            } else {
+                noProductsMessage.classList.add('hidden');
+
+                displayedProducts.forEach(product => {
+                    const productCard = createProductCard(product);
+                    productsList.appendChild(productCard);
+                });
+            }
+
+            updatePagination();
+        }
+        // Create product card element
+        // Create product card element
+        function createProductCard(product) {
+    const card = document.createElement('div');
+    card.className = 'bg-white rounded-lg shadow-md overflow-hidden';
+    
+    // Create discount badge if applicable
+    let discountBadge = '';
+    if (product.discount > 0) {
+        discountBadge = `
+            <div class="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 text-xs font-bold">
+                ${product.discount}% OFF
+            </div>
+        `;
+    }
+    
+    // Use Cloudinary image or fallback to placeholder
+    const imageUrl = (product.images && product.images.length > 0) 
+    ? product.images[0] 
+    : 'https://res.cloudinary.com/' + CLOUDINARY_CLOUD_NAME + '/image/upload/v1/sample/placeholder.jpg';
+    // Ensure price is treated as a number
+    const price = typeof product.price === 'number' ? product.price : parseFloat(product.price) || 0;
+    const originalPrice = typeof product.originalPrice === 'number' ? product.originalPrice : parseFloat(product.originalPrice) || 0;
+    
+    card.innerHTML = `
+        <div class="relative">
+            <img src="${imageUrl}" alt="${product.name}" class="w-full h-48 object-cover">
+            ${discountBadge}
+        </div>
+        <div class="p-4">
+            <h3 class="font-bold text-lg mb-1 truncate">${product.name}</h3>
+            <p class="text-gray-600 text-sm mb-2">${product.category}</p>
+            <div class="flex items-center mb-3">
+                <span class="font-bold text-lg">₹${price.toFixed(2)}</span>
+                ${product.discount > 0 ? `<span class="text-gray-500 text-sm line-through ml-2">₹${originalPrice.toFixed(2)}</span>` : ''}
+            </div>
+            <div class="flex justify-between">
+                <button class="edit-product-btn bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm" data-id="${product._id || product.id}">
+                    <i class="fas fa-edit mr-1"></i> Edit
+                </button>
+                <button class="delete-product-btn bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm" data-id="${product._id || product.id}">
+                    <i class="fas fa-trash-alt mr-1"></i> Delete
+                </button>
+            </div>
+        </div>
+    `;    
+    const editBtn = card.querySelector('.edit-product-btn');
+    const deleteBtn = card.querySelector('.delete-product-btn');
+    
+    editBtn.addEventListener('click', () => openEditModal(product));
+    deleteBtn.addEventListener('click', () => openDeleteModal(product));
+    
+    return card;
+}
+        // Update pagination controls
+        function updatePagination() {
+            const totalPages = Math.max(1, Math.ceil(totalProducts / productsPerPage));
+            currentPageSpan.textContent = currentPage;
+            totalPagesSpan.textContent = totalPages;
+            
+            // Disable/enable previous and next buttons
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages;
+            
+            // Apply visual indication for disabled buttons
+            if (prevPageBtn.disabled) {
+                prevPageBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                prevPageBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+            
+            if (nextPageBtn.disabled) {
+                nextPageBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                nextPageBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        }
+        
+        // Open edit product modal
+        function openEditModal(product) {
+            document.getElementById('productId').value = product._id;
+            document.getElementById('editSeller').value = product.seller;
+            document.getElementById('editName').value = product.name;
+            document.getElementById('editStock').value = product.stock || '';
+            document.getElementById('editMetaDescription').value = product.metaDescription || '';
+            document.getElementById('editDetailedDescription').value = product.detailedDescription || '';
+            document.getElementById('editCategory').value = product.category;
+            document.getElementById('editOriginalPrice').value = product.originalPrice;
+            document.getElementById('editDiscount').value = product.discount;
+            document.getElementById('editPrice').value = product.price;
+            document.getElementById('editDeliveryChargeNagpur').value = product.deliveryChargeNagpur || 0;
+            document.getElementById('editDeliveryChargeOutside').value = product.deliveryChargeOutside || 0;
+            
+            // Handle category-specific fields
+            handleEditCategoryChange();
+            
+            if (product.category === 'jewellery' && product.metal) {
+                document.getElementById('editMetal').value = product.metal;
+            }
+            
+            if (['gift_hampers', 'flower_bouquets'].includes(product.category) && product.occasion) {
+                document.getElementById('editOccasion').value = product.occasion;
+            }
+            
+            if (product.subcategory) {
+                // Populate subcategory options based on category
+                populateSubcategories('edit', product.category);
+                document.getElementById('editSubcategory').value = product.subcategory;
+            }
+            
+            // Display current images
+            const currentImagesContainer = document.getElementById('currentImages');
+            currentImagesContainer.innerHTML = '';
+            
+            if (product.image) {
+                const imgWrapper = document.createElement('div');
+                imgWrapper.className = 'relative w-24 h-24';
+                imgWrapper.innerHTML = `
+                    <img src="${product.image}" alt="Product Image" class="w-full h-full object-cover border rounded">
+                    <span class="absolute -top-2 -right-2 bg-gray-800 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs cursor-pointer delete-image" data-index="1">×</span>
+                `;
+                currentImagesContainer.appendChild(imgWrapper);
+            }
+            
+            // Add listeners for image deletion
+            const deleteImageBtns = currentImagesContainer.querySelectorAll('.delete-image');
+            deleteImageBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const imageIndex = e.target.getAttribute('data-index');
+                    // In a real application, you would handle image deletion here
+                    e.target.parentElement.remove();
+                });
+            });
+            
+            editModal.classList.remove('hidden');
+        }
+        
+        // Open add product modal
+        function openAddModal() {
+            // Reset form fields
+            document.getElementById('addProductForm').reset();
+            
+            // Hide all category-specific fields
+            document.getElementById('addSubcategoryContainer').classList.add('hidden');
+            document.getElementById('addMetalContainer').classList.add('hidden');
+            document.getElementById('addOccasionContainer').classList.add('hidden');
+            
+            addModal.classList.remove('hidden');
+        }
+        
+        // Open delete confirmation modal
+        function openDeleteModal(product) {
+            productToDelete = product._id;
+            deleteConfirmModal.classList.remove('hidden');
+        }
+        
+        // Handle edit form submission
+        async function handleEditFormSubmit(e) {
+    e.preventDefault();
+    
+    // Show upload status during image processing
+    document.getElementById('editUploadStatus').classList.remove('hidden');
+    
+    const productId = document.getElementById('productId').value;
+    
+    try {
+        // Upload new images if provided
+        const imageUpload1 = document.getElementById('editImageUpload1').files[0];
+        const imageUpload2 = document.getElementById('editImageUpload2').files[0];
+        const imageUpload3 = document.getElementById('editImageUpload3').files[0];
+        
+        // Upload images in parallel
+        const [imageUrl1, imageUrl2, imageUrl3] = await Promise.all([
+            uploadToCloudinary(imageUpload1),
+            uploadToCloudinary(imageUpload2),
+            uploadToCloudinary(imageUpload3)
+        ]);
+        
+        // Find the product to update
+        const productToUpdate = allProducts.find(p => p._id === productId);
+        
+        // Prepare product data
+        const productData = {
+            name: document.getElementById('editName').value,
+            seller: document.getElementById('editSeller').value,
+            stock: document.getElementById('editStock').value,
+            metaDescription: document.getElementById('editMetaDescription').value,
+            detailedDescription: document.getElementById('editDetailedDescription').value,
+            category: document.getElementById('editCategory').value,
+            originalPrice: parseFloat(document.getElementById('editOriginalPrice').value),
+            discount: parseFloat(document.getElementById('editDiscount').value),
+            price: parseFloat(document.getElementById('editPrice').value),
+            deliveryChargeNagpur: parseFloat(document.getElementById('editDeliveryChargeNagpur').value),
+            deliveryChargeOutside: parseFloat(document.getElementById('editDeliveryChargeOutside').value),
+        };
+        
+        // Update images array if it exists
+        if (productToUpdate.images) {
+            productData.images = [...productToUpdate.images];
+        } else {
+            productData.images = [];
+        }
+        
+        // Add new image URLs if available
+        if (imageUrl1) {
+            productData.images[0] = imageUrl1;
+            // Also update the primary image
+            productData.image = imageUrl1;
+        }
+        if (imageUrl2) {
+            productData.images[1] = imageUrl2;
+        }
+        if (imageUrl3) {
+            productData.images[2] = imageUrl3;
+        }
+        
+        // Add category-specific fields if visible
+        if (!document.getElementById('editSubcategoryContainer').classList.contains('hidden')) {
+            productData.subcategory = document.getElementById('editSubcategory').value;
+        }
+        
+        if (!document.getElementById('editMetalContainer').classList.contains('hidden')) {
+            productData.metal = document.getElementById('editMetal').value;
+        }
+        
+        if (!document.getElementById('editOccasionContainer').classList.contains('hidden')) {
+            productData.occasion = document.getElementById('editOccasion').value;
+        }
+        
+        // Send the update request to the API
+        const response = await fetch(`http://localhost:5000/products/${productId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(productData)
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to update product');
+        }
+        
+        const data = await response.json();
+        document.getElementById('editUploadStatus').classList.add('hidden');
+        editModal.classList.add('hidden');
+        showToast('Product updated successfully');
+        loadProducts(); // Reload products after update
+    } catch (error) {
+        console.error('Error updating product:', error);
+        document.getElementById('editUploadStatus').classList.add('hidden');
+        showToast('Error updating product. Please try again.');
+    }
+}
+        // Handle add form submission
+        async function handleAddFormSubmit(e) {
+    e.preventDefault();
+    
+    // Show upload status during image processing
+    document.getElementById('addUploadStatus').classList.remove('hidden');
+    
+    try {
+        // First, upload images to Cloudinary
+        const imageUrls = [];
+        
+        // Process each image file
+        const imageFiles = [
+            document.getElementById('addImageUpload1').files[0],
+            document.getElementById('addImageUpload2').files[0],
+            document.getElementById('addImageUpload3').files[0]
+        ];
+        
+        // Upload each image to Cloudinary
+        for (const file of imageFiles) {
+            if (!file) continue;
+            
+            // Create a FormData for Cloudinary upload
+            const cloudinaryData = new FormData();
+            cloudinaryData.append('file', file);
+            cloudinaryData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+            // Upload to Cloudinary
+            const cloudinaryResponse = await fetch(
+    `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+    {
+        method: 'POST',
+        body: cloudinaryData
+    }
+);
+            if (!cloudinaryResponse.ok) {
+                throw new Error('Cloudinary upload failed');
+            }
+            
+            const cloudinaryResult = await cloudinaryResponse.json();
+            imageUrls.push(cloudinaryResult.secure_url);
+        }
+        
+        // Now create the product data with Cloudinary URLs
+        const productData = {
+            name: document.getElementById('addName').value,
+            seller: document.getElementById('addSeller').value,
+            metaDescription: document.getElementById('addMetaDescription').value,
+            detailedDescription: document.getElementById('addDetailedDescription').value,
+            category: document.getElementById('addCategory').value,
+            originalPrice: document.getElementById('addOriginalPrice').value,
+            discount: document.getElementById('addDiscount').value,
+            price: document.getElementById('addPrice').value,
+            deliveryChargeNagpur: document.getElementById('addDeliveryChargeNagpur').value,
+            deliveryChargeOutside: document.getElementById('addDeliveryChargeOutside').value,
+            images: imageUrls  // Set the image URLs array
+        };
+        
+        // Add category-specific fields if visible
+        if (!document.getElementById('addSubcategoryContainer').classList.contains('hidden')) {
+            productData.subcategory = document.getElementById('addSubcategory').value;
+        }
+        
+        if (!document.getElementById('addMetalContainer').classList.contains('hidden')) {
+            productData.metal = document.getElementById('addMetal').value;
+        }
+        
+        if (!document.getElementById('addOccasionContainer').classList.contains('hidden')) {
+            productData.occasion = document.getElementById('addOccasion').value;
+        }
+        
+        // Send the product data to your server
+        const response = await fetch('http://localhost:5000/products', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(productData)
+        });
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        
+        const data = await response.json();
+        document.getElementById('addUploadStatus').classList.add('hidden');
+        addModal.classList.add('hidden');
+        showToast('Product added successfully');
+        loadProducts(); // Reload products after adding
+        
+    } catch (error) {
+        console.error('Error adding product:', error);
+        document.getElementById('addUploadStatus').classList.add('hidden');
+        showToast('Error adding product. Please try again.');
+    }
+}
+        // Handle product deletion
+        function handleDeleteProduct() {
+    if (!productToDelete) return;
+    
+    fetch(`http://localhost:5000/products/${productToDelete}`, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        deleteConfirmModal.classList.add('hidden');
+        showToast('Product deleted successfully');
+        loadProducts(); // Reload products after deletion
+    })
+    .catch(error => {
+        console.error('Error deleting product:', error);
+        deleteConfirmModal.classList.add('hidden');
+        showToast('Error deleting product. Please try again.');
+    });
+}
+        // Handle category change in edit form
+        function handleEditCategoryChange() {
+            const category = document.getElementById('editCategory').value;
+            
+            // Hide all category-specific fields first
+            document.getElementById('editSubcategoryContainer').classList.add('hidden');
+            document.getElementById('editMetalContainer').classList.add('hidden');
+            document.getElementById('editOccasionContainer').classList.add('hidden');
+            
+            // Show relevant fields based on category
+            if (category) {
+                document.getElementById('editSubcategoryContainer').classList.remove('hidden');
+                populateSubcategories('edit', category);
+                
+                if (category === 'jewellery') {
+                    document.getElementById('editMetalContainer').classList.remove('hidden');
+                }
+                
+                if (['gift_hampers', 'flower_bouquets'].includes(category)) {
+                    document.getElementById('editOccasionContainer').classList.remove('hidden');
+                }
+            }
+        }
+        
+        // Handle category change in add form
+        function handleAddCategoryChange() {
+            const category = document.getElementById('addCategory').value;
+            
+            // Hide all category-specific fields first
+            document.getElementById('addSubcategoryContainer').classList.add('hidden');
+            document.getElementById('addMetalContainer').classList.add('hidden');
+            document.getElementById('addOccasionContainer').classList.add('hidden');
+            
+            // Show relevant fields based on category
+            if (category) {
+                document.getElementById('addSubcategoryContainer').classList.remove('hidden');
+                populateSubcategories('add', category);
+                
+                if (category === 'jewellery') {
+                    document.getElementById('addMetalContainer').classList.remove('hidden');
+                }
+                
+                if (['gift_hampers', 'flower_bouquets'].includes(category)) {
+                    document.getElementById('addOccasionContainer').classList.remove('hidden');
+                }
+            }
+        }
+        
+        // Populate subcategories based on selected category
+        function populateSubcategories(formType, category) {
+            const subcategorySelect = document.getElementById(`${formType}Subcategory`);
+            subcategorySelect.innerHTML = '<option value="">-- Select Subcategory --</option>';
+            
+            let subcategories = [];
+            
+            switch(category) {
+                case 'jewellery':
+                    subcategories = ['Necklace', 'Earrings', 'Bracelet', 'Ring', 'Pendant', 'Set'];
+                    break;
+                case 'crochet':
+                    subcategories = ['Toy', 'Clothing', 'Accessory', 'Home Decor'];
+                    break;
+                case 'clothing':
+                    subcategories = ['Men', 'Women', 'Kids', 'Unisex'];
+                    break;
+                case 'gift_hampers':
+                    subcategories = ['Small', 'Medium', 'Large', 'Custom'];
+                    break;
+                case 'flower_bouquets':
+                    subcategories = ['Rose', 'Mixed', 'Seasonal', 'Exotic'];
+                    break;
+                default:
+                    break;
+            }
+            
+            subcategories.forEach(sub => {
+                const option = document.createElement('option');
+                option.value = sub.toLowerCase();
+                option.textContent = sub;
+                subcategorySelect.appendChild(option);
+            });
+        }
+        
+        // Calculate final price based on original price and discount
+        function calculateEditPrice() {
+    const originalPrice = parseFloat(document.getElementById('editOriginalPrice').value) || 0;
+    const discount = parseFloat(document.getElementById('editDiscount').value) || 0;
+    const finalPrice = originalPrice * (1 - discount / 100);
+    
+    document.getElementById('editPrice').value = Math.round(finalPrice);
+}
+        // Calculate final price for add form
+        function calculateAddPrice() {
+    const originalPrice = parseFloat(document.getElementById('addOriginalPrice').value) || 0;
+    const discount = parseFloat(document.getElementById('addDiscount').value) || 0;
+    const finalPrice = originalPrice * (1 - discount / 100);
+    
+    document.getElementById('addPrice').value = Math.round(finalPrice);
+}
+        // Show loading indicator
+        function showLoading() {
+            loadingIndicator.classList.remove('hidden');
+            productsList.classList.add('hidden');
+            noProductsMessage.classList.add('hidden');
+        }
+        
+        // Hide loading indicator
+        function hideLoading() {
+            loadingIndicator.classList.add('hidden');
+            productsList.classList.remove('hidden');
+        }
+        
+        // Show toast notification
+        function showToast(message) {
+            toastMessage.textContent = message;
+            toastNotification.classList.remove('translate-y-24', 'opacity-0');
+            
+            // Auto hide after 3 seconds
+            setTimeout(hideToast, 5000);
+        }
+        
+        // Hide toast notification
+        function hideToast() {
+            toastNotification.classList.add('translate-y-24', 'opacity-0');
+        }
+        
+        // Generate sample products for testing
+        // Generate sample products for testing
+        function generateSampleProducts() {
+            return [
+                { 
+                    id: 1,
+                    name: "Golden Necklace Set",
+                    category: "jewellery",
+                    subcategory: "set",
+                    metal: "Gold",
+                    metaDescription: "Elegant golden necklace set for special occasions",
+                    detailedDescription: "This beautiful golden necklace set includes matching earrings and is perfect for weddings and special occasions.",
+                    originalPrice: 5999,
+                    discount: 10,
+                    price: 5399.10,
+                    deliveryChargeNagpur: 50,
+                    deliveryChargeOutside: 150,
+                    image: "/api/placeholder/400/300",
+                    createdAt: "2025-01-15T12:00:00Z"
+                },
+                {
+                    id: 2,
+                    name: "Handmade Crochet Toy Bear",
+                    category: "crochet",
+                    subcategory: "toy",
+                    metaDescription: "Soft and cuddly handmade crochet teddy bear",
+                    detailedDescription: "This adorable handmade crochet teddy bear is made with high-quality soft yarn and is perfect for children of all ages.",
+                    originalPrice: 899,
+                    discount: 0,
+                    price: 899,
+                    deliveryChargeNagpur: 30,
+                    deliveryChargeOutside: 100,
+                    image: "/api/placeholder/400/300",
+                    createdAt: "2025-02-10T12:00:00Z"
+                },
+                {
+                    id: 3,
+                    name: "Silver Earrings",
+                    category: "jewellery",
+                    subcategory: "earrings",
+                    metal: "Silver",
+                    metaDescription: "Elegant silver earrings for everyday wear",
+                    detailedDescription: "These silver earrings are perfect for everyday wear and add a touch of elegance to any outfit.",
+                    originalPrice: 1299,
+                    discount: 15,
+                    price: 1104.15,
+                    deliveryChargeNagpur: 40,
+                    deliveryChargeOutside: 120,
+                    image: "/api/placeholder/400/300",
+                    createdAt: "2025-02-20T12:00:00Z"
+                },
+                {
+                    id: 4,
+                    name: "Birthday Gift Hamper",
+                    category: "gift_hampers",
+                    subcategory: "medium",
+                    occasion: "Birthday",
+                    metaDescription: "Complete birthday gift hamper with chocolates and gifts",
+                    detailedDescription: "This birthday gift hamper includes premium chocolates, a small plush toy, and a greeting card - perfect for surprising someone special.",
+                    originalPrice: 1499,
+                    discount: 5,
+                    price: 1424.05,
+                    deliveryChargeNagpur: 0,
+                    deliveryChargeOutside: 150,
+                    image: "/api/placeholder/400/300",
+                    createdAt: "2025-02-25T12:00:00Z"
+                },
+                {
+                    id: 5,
+                    name: "Rose Bouquet",
+                    category: "flower_bouquets",
+                    subcategory: "rose",
+                    occasion: "Valentine",
+                    metaDescription: "Beautiful bouquet of red roses",
+                    detailedDescription: "This stunning bouquet of 12 red roses is perfect for expressing your love on Valentine's Day or any special occasion.",
+                    originalPrice: 999,
+                    discount: 0,
+                    price: 999,
+                    deliveryChargeNagpur: 50,
+                    deliveryChargeOutside: 200,
+                    image: "/api/placeholder/400/300",
+                    createdAt: "2025-03-01T12:00:00Z"
+                },
+                {
+                    id: 6,
+                    name: "Crochet Baby Sweater",
+                    category: "crochet",
+                    subcategory: "clothing",
+                    metaDescription: "Handmade crochet baby sweater in soft yarn",
+                    detailedDescription: "This adorable handmade crochet baby sweater is made with soft, hypoallergenic yarn and is perfect for babies aged 6-12 months.",
+                    originalPrice: 1199,
+                    discount: 8,
+                    price: 1103.08,
+                    deliveryChargeNagpur: 30,
+                    deliveryChargeOutside: 100,
+                    image: "/api/placeholder/400/300",
+                    createdAt: "2025-03-05T12:00:00Z"
+                },
+                {
+                    id: 7,
+                    name: "Anniversary Gift Hamper",
+                    category: "gift_hampers",
+                    subcategory: "large",
+                    occasion: "Anniversary",
+                    metaDescription: "Luxurious anniversary gift hamper for couples",
+                    detailedDescription: "This luxury anniversary gift hamper includes premium chocolates, wine glasses, scented candles, and a photo frame - perfect for celebrating special moments.",
+                    originalPrice: 2999,
+                    discount: 10,
+                    price: 2699.10,
+                    deliveryChargeNagpur: 0,
+                    deliveryChargeOutside: 200,
+                    image: "/api/placeholder/400/300",
+                    createdAt: "2025-03-07T12:00:00Z"
+                },
+                {
+                    id: 8,
+                    name: "Gold Plated Bracelet",
+                    category: "jewellery",
+                    subcategory: "bracelet",
+                    metal: "Gold",
+                    metaDescription: "Elegant gold plated bracelet for women",
+                    detailedDescription: "This beautiful gold plated bracelet features a delicate design and is perfect for both everyday wear and special occasions.",
+                    originalPrice: 1799,
+                    discount: 12,
+                    price: 1583.12,
+                    deliveryChargeNagpur: 40,
+                    deliveryChargeOutside: 120,
+                    image: "/api/placeholder/400/300",
+                    createdAt: "2025-03-10T12:00:00Z"
+                },
+                {
+                    id: 9,
+                    name: "Mixed Flower Bouquet",
+                    category: "flower_bouquets",
+                    subcategory: "mixed",
+                    occasion: "Congratulations",
+                    metaDescription: "Colorful mixed flower bouquet to celebrate achievements",
+                    detailedDescription: "This vibrant mixed flower bouquet includes roses, lilies, and carnations in a beautiful arrangement - perfect for congratulating someone on their achievement.",
+                    originalPrice: 1299,
+                    discount: 5,
+                    price: 1234.05,
+                    deliveryChargeNagpur: 50,
+                    deliveryChargeOutside: 200,
+                    image: "/api/placeholder/400/300",
+                    createdAt: "2025-03-12T12:00:00Z"
+                },
+                {
+                    id: 10,
+                    name: "Handmade Crochet Coasters",
+                    category: "crochet",
+                    subcategory: "home decor",
+                    metaDescription: "Set of 6 handmade crochet coasters",
+                    detailedDescription: "This set of 6 handmade crochet coasters adds a touch of charm to your home decor while being practical for everyday use.",
+                    originalPrice: 699,
+                    discount: 0,
+                    price: 699,
+                    deliveryChargeNagpur: 30,
+                    deliveryChargeOutside: 100,
+                    image: "/api/placeholder/400/300",
+                    createdAt: "2025-03-14T12:00:00Z"
+                },
+                {
+                    id: 11,
+                    name: "Platinum Ring",
+                    category: "jewellery",
+                    subcategory: "ring",
+                    metal: "Platinum",
+                    metaDescription: "Elegant platinum ring with diamond accent",
+                    detailedDescription: "This elegant platinum ring features a small diamond accent and is perfect for everyday wear or as a special gift.",
+                    originalPrice: 8999,
+                    discount: 8,
+                    price: 8279.08,
+                    deliveryChargeNagpur: 0,
+                    deliveryChargeOutside: 200,
+                    image: "/api/placeholder/400/300",
+                    createdAt: "2025-02-05T12:00:00Z"
+                },
+                {
+                    id: 12,
+                    name: "Festival Gift Pack",
+                    category: "gift_hampers",
+                    subcategory: "medium",
+                    occasion: "Festival",
+                    metaDescription: "Festive gift pack with sweets and decorations",
+                    detailedDescription: "This festive gift pack includes traditional sweets, decorative items, and a scented candle - perfect for celebrating festivals with friends and family.",
+                    originalPrice: 1799,
+                    discount: 15,
+                    price: 1529.15,
+                    deliveryChargeNagpur: 0,
+                    deliveryChargeOutside: 150,
+                    image: "/api/placeholder/400/300",
+                    createdAt: "2025-02-15T12:00:00Z"
+                }
+            ];
+        }
+        
+        // Add event listener for the "Add New Product" button
+        document.querySelector('a[href="#"].bg-blue-500').addEventListener('click', (e) => {
+            e.preventDefault();
+            openAddModal();
+        });
+    </script>
+</body>
+</html>

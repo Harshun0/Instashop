@@ -1,0 +1,511 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=375px, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>InstaShop - Shop from Instagram Business</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&amp;display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/css/glide.core.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/css/glide.theme.min.css" rel="stylesheet"/>
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom-v2.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="small"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        custom: {
+    peach: '#F8C8DC',    // Soft Pink (Replaced Peach)
+    gray: '#A5A5A5',     // Medium Gray
+    dark: '#2D2D2D',     // Charcoal Black
+    pink: '#C2185B',     // Deep Pink (Darker & Richer)
+    light: '#FCE4EC',    // Ultra Light Pink (Replaced Ivory)
+}
+
+
+
+                    }
+                }
+            }
+        }
+        
+    </script>
+    <style>
+         #mobile-menu {
+            background-color: rgba(0, 0, 0, 0.5) !important;
+        }
+
+        .mobile-menu-content {
+            background-color: #FCE4EC !important; /* custom-light */
+        }
+
+        .mobile-menu-link {
+            color: #2D2D2D !important; /* custom-dark */
+        }
+
+        .mobile-menu-link:hover {
+            color: #C2185B !important; /* custom-pink */
+            background-color: #F8C8DC !important; /* custom-peach */
+        }
+
+    </style>
+
+    </head>
+    <body class="bg-gray-50">
+    <header class="fixed top-0 w-full bg-custom-light shadow-sm z-50">
+        <div id="root"></div>
+        <div class="px-4 py-2 flex items-center"><button class="text-gray-600 mr-4" id="menu-button" onclick="toggleMenu()"><i class="fas fa-bars text-xl"></i></button>
+            <img src="https://res.cloudinary.com/drvug594q/image/upload/v1743518570/1-removebg-preview_bobiph.png" alt="InstaShop Logo" class="h-[2.5rem] mr-auto">
+                    <div class="flex items-center gap-2"><button class="text-gray-600 mr-4 flex items-center"><i class="fab fa-instagram text-xl mr-2 hover:text-black transition-colors duration-200 relative"></i><span class="text-sm hover:text-black transition-colors duration-200 relative">Connect</span></button>
+                <button id="userButton" class="text-gray-600 hover:text-black transition-colors duration-200 relative" onclick="handleUserClick()">
+                    <i class="fas fa-user"></i> <span id="userActionText">Login</span>
+                </button>
+                
+                <script>
+                    async function checkUserStatus() {
+                        try {
+                            let response = await fetch("/user");
+                            let data = await response.json();
+                            let userActionText = document.getElementById("userActionText");
+                
+                            if (data.loggedIn) {
+                                userActionText.textContent = "Logout"; // Change button text to Logout
+                                document.getElementById("userButton").onclick = handleLogout;
+                            } else {
+                                userActionText.textContent = "Login"; // Default to Login
+                                document.getElementById("userButton").onclick = handleUserClick;
+                            }
+                        } catch (error) {
+                            console.error("Error checking login status", error);
+                        }
+                    }
+                
+                    async function handleUserClick() {
+                        window.location.href = "/login"; // Go to login page
+                    }
+                
+                    async function handleLogout() {
+                        window.location.href = "/logout"; // Redirect to logout
+                    }
+                
+                    // Check user status when page loads
+                    checkUserStatus();
+                </script>
+                 
+                 <button id="cartButton" class="text-gray-600 relative hover:text-black transition-colors duration-200">
+                    <i class="fas fa-shopping-cart"></i>
+                </button>
+                
+                <script>
+                document.getElementById("cartButton").addEventListener("click", function() {
+                    window.location.href = "/cart.html";
+                });
+                </script>
+                
+            </div>
+        </div>
+        <div class="px-4 py-2">
+            <div class="relative">
+                <input type="text" 
+                       id="searchInput" 
+                       placeholder="Search products or sellers..." 
+                       class="w-full px-4 py-2 pl-10 bg-gray-100 rounded-lg text-sm border-none focus:ring-2 focus:ring-custom focus:outline-none"
+                       autocomplete="off"/>
+                <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </div>
+            <div id="searchResults" class="absolute left-0 right-0 bg-white w-full shadow-lg mt-1 rounded-lg max-h-96 overflow-y-auto z-50 hidden">
+                <div id="searchLoading" class="p-4 text-center hidden">
+                    <i class="fas fa-spinner fa-spin text-custom"></i> Searching...
+                </div>
+                <div id="searchContent"></div>
+            </div>
+        </div>
+    </header>
+    <main class="mt-36 mb-4">
+        <div class="glide mb-6">
+            <div class="glide__track" data-glide-el="track">
+                <ul class="glide__slides">
+                    <li class="glide__slide">
+                        <div class="relative h-[200px] rounded-lg overflow-hidden md:h-[480px]">
+                            <img src="https://res.cloudinary.com/drvug594q/image/upload/v1741111805/DALL_E_2025-03-04_23.29.20_-_A_high-quality_HD_image_of_various_elegant_jewelry_items_displayed_on_a_luxurious_velvet_background._The_collection_includes_gold_and_silver_necklaces_ub6thy.webp" 
+                                class="w-full h-[200px] md:h-full object-cover" />
+                    
+                            <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex items-center px-6 md:px-16">
+                                <div class="max-w-xl text-white">
+                                    <h1 class="text-2xl md:text-5xl font-bold mb-2 md:mb-4">Discover Trending Instagram Shops</h1>
+                                    <p class="text-sm md:text-lg mb-4 md:mb-8">
+                                        Shop directly from your favorite Instagram business accounts with secure checkout and buyer protection.
+                                    </p>
+                                    <button id="shopnow" class="bg-black hover:bg-gray-800 text-white px-4 py-2 md:px-8 md:py-3 rounded-md font-medium ">
+                                        Shop Now 
+                                    </button>
+                                    <script>
+                                        document.getElementById("shopnow").addEventListener("click", function() {
+                                            window.location.href = "/Jewellery.html";
+                                        });
+                                        </script>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li class="glide__slide">
+                        <div class="relative h-[200px] rounded-lg overflow-hidden md:h-[480px]">
+                            <img src="https://res.cloudinary.com/drvug594q/image/upload/v1741111806/DALL_E_2025-03-04_23.32.04_-_A_high-quality_HD_image_of_various_crochet_items_including_beautifully_handcrafted_crochet_flowers_doilies_coasters_and_decorative_patterns._The_s_ama6to.webp" 
+                                class="w-full h-[200px] md:h-full object-cover" />
+                    
+                            <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex items-center px-6 md:px-16">
+                                <div class="max-w-xl text-white">
+                                    <h1 class="text-2xl md:text-5xl font-bold mb-2 md:mb-4">Exclusive Deals from Top Brands</h1>
+                                    <p class="text-sm md:text-lg mb-4 md:mb-8">
+                                        Get the best discounts on high-quality products from trusted Instagram stores.
+                                    </p>
+                                    <button id="shopdeals" class="bg-black hover:bg-gray-800 text-white px-4 py-2 md:px-8 md:py-3 rounded-md font-medium">
+                                        Shop Deals
+                                    </button>
+                                    <script>
+                                        document.getElementById("shopdeals").addEventListener("click", function() {
+                                            window.location.href = "/crochet.html";
+                                        });
+                                        </script>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="glide__slide">
+                        <div class="relative h-[200px] rounded-lg overflow-hidden md:h-[480px]">
+                            <img src="https://res.cloudinary.com/drvug594q/image/upload/v1741111806/DALL_E_2025-03-04_23.38.10_-_A_high-quality_HD_image_of_personalized_gift_hampers_flower_bouquets_and_chocolate_bouquets_arranged_beautifully._The_scene_features_elegant_wrappin_s1aas6.webp" 
+                                class="w-full h-[200px] md:h-full object-cover" />
+                    
+                            <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex items-center px-6 md:px-16">
+                                <div class="max-w-xl text-white">
+                                    <h1 class="text-2xl md:text-5xl font-bold mb-2 md:mb-4">New Arrivals You'll Love</h1>
+                                    <p class="text-sm md:text-lg mb-4 md:mb-8">
+                                        Stay ahead of trends with the latest products available for purchase on Instagram.
+                                    </p>
+                                    <button id="explorenow" class="bg-black hover:bg-gray-800 text-white px-4 py-2 md:px-8 md:py-3 rounded-md font-medium">
+                                        Explore Now
+                                    </button>
+                                    <script>
+                                        document.getElementById("explorenow").addEventListener("click", function() {
+                                            window.location.href = "/GiftHampers.html";
+                                        });
+                                        </script>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                </ul>
+            </div>
+            
+        </div>
+        <section class="mb-16 px-2">
+            <h2 class="text-xl sm:text-3xl font-semibold mb-8">Featured Categories</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                <a href="Jewellery.html" class="group">
+                    <div class="relative aspect-square rounded-lg overflow-hidden mb-3">
+                        <img src="https://res.cloudinary.com/drvug594q/image/upload/v1741114574/DALL_E_2025-03-05_00.18.54_-_A_high-quality_thumbnail_image_representing_the_Jewelry_category._The_image_features_elegant_gold_and_silver_necklaces_diamond_rings_pearl_earrings_naahb1.webp" 
+                             alt="Jewellery category - Gold and Silver Necklaces, Diamond Rings, Pearl Earrings"
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"/>
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
+                    </div>
+                    <h3 class="text-sm sm:text-lg text-center font-semibold">Jewellery</h3>
+                </a>
+                <a href="crochet.html" class="group">
+                    <div class="relative aspect-square rounded-lg overflow-hidden mb-3">
+                        <img src="https://res.cloudinary.com/drvug594q/image/upload/v1741114573/DALL_E_2025-03-05_00.16.14_-_A_high-quality_HD_image_featuring_various_crochet_items_including_colorful_handcrafted_crochet_flowers_intricate_doilies_warm_blankets_and_creativ_xi5ofr.webp" 
+                             alt="Crochet category - Handcrafted Crochet Flowers, Doilies, Blankets"
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"/>
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
+                    </div>
+                    <h3 class="text-sm sm:text-lg text-center font-semibold">Crochet</h3>
+                </a>
+                <a href="clothing.html" class="group">
+                    <div class="relative aspect-square rounded-lg overflow-hidden mb-3">
+                        <img src="https://res.cloudinary.com/drvug594q/image/upload/v1741114573/DALL_E_2025-03-05_00.18.06_-_A_high-quality_thumbnail_image_representing_the_T-Shirts_category._The_image_features_a_variety_of_stylish_T-shirts_in_different_colors_and_designs_n_hplnto.webp" 
+                             alt="T-Shirts category - Various Stylish T-Shirts"
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"/>
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
+                    </div>
+                    <h3 class="text-sm sm:text-lg text-center font-semibold">Clothing</h3>
+                </a>
+                <a href="GiftHampers.html" class="group">
+                    <div class="relative aspect-square rounded-lg overflow-hidden mb-3">
+                        <img src="https://res.cloudinary.com/drvug594q/image/upload/v1741114574/DALL_E_2025-03-05_00.20.19_-_A_high-quality_thumbnail_image_representing_the_Gift_Hampers_category._The_image_features_beautifully_arranged_gift_hampers_filled_with_gourmet_treats_fgi8xi.webp" 
+                             alt="Gift Hampers category - Beautifully Arranged Gift Hampers"
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"/>
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
+                    </div>
+                    <h3 class="text-sm sm:text-lg text-center font-semibold">Gift Hampers</h3>
+                </a>
+                <a href="flower.html" class="group">
+                    <div class="relative aspect-square rounded-lg overflow-hidden mb-3">
+                        <img src="https://res.cloudinary.com/drvug594q/image/upload/v1741115329/DALL_E_2025-03-05_00.38.31_-_A_high-quality_thumbnail_image_representing_the_Flowers_Bouquets_category._The_image_features_a_beautiful_mix_of_fresh_flowers_including_roses_tul_bvih9f.webp" 
+                             alt="Flowers & Bouquets category - Fresh Flowers including Roses and Tulips"
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"/>
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300"></div>
+                    </div>
+                    <h3 class="text-sm sm:text-lg text-center font-semibold">Flowers & Bouquets</h3>
+                </a>
+            </div>
+            <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-3"></div>
+        
+        
+            <section class="mt-4">
+                <h2 class="text-xl sm:text-2xl font-bold mb-4">Popular Instagram Shops</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                    <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+                        <div class="flex items-center space-x-3 mb-3 sm:mb-4">
+                            <img src="https://res.cloudinary.com/drvug594q/image/upload/v1741116017/273396200_710789520084042_4375971845209788437_n_zmscg3.jpg" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full"/>
+                            <div>
+                                <h3 class="text-sm sm:text-base font-medium flex items-center">
+                                    Silvi Collection
+                                    <i class="fas fa-check-circle text-custom ml-1"></i>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mb-3 sm:mb-4">
+                            <img src="https://res.cloudinary.com/drvug594q/image/upload/v1741117574/photo_2025-03-05_01.13.44_zqjokl.jpg" class="w-full h-28 sm:h-32 object-cover rounded"/>
+                            <img src="https://res.cloudinary.com/drvug594q/image/upload/v1741117574/photo_2025-03-05_01.11.44_eozd2f.jpg" class="w-full h-28 sm:h-32 object-cover rounded"/>
+                        </div>
+                        <button class="w-full bg-custom hover:bg-custom/90 text-white py-1.5 sm:py-2 rounded-md text-sm sm:text-base font-medium" 
+                        onclick="window.location.href='https://www.instagram.com/_silvi_collection_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=='">
+                        Follow Shop
+                    </button>
+                    
+                    </div>
+            
+                    <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+                        <div class="flex items-center space-x-3 mb-3 sm:mb-4">
+                            <img src="https://res.cloudinary.com/drvug594q/image/upload/v1741116017/430396883_7263228333744514_1885622215148202771_n_nvibjr.jpg" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full"/>
+                            <div>
+                                <h3 class="text-sm sm:text-base font-medium flex items-center">
+                                    Apsara Angan
+                                    <i class="fas fa-check-circle text-custom ml-1"></i>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mb-3 sm:mb-4">
+                            <img src="https://res.cloudinary.com/drvug594q/image/upload/v1741117574/photo_2025-03-05_01.11.36_hg4doo.jpg" class="w-full h-28 sm:h-32 object-cover rounded"/>
+                            <img src="https://res.cloudinary.com/drvug594q/image/upload/v1741117574/photo_2025-03-05_01.15.56_unfjfe.jpg" class="w-full h-28 sm:h-32 object-cover rounded"/>
+                        </div>
+                        <button class="w-full bg-custom hover:bg-custom/90 text-white py-1.5 sm:py-2 rounded-md text-sm sm:text-base font-medium" 
+    onclick="window.location.href='https://www.instagram.com/apsaraangan?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=='">
+    Follow Shop
+</button>
+
+                    </div>
+            
+                    <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+                        <div class="flex items-center space-x-3 mb-3 sm:mb-4">
+                            <img src="https://res.cloudinary.com/drvug594q/image/upload/v1741116017/471650743_413676085129536_1508600313373314474_n_y4y0en.jpg" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full"/>
+                            <div>
+                                <h3 class="text-sm sm:text-base font-medium flex items-center">
+                                    Bead &amp; Resin
+                                    <i class="fas fa-check-circle text-custom ml-1"></i>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mb-3 sm:mb-4">
+                            <img src="https://res.cloudinary.com/drvug594q/image/upload/v1741117171/476488803_17856548169366577_6589773343253149326_n_cwyz5i.webp" class="w-full h-28 sm:h-32 object-cover rounded"/>
+                            <img src="https://res.cloudinary.com/drvug594q/image/upload/v1741117171/472045285_557585100433132_36184499513766850_n_hyue8v.jpg" class="w-full h-28 sm:h-32 object-cover rounded"/>
+                        </div>
+                        <button class="w-full bg-custom hover:bg-custom/90 text-white py-1.5 sm:py-2 rounded-md text-sm sm:text-base font-medium" 
+    onclick="window.location.href='https://www.instagram.com/bead.and.resin?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=='">
+    Follow Shop
+</button>
+
+                    </div>
+                    
+            
+                    <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+                        <div class="flex items-center space-x-3 mb-3 sm:mb-4">
+                            <img src="https://res.cloudinary.com/drvug594q/image/upload/v1741116689/440244822_813263673466061_8555323890363322460_n_sx9gb3.jpg" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full"/>
+                            <div>
+                                <h3 class="text-sm sm:text-base font-medium flex items-center">
+                                    The Crochet Store
+                                    <i class="fas fa-check-circle text-custom ml-1"></i>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mb-3 sm:mb-4">
+                            <img src="https://res.cloudinary.com/drvug594q/image/upload/v1741116689/482510665_17895703893176051_5900210698636446935_n_cgymcj.jpg" class="w-full h-28 sm:h-32 object-cover rounded"/>
+                            <img src="https://res.cloudinary.com/drvug594q/image/upload/v1741116689/480280064_17894225763176051_3878350895694906323_n_vexqs3.jpg" class="w-full h-28 sm:h-32 object-cover rounded"/>
+                        </div>
+                        <button class="w-full bg-custom hover:bg-custom/90 text-white py-1.5 sm:py-2 rounded-md text-sm sm:text-base font-medium" 
+                        onclick="window.location.href='https://www.instagram.com/__thecrochetstore__?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=='">
+                        Follow Shop
+                    </button>
+                    
+                    </div>
+                </div>
+            </section>
+             </section>
+           <section id="featured-category" class="mt-10">
+            <div class="bg-gradient-to-r from-[#F8C8DC] to-[#C2185B] text-dark text-center p-6 rounded-lg shadow-md">
+                <h2 class="text-lg md:text-2xl font-semibold">🚚 Limited Time Offer: Free Shipping on All Orders! 🚚</h2>
+                <p class="text-sm md:text-base mt-2">Shop now and enjoy free delivery for a limited period. No promo code needed!</p>
+                <button id="scrollToFeatured" class="mt-3 px-5 py-2 bg-custom-peach text-dark font-semibold rounded-lg shadow-md hover:bg-white transition">
+                    Start Shopping
+                </button>
+            </div>
+            
+            
+           </section>
+           <script>
+           document.getElementById("scrollToFeatured").addEventListener("click", function() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+        </script>
+        
+    <section class="px-4 py-8 bg-white"><h2 class="text-xl font-semibold mb-6 text-center">About Us</h2><p class="text-gray-600 text-sm mb-8 text-center">InstaShop bridges the gap between social media and seamless shopping, connecting you directly with your favorite Instagram sellers. We bring you the latest trends, unique finds, and handcrafted products from small businesses and independent creators—right to your doorstep.  
+
+        Discover exclusive collections, support passionate entrepreneurs, and shop with confidence, knowing that every purchase helps grow a dream. At InstaShop, we make it easy to explore and buy the best products from Instagram’s thriving marketplace—all in one place.</p><div class="grid grid-cols-2 gap-6 mb-8"><div class="text-center"><i class="fas fa-shipping-fast text-custom text-2xl mb-2"></i><h3 class="text-sm font-semibold mb-1">Fast Delivery</h3><p class="text-xs text-gray-500">2-3 business days</p></div><div class="text-center"><i class="fas fa-shield-alt text-custom text-2xl mb-2"></i><h3 class="text-sm font-semibold mb-1">Secure Shopping</h3><p class="text-xs text-gray-500">100% secure payment</p></div><div class="text-center"><i class="fas fa-undo text-custom text-2xl mb-2"></i><h3 class="text-sm font-semibold mb-1">Easy Returns</h3><p class="text-xs text-gray-500">30-day return policy</p></div><div class="text-center"><i class="fas fa-headset text-custom text-2xl mb-2"></i><h3 class="text-sm font-semibold mb-1">24/7 Support</h3><p class="text-xs text-gray-500">Always here to help</p></div></div><div class="border-t pt-6"><h3 class="text-lg font-semibold mb-4 text-center">Contact Us</h3><div class="space-y-4"><div class="flex items-center justify-center gap-2"><i class="fas fa-envelope text-custom"></i><a href="mailto:instashopcustomercare@gmail.com" class="text-sm text-gray-600">instashopcustomercare@gmail.com</a></div><div class="flex items-center justify-center gap-2"><i class="fas fa-phone text-custom"></i><a href="tel:+918103146100" class="text-sm text-gray-600">+91 8103146100 </a></div><div class="flex items-center justify-center gap-4 mt-4"><a href="#" class="text-custom hover:text-custom/80"><i class="fab fa-facebook text-xl"></i></a><a href="#" class="text-custom hover:text-custom/80"><i class="fab fa-instagram text-xl"></i></a><a href="#" class="text-custom hover:text-custom/80"><i class="fab fa-twitter text-xl"></i></a></div></div></div><div class="text-center text-xs text-gray-500 mt-8">© 2024 InstaShop. All rights reserved.</div></section></main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/glide.min.js"></script>
+    <script>
+    new Glide('.glide', {
+        type: 'carousel',
+        autoplay: 3000,
+        hoverpause: true,
+        gap: 0,
+        perView: 1
+    }).mount();
+    </script><script>
+    function toggleMenu() {
+        const menu = document.getElementById('mobile-menu');
+        menu.classList.toggle('hidden');
+    }
+
+    // Close the menu when clicking outside of it
+    document.addEventListener("click", function (event) {
+        const menu = document.getElementById("mobile-menu");
+        const menuButton = document.getElementById("menu-button"); // If you have a menu button
+
+        // Check if the clicked element is NOT inside the menu or the button
+        if (!menu.contains(event.target) && !menuButton.contains(event.target)) {
+            menu.classList.add("hidden"); // Hide the menu
+        }
+    });
+    </script>
+    <script>
+    let searchTimeout;
+
+    document.getElementById("searchInput").addEventListener("input", function() {
+        const query = this.value.trim();
+        const resultsDiv = document.getElementById("searchResults");
+        const loadingDiv = document.getElementById("searchLoading");
+        const contentDiv = document.getElementById("searchContent");
+
+        // Clear previous timeout
+        clearTimeout(searchTimeout);
+
+        if (query.length > 1) {
+            // Show loading state
+            resultsDiv.classList.remove("hidden");
+            loadingDiv.classList.remove("hidden");
+            contentDiv.innerHTML = "";
+
+            // Debounce the search
+            searchTimeout = setTimeout(() => {
+                performSearch(query);
+            }, 300);
+        } else {
+            resultsDiv.classList.add("hidden");
+        }
+    });
+
+    async function performSearch(query) {
+        const resultsDiv = document.getElementById("searchResults");
+        const loadingDiv = document.getElementById("searchLoading");
+        const contentDiv = document.getElementById("searchContent");
+
+        try {
+            const response = await fetch(`/search?query=${encodeURIComponent(query)}`);
+            const data = await response.json();
+            
+            loadingDiv.classList.add("hidden");
+
+            if (data.length === 0) {
+                contentDiv.innerHTML = `
+                    <div class="p-4 text-center text-gray-500">
+                        <i class="fas fa-search mb-2 text-2xl"></i>
+                        <p>No products found for "${query}"</p>
+                    </div>`;
+            } else {
+                contentDiv.innerHTML = data.map(product => `
+                    <div class="p-3 border-b hover:bg-gray-50 cursor-pointer flex items-center" 
+                         onclick="window.location.href='/product.html?id=${product._id}'">
+                        <div class="w-12 h-12 mr-3">
+                            <img src="${product.image}" 
+                                 alt="${product.name}" 
+                                 class="w-full h-full object-cover rounded">
+                        </div>
+                        <div class="flex-1">
+                            <div class="font-medium text-sm">${product.name}</div>
+                           
+                            <div class="text-sm font-semibold">₹${product.price}</div>
+                        </div>
+                    </div>`
+                ).join('');
+            }
+        } catch (error) {
+            console.error("Search error:", error);
+            contentDiv.innerHTML = `
+                <div class="p-4 text-center text-red-500">
+                    <i class="fas fa-exclamation-circle mb-2 text-2xl"></i>
+                    <p>An error occurred while searching</p>
+                </div>`;
+        }
+    }
+
+    // Close search results when clicking outside
+    document.addEventListener("click", function(event) {
+        const searchInput = document.getElementById("searchInput");
+        const searchResults = document.getElementById("searchResults");
+        
+        if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
+            searchResults.classList.add("hidden");
+        }
+    });
+
+    // Prevent form submission on enter key
+    document.getElementById("searchInput").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+        }
+    });
+    </script>
+  <script>function toggleMenu() {const menu = document.getElementById('mobile-menu');menu.classList.toggle('hidden');}</script><div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden"><div class="bg-custom-light w-64 h-full overflow-y-auto"><div class="p-4 border-b"><div class="flex justify-between items-center"><h2 class="text-xl font-semibold">Menu</h2><button onclick="toggleMenu()" class="text-gray-500"><i class="fas fa-times"></i></button></div></div><nav class="p-4"><ul class="space-y-4"><li><a href="index.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded"><i class="fas fa-home w-6"></i>Home</a></li><li><a href="InstagamShops.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded"><i class="fas fa-shopping-bag w-6"></i>Instagram Shops</a></li><li><a href="wishlist.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded"><i class="fas fa-heart w-6"></i>Wishlist</a></li><li><a href="/order" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded"><i class="fas fa-box"></i> My Orders</a></li><li><a href="seller_login.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded"><i class="fas fa-cog w-6"></i>Seller login</a></li></ul></nav></div></div>
+    
+<script>
+function updateOrdersLink() {
+    fetch('/user', {
+        credentials: 'include'
+    })
+    .then(response => response.json())
+    .then(data => {
+        const ordersLinkContainer = document.getElementById('ordersLinkContainer');
+        if (data.loggedIn) {
+            ordersLinkContainer.innerHTML = `
+                <a href="/order" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100">
+                    <i class="fas fa-box"></i>
+                    <span>My Orders</span>
+                </a>
+            `;
+        } else {
+            ordersLinkContainer.innerHTML = ''; // Hide if not logged in
+        }
+    });
+}
+
+// Call this when page loads and after login/logout
+document.addEventListener('DOMContentLoaded', updateOrdersLink);
+</script>
+
+<div id="ordersLinkContainer"></div>
+    

@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Details</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/css/glide.core.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/css/glide.theme.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  .text-custom {
+    color: #C2185B !important;
+  }
+  .bg-custom {
+    background-color: #C2185B !important;
+  }
+  .border-custom {
+    border-color: #C2185B !important;
+  }
+  .shadow-top {
+    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  #similar-products-container,
+  #similar-products-container-mobile {
+    display: grid;
+    grid-auto-rows: 1fr;
+  }
+  @media (min-width: 768px) {
+    #similar-products-container {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+  }
+  /* Toast Styles */
+  .toast {
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .animate-slide-in {
+    animation: slideIn 0.3s ease-out forwards;
+  }
+
+  #toast-container > div {
+    transition: opacity 0.3s ease-out;
+  }
+
+  @keyframes slideOut {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+  }
+
+  /* Add these styles to your existing CSS */
+  @media (max-width: 768px) {
+    main {
+      padding-bottom: 80px !important; /* Ensure content doesn't hide behind fixed buttons */
+    }
+    
+    .glide__slide img {
+      max-height: calc(100vh - 180px); /* Prevent images from being too tall on mobile */
+      object-fit: contain;
+    }
+
+    /* Ensure the fixed button bar has a solid background and shadow */
+    .shadow-top {
+      background-color: white;
+      box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    /* Add some spacing between the content and the fixed buttons */
+    #similar-products-container-mobile {
+      margin-bottom: 70px;
+    }
+  }
+
+  /* Ensure buttons are always on top */
+  .fixed.md\:hidden.bottom-0 {
+    z-index: 40;
+  }
+
+  /* Prevent image overflow */
+  .glide__slide {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+     /* Mobile menu specific styles */
+     .mobile-menu-content {
+            background-color: #FCE4EC !important;
+        }
+
+        .mobile-menu-link {
+            color: #2D2D2D !important;
+        }
+
+        .mobile-menu-link:hover {
+            color: #C2185B !important;
+            background-color: #F8C8DC !important;
+        }
+
+        #mobile-menu .bg-custom-light {
+            background-color: #FCE4EC !important;
+        }
+
+        #mobile-menu .text-custom-dark {
+            color: #2D2D2D !important;
+        }
+
+        #mobile-menu .hover\:text-custom-pink:hover {
+            color: #C2185B !important;
+        }
+
+    /* Update hover effects */
+    .hover\:bg-custom\/90:hover {
+        background-color: #2D2D2D !important;
+    }
+
+    /* Header styles */
+    header {
+        background-color: #FCE4EC !important;
+    }
+
+    /* Product card hover effects */
+    .hover\:shadow-md:hover {
+        box-shadow: 0 4px 6px -1px #F8C8DC !important;
+    }
+
+    /* Button hover effects */
+    .hover\:opacity-90:hover {
+        background-color: #2D2D2D !important;
+    }
+
+    /* Toast success color update */
+    .bg-green-500 {
+        background-color: #C2185B !important;
+    }
+
+    /* Focus effects for input */
+    .focus\:ring-custom:focus {
+        --tw-ring-color: #C2185B !important;
+    }
+
+    /* Cart count badge */
+    #cart-count {
+        background-color: #C2185B !important;
+    }
+</style>
+</head>
+<body class="bg-gray-50">
+
+    <header class="sticky top-0 z-50 bg-white shadow-sm w-full">
+        <div class="px-4 py-2 flex items-center">
+            <button class="text-gray-600 mr-4" id="menu-button" onclick="toggleMenu()">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <img src="https://res.cloudinary.com/drvug594q/image/upload/v1743518570/1-removebg-preview_bobiph.png" alt="InstaShop Logo" class="h-[2.5rem] mr-auto">
+                    <div class="flex items-center space-x-4">
+                <button onclick="window.location.href='/cart.html'" class="text-gray-600 relative hover:text-black transition-colors duration-200 relative">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-custom text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">0</span>
+                </button>
+                <button class="text-gray-700" onclick="shareContent()">
+                    <i class="fas fa-share text-sm md:text-lg"></i>
+                </button>
+                
+                <script>
+                    function shareContent() {
+                        if (navigator.share) {
+                            navigator.share({
+                                title: document.title,  // Uses the page title
+                                text: "Check this out!", // Custom share message
+                                url: window.location.href // Current page URL
+                            })
+                            .then(() => console.log("Content shared successfully"))
+                            .catch((error) => console.error("Error sharing content:", error));
+                        } else {
+                            alert("Web Share API is not supported on this browser.");
+                        }
+                    }
+                </script>
+                
+            </div>
+        </div>
+    </header>
+    <!-- Desktop Layout Container -->
+    <div class="md:flex md:flex-col md:px-8 md:py-6">
+        <!-- Product Display Section -->
+        <div class="md:flex md:gap-8">
+            <!-- Image Slider Section -->
+            <div class="glide relative w-full md:w-1/2 max-w-[650px] mx-auto md:flex md:flex-col">
+                <div class="glide__track" data-glide-el="track">
+                    <ul class="glide__slides" id="product-images"></ul>
+                </div>
+            
+                <!-- Left & Right Arrow Buttons -->
+                <div data-glide-el="controls">
+                    <button class="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-white p-2 sm:p-3 rounded-full shadow-md"
+                        data-glide-dir="<">
+                        <i class="fas fa-chevron-left text-gray-700 text-lg sm:text-xl"></i>
+                    </button>
+            
+                    <button class="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-white p-2 sm:p-3 rounded-full shadow-md"
+                        data-glide-dir=">">
+                        <i class="fas fa-chevron-right text-gray-700 text-lg sm:text-xl"></i>
+                    </button>
+                </div>
+                
+                <!-- Desktop Action Buttons - Below Image -->
+                <div class="hidden md:flex md:gap-4 md:mt-4">
+                    <button class="flex-1 py-3 border-2 border-custom text-custom font-medium rounded-lg hover:bg-gray-100 transition duration-200 text-lg" id="desktop-add-to-cart">
+                        <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                    </button>
+                    <button class="flex-1 py-3 bg-custom text-white font-medium rounded-lg hover:opacity-90 transition duration-200 text-lg" id="desktop-buy-now">
+                        <i class="fas fa-bolt mr-2"></i> Buy Now
+                    </button>
+                </div>
+
+                <!-- Similar Products Section (Moved here) -->
+                <div class="hidden md:block mt-8">
+                    <h2 class="text-xl font-semibold mb-4">Similar Products</h2>
+                    <div id="similar-products-container" 
+                         class="grid grid-cols-2 gap-4">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Info Section (Desktop) -->
+            <div class="md:w-1/2">
+                <!-- Product Details -->
+                <div class="px-4 sm:px-6 md:px-0 py-4 bg-white md:bg-transparent">
+                    <h2 id="product-name" class="text-lg sm:text-xl md:text-2xl font-semibold"></h2>
+                    <p id="product-meta" class="text-sm md:text-base text-gray-500 mt-1"></p>
+
+                    <div class="flex items-center mt-2">
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="ml-2 text-sm text-gray-500">(487 reviews)</span>
+                    </div>
+
+                    <div class="mt-3">
+                        <span id="product-price" class="text-xl sm:text-2xl md:text-3xl font-bold text-custom"></span>
+                        <span id="product-original-price" class="ml-2 text-sm md:text-base text-gray-500 line-through"></span>
+                    </div>
+                </div>
+                <!-- Delivery Information Section -->
+<div class="px-4 sm:px-6 md:px-0 py-4 mt-2 bg-white md:bg-transparent rounded-lg border border-gray-200 md:border-0">
+    <div class="flex items-start mb-2">
+        <div class="text-blue-500 mr-2">
+            <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <h3 class="text-base font-medium">Deliver to</h3>
+    </div>
+    
+    <div class="flex items-center mt-3">
+        <div class="flex-grow">
+            <input type="text" id="pincode-input" placeholder="Enter delivery pincode" 
+                   class="w-full border-b border-gray-300 focus:border-blue-500 focus:outline-none py-2 px-1" maxlength="6">
+        </div>
+        <button id="check-pincode" class="ml-3 text-blue-500 font-medium">
+            Check
+        </button>
+    </div>
+    
+    <!-- Delivery Status (Hidden by default) -->
+    <div id="delivery-status" class="mt-4 hidden">
+        <div class="flex items-center">
+            <div id="delivery-available" class="">
+                <div class="flex items-center">
+                    <span class="text-green-500 mr-1">✓</span>
+                    <span class="text-gray-800 font-medium">Delivery by <span id="delivery-date"></span></span>
+                    <span class="ml-2 text-green-500 font-medium"></span>
+                    <span class="ml-2 text-gray-400"><i class="fas fa-question-circle"></i></span>
+                </div>
+                <p class="text-xs text-gray-500 mt-1" id="delivery-time"></p>
+                </div>
+            
+            <div id="delivery-unavailable" class="hidden">
+                <div class="flex items-center">
+                    <span class="text-red-500 mr-1">✗</span>
+                    <span class="text-gray-800 font-medium">Delivery not available to this pincode</span>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">We're expanding our delivery network. Please check back later.</p>
+            </div>
+        </div>
+    </div>
+</div>
+                <div class="px-4 sm:px-6 md:px-0 py-4 mt-2 bg-white md:bg-transparent">
+                    <h3 class="text-lg md:text-xl font-semibold mb-2">Product Description</h3>
+                    <p id="product-description" class="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update the mobile bottom fixed action bar -->
+    <div class="fixed md:hidden bottom-0 left-0 right-0 bg-white shadow-top px-4 py-3 z-50">
+        <div class="flex gap-3">
+            <button class="flex-1 w-full py-2.5 border border-custom text-custom font-medium rounded hover:bg-gray-100 transition duration-200" id="add-to-cart">
+                Add to Cart
+            </button>
+            <button class="flex-1 w-full py-2.5 bg-custom text-white font-medium rounded hover:opacity-90 transition duration-200" id="buy-now">
+                Buy Now
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Similar Products Section -->
+    <div class="md:hidden px-4 sm:px-6 mt-8 mb-16">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Similar Products</h2>
+        <div id="similar-products-container-mobile" 
+             class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        </div>
+    </div>
+</div>
+
+
+<!-- Similar Products Section -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/glide.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get("id");
+    
+        if (!productId) {
+            document.body.innerHTML = `<div class="text-center mt-20 text-red-500 font-semibold text-lg">Product not found.</div>`;
+            return;
+        }
+    
+        try {
+            // Fetch main product
+            const response = await fetch(`/app/products/${productId}`);
+            console.log("Fetching product details for ID:", productId);
+    
+            if (!response.ok) {
+                throw new Error(`API request failed: ${response.status}`);
+            }
+    
+            const product = await response.json();
+            console.log("Product data received:", product);
+    
+            // Update UI with product data
+            document.getElementById("product-name").textContent = product.name;
+            document.getElementById("product-meta").textContent = product.metaDescription || "No meta description available";
+            document.getElementById("product-price").textContent = `₹${product.price.toLocaleString()}`;
+            document.getElementById("product-original-price").textContent = product.originalPrice ? `₹${product.originalPrice.toLocaleString()}` : "";
+            document.getElementById("product-description").textContent = product.detailedDescription || "No description available.";
+    
+            // Update product images
+            const imagesContainer = document.getElementById("product-images");
+
+if (product.images && Array.isArray(product.images)) {
+    imagesContainer.innerHTML = product.images.map(img => `
+        <li class="glide__slide relative">
+            <img src="${img}" 
+                 alt="${product.name}" 
+                 class="w-full h-[375px] md:h-[500px] object-contain md:object-cover rounded-lg" 
+                 onerror="this.src='placeholder.jpg'">
+        </li>
+    `).join("");
+
+    // Initialize Glide.js slider
+    new Glide('.glide', {
+        type: 'carousel',
+        perView: 1,
+        autoplay: 3000,
+        animationDuration: 500,
+        gap: 10
+    }).mount();
+}
+
+            // Fetch and display similar products
+            await fetchSimilarProducts(productId);
+    
+            // Update the mobile and desktop add to cart buttons
+            document.getElementById("add-to-cart").addEventListener("click", async () => {
+                const product = await getProductDetails();
+                if (product) {
+                    addToCart(product._id, product.name, product.price, product.images[0]);
+                }
+            });
+    
+            document.getElementById("desktop-add-to-cart").addEventListener("click", async () => {
+                const product = await getProductDetails();
+                if (product) {
+                    addToCart(product._id, product.name, product.price, product.images[0]);
+                }
+            });
+            
+            // Update the mobile and desktop buy now buttons
+            document.getElementById("buy-now").addEventListener("click", async () => {
+                const product = await getProductDetails();
+                if (product) {
+                    window.location.href = `buy.html?id=${product._id}`;
+                }
+            });
+    
+            document.getElementById("desktop-buy-now").addEventListener("click", async () => {
+                const product = await getProductDetails();
+                if (product) {
+                    window.location.href = `buy.html?id=${product._id}`;
+                }
+            });
+            
+        } catch (error) {
+            console.error("Error:", error);
+            document.body.innerHTML = `<div class="text-center mt-20 text-red-500 font-semibold text-lg">Failed to load product details. Please try again later.</div>`;
+        }
+    });
+
+    // Add this function to fetch and display similar products
+    async function fetchSimilarProducts(currentProductId) {
+        try {
+            const response = await fetch(`/app/similar-products/${currentProductId}`);
+            console.log("Fetching similar products for ID:", currentProductId);
+    
+            if (!response.ok) {
+                throw new Error(`Similar products API request failed: ${response.status}`);
+            }
+    
+            const products = await response.json();
+            console.log("Similar products received:", products);
+    
+            // Function to create product card HTML
+            const createProductCard = (prod) => `
+    <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col">
+        <a href="product.html?id=${prod._id}" class="block flex-grow">
+            <div class="relative pt-[100%]">
+                <img src="${prod.images?.[0] || 'placeholder.jpg'}" 
+                     alt="${prod.name}"
+                     class="absolute top-0 left-0 w-full h-full object-cover rounded-t-lg" 
+                     onerror="this.src='placeholder.jpg'">
+            </div>
+            <div class="p-3">
+                <h3 class="text-[#2D2D2D] text-sm font-medium line-clamp-2 min-h-[2.5rem]">
+                    ${prod.name}
+                </h3>
+                
+                <div class="mt-2">
+                    <span class="text-[#C2185B] font-bold">₹${prod.price?.toLocaleString() || '0'}</span>
+                    ${prod.originalPrice ? `
+                        <span class="text-sm text-[#A5A5A5] line-through ml-2">
+                            ₹${prod.originalPrice.toLocaleString()}
+                        </span>
+                    ` : ''}
+                </div>
+            </div>
+        </a>
+    </div>`;
+            // Update desktop container
+            const desktopContainer = document.getElementById("similar-products-container");
+            if (desktopContainer) {
+                desktopContainer.innerHTML = !Array.isArray(products) || products.length === 0 
+                    ? `<div class="col-span-full text-center text-gray-500 py-4">No similar products found</div>`
+                    : products.slice(0, 4).map(prod => createProductCard(prod)).join('');
+            }
+    
+            // Update mobile container
+            const mobileContainer = document.getElementById("similar-products-container-mobile");
+            if (mobileContainer) {
+                mobileContainer.innerHTML = !Array.isArray(products) || products.length === 0 
+                    ? `<div class="col-span-full text-center text-gray-500 py-4">No similar products found</div>`
+                    : products.slice(0, 6).map(prod => createProductCard(prod)).join('');
+            }
+    
+        } catch (error) {
+            console.error("Error fetching similar products:", error);
+            const errorMessage = `<div class="col-span-full text-center text-gray-500 py-4">Failed to load similar products</div>`;
+            document.getElementById("similar-products-container").innerHTML = errorMessage;
+            document.getElementById("similar-products-container-mobile").innerHTML = errorMessage;
+        }
+    }
+
+    // Add these new functions
+    async function addToCart(productId, name, price, image) {
+        try {
+            const response = await fetch('/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    productId,
+                    name,
+                    price,
+                    image
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.loginRedirect) {
+                window.location.href = '/login';
+                return;
+            }
+
+            if (data.success) {
+                // Update cart count
+                const cartCount = document.getElementById('cart-count');
+                if (cartCount) {
+                    cartCount.textContent = data.cart.reduce((total, item) => total + item.quantity, 0);
+                }
+                showToast('Product added to cart successfully!', 'success');
+            } else {
+                showToast('Failed to add product to cart', 'error');
+            }
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+            showToast('Failed to add product to cart', 'error');
+        }
+    }
+
+    async function getProductDetails() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get("id");
+        
+        try {
+            const response = await fetch(`/app/products/${productId}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch product details');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching product details:', error);
+            return null;
+        }
+    }
+
+    // Add cart count update function
+    async function updateCartCount() {
+        try {
+            const response = await fetch('/cart');
+            const data = await response.json();
+            
+            const cartCount = document.getElementById('cart-count');
+            if (cartCount && data.cart) {
+                cartCount.textContent = data.cart.reduce((total, item) => total + item.quantity, 0);
+            }
+        } catch (error) {
+            console.error('Error updating cart count:', error);
+        }
+    }
+
+    // Initialize cart count when page loads
+    updateCartCount();
+
+    // Add this to your existing JavaScript
+    document.addEventListener("DOMContentLoaded", () => {
+        const pincodeInput = document.getElementById("pincode-input");
+        const checkButton = document.getElementById("check-pincode");
+        const deliveryStatus = document.getElementById("delivery-status");
+        const deliveryAvailable = document.getElementById("delivery-available");
+        const deliveryUnavailable = document.getElementById("delivery-unavailable");
+        const deliveryDate = document.getElementById("delivery-date");
+        const deliveryTime = document.getElementById("delivery-time");
+
+        // Nagpur pincodes array
+        const nagpurPincodes = [
+            '440001', '441108', '441110', '441203', '441201', '441202', 
+            '441106', '441105', '441104', '441001', '441107', '441501', 
+            '441302', '441301', '440010', '440003', '440024', '440008', 
+            '440037', '440014', '440013', '440019', '440012', '440017', '440018'
+        ];
+
+        async function checkDelivery() {
+            const pincode = pincodeInput.value.trim();
+            
+            // Basic validation
+            if (pincode.length !== 6 || isNaN(pincode)) {
+                showToast("Please enter a valid 6-digit pincode", "error");
+                return;
+            }
+
+            try {
+                // Get current product details to access delivery charges
+                const urlParams = new URLSearchParams(window.location.search);
+                const productId = urlParams.get("id");
+                const response = await fetch(`/app/products/${productId}`);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch product details');
+                }
+
+                const product = await response.json();
+                console.log("Product delivery charges:", {
+                    nagpur: product.deliveryChargeNagpur,
+                    outside: product.deliveryChargeOutside
+                });
+
+                // Show the delivery status section
+                deliveryStatus.classList.remove("hidden");
+
+                const isNagpur = nagpurPincodes.includes(pincode);
+                console.log("Pincode check:", {
+                    pincode,
+                    isNagpur,
+                    nagpurPincodes
+                });
+
+                // Always show delivery available since we have both Nagpur and outside delivery options
+                deliveryAvailable.classList.remove("hidden");
+                deliveryUnavailable.classList.add("hidden");
+
+                // Determine delivery charge based on location
+                const deliveryCharge = isNagpur ? product.deliveryChargeNagpur : product.deliveryChargeOutside;
+                const deliveryDays = isNagpur ? 2 : 4;
+                const location = isNagpur ? "Nagpur" : "Outside Nagpur";
+
+                // Update delivery info
+                deliveryDate.textContent = getDeliveryDate(deliveryDays);
+                deliveryTime.textContent = `if ordered before 1:59 AM (${location})`;
+
+                // Update charge display
+                const freeElement = deliveryAvailable.querySelector(".text-green-500.font-medium");
+                const chargeText = deliveryCharge === 0 ? "Free" : `₹${deliveryCharge}`;
+                freeElement.textContent = chargeText;
+
+                // Update styling based on whether delivery is free
+                if (deliveryCharge === 0) {
+                    freeElement.classList.add("text-green-500");
+                    freeElement.classList.remove("text-gray-700");
+                } else {
+                    freeElement.classList.remove("text-green-500");
+                    freeElement.classList.add("text-gray-700");
+                }
+
+                console.log("Delivery check complete:", {
+                    isNagpur,
+                    deliveryCharge,
+                    deliveryDays,
+                    chargeText
+                });
+
+            } catch (error) {
+                console.error("Error checking delivery:", error);
+                showToast("Error checking delivery. Please try again.", "error");
+            }
+        }
+
+        function getDeliveryDate(daysToAdd) {
+            const date = new Date();
+            date.setDate(date.getDate() + daysToAdd);
+            
+            const day = date.getDate();
+            const month = date.toLocaleString('default', { month: 'short' });
+            const weekday = date.toLocaleString('default', { weekday: 'long' });
+            
+            return `${day} ${month}, ${weekday}`;
+        }
+
+        // Event listeners
+        checkButton.addEventListener("click", checkDelivery);
+        pincodeInput.addEventListener("keyup", (event) => {
+            if (event.key === "Enter") {
+                checkDelivery();
+            }
+        });
+    });
+
+</script>
+<script>function toggleMenu() {const menu = document.getElementById('mobile-menu');menu.classList.toggle('hidden');}</script>
+    <div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="bg-custom-light w-64 h-full overflow-y-auto">
+            <div class="p-4 border-b">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-semibold text-custom-dark">Menu</h2>
+                    <button onclick="toggleMenu()" class="text-custom-dark hover:text-custom-pink">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <nav class="p-4">
+                <ul class="space-y-4">
+                    <li>
+                        <a href="index.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded">
+                            <i class="fas fa-home w-6"></i>Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="InstagamShops.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded">
+                            <i class="fas fa-shopping-bag w-6"></i>Instagram Shops
+                        </a>
+                    </li>
+                    <li>
+                        <a href="wishlist.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded">
+                            <i class="fas fa-heart w-6"></i>Wishlist
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/order" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded">
+                            <i class="fas fa-box"></i> My Orders
+                        </a>
+                    </li>
+                    <li>
+                        <a href="seller_login.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded">
+                            <i class="fas fa-cog w-6"></i>Seller login
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+<!-- Toast Container -->
+<div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2"></div>
+
+<script>
+function showToast(message, type = 'success') {
+    // Create toast element
+    const toast = document.createElement('div');
+    
+    // Set toast content and styles
+    toast.innerHTML = `
+        <div class="flex items-center p-4 mb-3 text-white rounded-lg shadow-lg ${
+            type === 'success' ? 'bg-green-500' : 
+            type === 'error' ? 'bg-red-500' : 
+            'bg-blue-500'} animate-slide-in">
+            <i class="fas fa-${
+                type === 'success' ? 'check-circle' : 
+                type === 'error' ? 'exclamation-circle' : 
+                'info-circle'} mr-2"></i>
+            <span>${message}</span>
+        </div>
+    `;
+
+    // Add to container
+    const container = document.getElementById('toast-container');
+    if (container) {
+        container.appendChild(toast);
+    } else {
+        // Create container if it doesn't exist
+        const newContainer = document.createElement('div');
+        newContainer.id = 'toast-container';
+        newContainer.className = 'fixed bottom-4 right-4 z-50 flex flex-col gap-2';
+        document.body.appendChild(newContainer);
+        newContainer.appendChild(toast);
+    }
+
+    // Remove toast after delay
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => {
+            if (toast.parentElement) {
+                toast.parentElement.removeChild(toast);
+            }
+        }, 300);
+    }, 3000);
+}
+
+// Test the toast (you can remove this after confirming it works)
+document.addEventListener('DOMContentLoaded', () => {
+    // Test toast
+    setTimeout(() => {
+        showToast('Toast notification system loaded!', 'success');
+    }, 1000);
+});
+</script>
+
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    custom: {
+                        DEFAULT: '#C2185B',    // Primary Pink
+                        peach: '#F8C8DC',      // Soft Pink
+                        gray: '#A5A5A5',       // Gray
+                        dark: '#2D2D2D',       // Dark
+                        light: '#FCE4EC',      // Light Pink
+                    }
+                }
+            }
+        }
+    }
+</script>
+
+</body>
+</html>

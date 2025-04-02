@@ -1,0 +1,26 @@
+async function fetchOrders() {
+    try {
+        const response = await fetch('/api/orders', {  // Use relative path instead of full URL
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            if (response.status === 401) {
+                // Redirect to login if unauthorized
+                window.location.href = '/login';
+                return;
+            }
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const orders = await response.json();
+        displayOrders(orders);
+    } catch (error) {
+        console.error('Error:', error);
+        showError('Failed to load orders. Please try again later.');
+    }
+} 

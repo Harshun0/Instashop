@@ -1,0 +1,67 @@
+<!-- Add this section to your profile page -->
+<div class="mt-8">
+    <h2 class="text-xl font-semibold mb-4">Recent Orders</h2>
+    <div id="recentOrders" class="space-y-4">
+        Loading...
+    </div>
+    <a href="/order" class="text-custom hover:text-custom-dark mt-4 inline-block">
+        View All Orders →
+    </a>
+</div>
+
+<script>
+// Add this to your profile page JavaScript
+function loadRecentOrders() {
+    fetch('/api/orders', {
+        credentials: 'include'
+    })
+    .then(response => response.json())
+    .then(orders => {
+        const recentOrders = orders.slice(0, 3); // Show only last 3 orders
+        const ordersContainer = document.getElementById('recentOrders');
+        
+        if (recentOrders.length === 0) {
+            ordersContainer.innerHTML = `
+                <p class="text-gray-500">No orders yet</p>
+                <a href="/" class="text-custom hover:text-custom-dark mt-2 inline-block">
+                    Start Shopping →
+                </a>
+            `;
+            return;
+        }
+
+        ordersContainer.innerHTML = recentOrders.map(order => `
+            <div class="bg-white p-4 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm text-gray-500">Order #${order.orderId}</span>
+                    <span class="px-2 py-1 text-xs rounded-full ${getStatusClass(order.status)}">
+                        ${order.status}
+                    </span>
+                </div>
+                <div class="text-sm">
+                    <p>Total: ₹${order.totalAmount.toFixed(2)}</p>
+                    <p class="text-gray-500">
+                        ${new Date(order.orderDate).toLocaleDateString()}
+                    </p>
+                </div>
+            </div>
+        `).join('');
+    })
+    .catch(error => {
+        console.error('Error loading orders:', error);
+    });
+}
+
+function getStatusClass(status) {
+    const classes = {
+        'Processing': 'bg-yellow-100 text-yellow-800',
+        'Shipped': 'bg-blue-100 text-blue-800',
+        'Delivered': 'bg-green-100 text-green-800',
+        'Cancelled': 'bg-red-100 text-red-800'
+    };
+    return classes[status] || 'bg-gray-100 text-gray-800';
+}
+
+// Load recent orders when profile page loads
+document.addEventListener('DOMContentLoaded', loadRecentOrders);
+</script> 

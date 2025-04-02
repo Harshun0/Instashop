@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Shops</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&amp;display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        custom: '#D87093', // Example: Light pink
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .heart-icon:hover {
+            transform: scale(1.2);
+            transition: transform 0.2s ease;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        custom: {
+                            peach: '#F8C8DC',    // Soft Pink
+                            gray: '#A5A5A5',     // Medium Gray
+                            dark: '#2D2D2D',     // Charcoal Black
+                            pink: '#C2185B',     // Deep Pink
+                            light: '#FCE4EC',    // Ultra Light Pink
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .heart-icon:hover {
+            transform: scale(1.2);
+            transition: transform 0.2s ease;
+        }
+    
+        /* Add new color styles */
+        header {
+            background-color: #FCE4EC !important;
+        }
+    
+        .text-custom {
+            color: #C2185B !important;
+        }
+    
+        .bg-custom {
+            background-color: #C2185B !important;
+        }
+    
+        .hover\:bg-custom\/90:hover {
+            background-color: #2D2D2D !important;
+        }
+    
+        #mobile-menu .bg-white {
+            background-color: #FCE4EC !important;
+        }
+    
+        #mobile-menu .text-gray-700 {
+            color: #2D2D2D !important;
+        }
+    
+        #mobile-menu .hover\:outline-black {
+            outline-color: #C2185B !important;
+        }
+    
+        #mobile-menu .text-gray-500:hover {
+            color: #C2185B !important;
+        }
+    
+        .focus\:ring-custom:focus {
+            --tw-ring-color: #C2185B !important;
+        }
+    
+        .border-custom {
+            border-color: #C2185B !important;
+        }
+        .mobile-menu-content {
+            background-color: #FCE4EC !important; /* custom-light */
+        }
+
+        .mobile-menu-link {
+            color: #2D2D2D !important; /* custom-dark */
+        }
+
+        .mobile-menu-link:hover {
+            color: #C2185B !important; /* custom-pink */
+            background-color: #F8C8DC !important; /* custom-peach */
+        }
+
+        #mobile-menu .bg-custom-light {
+            background-color: #FCE4EC !important;
+        }
+
+        #mobile-menu .text-custom-dark {
+            color: #2D2D2D !important;
+        }
+
+        #mobile-menu .hover\:text-custom-pink:hover {
+            color: #C2185B !important;
+        }
+    </style>
+    
+</head>
+<body class="bg-gray-50 font-inter">
+    <div class="min-h-screen flex flex-col">
+        <header class="bg-custom-pink shadow-sm fixed w-full z-50">
+            <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <button class="text-gray-600 mr-4" id="menu-button" onclick="toggleMenu()"><i class="fas fa-bars text-xl"></i></button>
+                        <img src="https://res.cloudinary.com/drvug594q/image/upload/v1743518570/1-removebg-preview_bobiph.png" alt="InstaShop Logo" class="h-[2.5rem] mr-auto">
+                    </div>
+                    <h1 class="text-xl font-semibold text-gray-900 text-center flex-1">Instagram Shops</h1>
+                    <div class="flex items-center space-x-4">
+                        <button class="text-gray-500 hover:text-black transition-colors duration-200" id="searchButton">
+                            <i class="fas fa-search text-xl"></i>
+                        </button>
+                        <button id="cartButton" class="text-gray-600 relative hover:text-black transition-colors duration-200">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                        
+                        <script>
+                        document.getElementById("cartButton").addEventListener("click", function() {
+                            window.location.href = "/cart.html";
+                        });
+                        </script>
+                        <button id="userButton" class="text-gray-600 hover:text-black transition-colors duration-200 relative" onclick="handleUserClick()">
+                            <i class="fas fa-user"></i> <span id="userActionText">Login</span>
+                        </button>
+                        
+                        <script>
+                            async function checkUserStatus() {
+                                try {
+                                    let response = await fetch("/user");
+                                    let data = await response.json();
+                                    let userActionText = document.getElementById("userActionText");
+                        
+                                    if (data.loggedIn) {
+                                        userActionText.textContent = "Logout"; // Change button text to Logout
+                                        document.getElementById("userButton").onclick = handleLogout;
+                                    } else {
+                                        userActionText.textContent = "Login"; // Default to Login
+                                        document.getElementById("userButton").onclick = handleUserClick;
+                                    }
+                                } catch (error) {
+                                    console.error("Error checking login status", error);
+                                }
+                            }
+                        
+                            async function handleUserClick() {
+                                window.location.href = "/login"; // Go to login page
+                            }
+                        
+                            async function handleLogout() {
+                                window.location.href = "/logout"; // Redirect to logout
+                            }
+                        
+                            // Check user status when page loads
+                            checkUserStatus();
+                        </script>
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 mt-20 pt-4"> 
+            <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div id="shop-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    </div>
+            </div>
+        </main>
+    </div>
+
+    <section class="mt-4">
+    <h2 class="text-xl sm:text-2xl font-bold mb-4 text-center">Popular Instagram Shops</h2>
+    <div id="shop-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+        <!-- Dynamic content will be inserted here -->
+    </div>
+</section>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const response = await fetch('http://localhost:5000/api/shops'); // Fetch data from API
+            const shops = await response.json();
+            displayShops(shops);
+        } catch (error) {
+            console.error("Error fetching shops:", error);
+        }
+    });
+
+    function displayShops(shops) {
+    const shopList = document.getElementById('shop-list');
+    shopList.innerHTML = ''; // Clear previous shops
+
+    shops.forEach(shop => {
+        const shopElement = `
+        <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+            <div class="flex items-center space-x-3 mb-3 sm:mb-4">
+                <img src="${shop.logoUrl}" alt="${shop.shopName} Logo" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover"/>
+                <div>
+                    <h3 class="text-sm sm:text-base font-medium flex items-center">
+                        ${shop.shopName}
+                        <i class="fas fa-check-circle text-custom ml-1"></i>
+                    </h3>
+                </div>
+            </div>
+            
+            <a href="${shop.instagramLink}" target="_blank" rel="noopener noreferrer">
+                <img src="${shop.shopImageUrl}" alt="${shop.shopName} Image" class="object-cover object-center w-full h-48 rounded-md mb-3">
+            </a>
+            
+            <p class="text-base sm:text-lg text-gray-500 mb-4 text-center line-clamp-2">${shop.description}</p>
+            
+            <button class="w-full bg-custom hover:bg-custom/90 text-white py-1.5 sm:py-2 rounded-md text-sm sm:text-base font-medium" 
+                onclick="window.location.href='${shop.instagramLink}'">
+                Follow Shop
+            </button>
+        </div>
+        `;
+        shopList.innerHTML += shopElement;
+    });
+}
+      // First, we need to add the search UI elements to the HTML
+// This code should be run when the document loads
+document.addEventListener("DOMContentLoaded", function() {
+    // Add search overlay and input to the body
+    const searchOverlay = document.createElement('div');
+    searchOverlay.id = 'searchOverlay';
+    searchOverlay.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-start justify-center pt-20';
+    
+    searchOverlay.innerHTML = `
+        <div class="bg-white w-full max-w-2xl rounded-lg shadow-lg overflow-hidden">
+            <div class="p-4 border-b relative">
+                <input type="text" id="searchInput" class="w-full py-2 pl-10 pr-4 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-custom" placeholder="Search products...">
+                <i class="fas fa-search absolute left-7 top-7 text-gray-400"></i>
+                <button id="closeSearch" class="absolute right-6 top-6 text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="searchResults" class="hidden">
+                <div id="searchLoading" class="p-4 text-center">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-custom mx-auto"></div>
+                    <p class="mt-2 text-gray-600">Searching...</p>
+                </div>
+                <div id="searchContent" class="max-h-80 overflow-y-auto"></div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(searchOverlay);
+    
+    // Connect the search button to the overlay
+    const searchButton = document.getElementById('searchButton');
+    searchButton.addEventListener('click', function() {
+        document.getElementById('searchOverlay').classList.remove('hidden');
+        document.getElementById('searchInput').focus();
+        document.body.classList.add('overflow-hidden'); // Prevent scrolling when search is open
+    });
+    
+    // Close search when clicking the close button
+    document.getElementById('closeSearch').addEventListener('click', function() {
+        document.getElementById('searchOverlay').classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+    });
+    
+    // Close search when clicking the overlay background
+    document.getElementById('searchOverlay').addEventListener('click', function(event) {
+        if (event.target === this) {
+            this.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+    });
+
+    // Set up search functionality
+    let searchTimeout;
+
+    document.getElementById("searchInput").addEventListener("input", function() {
+        const query = this.value.trim();
+        const resultsDiv = document.getElementById("searchResults");
+        const loadingDiv = document.getElementById("searchLoading");
+        const contentDiv = document.getElementById("searchContent");
+
+        // Clear previous timeout
+        clearTimeout(searchTimeout);
+
+        if (query.length > 1) {
+            // Show loading state
+            resultsDiv.classList.remove("hidden");
+            loadingDiv.classList.remove("hidden");
+            contentDiv.innerHTML = "";
+
+            // Debounce the search
+            searchTimeout = setTimeout(() => {
+                performSearch(query);
+            }, 300);
+        } else {
+            resultsDiv.classList.add("hidden");
+        }
+    });
+
+    // Also close search with Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            document.getElementById('searchOverlay').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+    });
+});
+
+// Function to perform the search
+async function performSearch(query) {
+    const resultsDiv = document.getElementById("searchResults");
+    const loadingDiv = document.getElementById("searchLoading");
+    const contentDiv = document.getElementById("searchContent");
+
+    try {
+        // For demo purposes, if we can't reach the API, use sample data
+        let data;
+        
+        try {
+            const response = await fetch(`/search?query=${encodeURIComponent(query)}`);
+            data = await response.json();
+        } catch (apiError) {
+            console.warn("API search failed, using sample data:", apiError);
+            // Fallback to sample data if API fails
+            data = getSampleSearchResults(query);
+        }
+        
+        loadingDiv.classList.add("hidden");
+
+        if (data.length === 0) {
+            contentDiv.innerHTML = `
+                <div class="p-4 text-center text-gray-500">
+                    <i class="fas fa-search mb-2 text-2xl"></i>
+                    <p>No products found for "${query}"</p>
+                </div>`;
+        } else {
+            contentDiv.innerHTML = data.map(product => `
+                <div class="p-3 border-b hover:bg-gray-50 cursor-pointer flex items-center" 
+                     onclick="window.location.href='product.html?id=${product.id || product._id}'">
+                    <div class="w-12 h-12 mr-3">
+                        <img src="${product.images?.[0] || product.image}" 
+                             alt="${product.name}" 
+                             class="w-full h-full object-cover rounded">
+                    </div>
+                    <div class="flex-1">
+                        <div class="font-medium text-sm">${product.name}</div>
+                        <div class="text-sm font-semibold">₹${product.price}</div>
+                    </div>
+                </div>`
+            ).join('');
+        }
+    } catch (error) {
+        console.error("Search error:", error);
+        contentDiv.innerHTML = `
+            <div class="p-4 text-center text-red-500">
+                <i class="fas fa-exclamation-circle mb-2 text-2xl"></i>
+                <p>An error occurred while searching</p>
+            </div>`;
+    }
+}
+
+// Sample data function for testing when API is unavailable
+function getSampleSearchResults(query) {
+    query = query.toLowerCase();
+    
+    const allProducts = [
+        {
+            id: 1,
+            name: "Red Roses Bouquet",
+            price: 999,
+            images: ["https://via.placeholder.com/300x300?text=Red+Roses"],
+            category: "flower_bouquets"
+        },
+        {
+            id: 2,
+            name: "Mixed Flower Bouquet",
+            price: 1299,
+            images: ["https://via.placeholder.com/300x300?text=Mixed+Flowers"],
+            category: "flower_bouquets"
+        },
+        {
+            id: 3,
+            name: "White Lilies Arrangement",
+            price: 1499,
+            images: ["https://via.placeholder.com/300x300?text=White+Lilies"],
+            category: "flower_bouquets"
+        },
+        {
+            id: 4,
+            name: "Premium Rose Bouquet",
+            price: 2999,
+            images: ["https://via.placeholder.com/300x300?text=Premium+Roses"],
+            category: "flower_bouquets"
+        },
+        {
+            id: 5,
+            name: "Spring Tulip Bouquet",
+            price: 1699,
+            images: ["https://via.placeholder.com/300x300?text=Tulips"],
+            category: "flower_bouquets"
+        },
+        {
+            id: 6,
+            name: "Wedding Flowers Package",
+            price: 4999,
+            images: ["https://via.placeholder.com/300x300?text=Wedding+Flowers"],
+            category: "flower_bouquets"
+        }
+    ];
+    
+    // Filter products based on the query
+    return allProducts.filter(product => 
+        product.name.toLowerCase().includes(query) || 
+        product.category.toLowerCase().includes(query)
+    );
+}
+</script>
+<script>function toggleMenu() {const menu = document.getElementById('mobile-menu');menu.classList.toggle('hidden');}</script>
+<div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+    <div class="bg-custom-light w-64 h-full overflow-y-auto">
+        <div class="p-4 border-b">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-semibold text-custom-dark">Menu</h2>
+                <button onclick="toggleMenu()" class="text-custom-dark hover:text-custom-pink">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <nav class="p-4">
+            <ul class="space-y-4">
+                <li>
+                    <a href="index.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded">
+                        <i class="fas fa-home w-6"></i>Home
+                    </a>
+                </li>
+                <li>
+                    <a href="InstagamShops.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded">
+                        <i class="fas fa-shopping-bag w-6"></i>Instagram Shops
+                    </a>
+                </li>
+                <li>
+                    <a href="wishlist.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded">
+                        <i class="fas fa-heart w-6"></i>Wishlist
+                    </a>
+                </li>
+                <li>
+                    <a href="/order" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded">
+                        <i class="fas fa-box"></i> My Orders
+                    </a>
+                </li>
+                <li>
+                    <a href="seller_login.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded">
+                        <i class="fas fa-cog w-6"></i>Seller login
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>    
+</body>
+</html>

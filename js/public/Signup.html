@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=375px, initial-scale=1.0"/>
+    <title>InstaShop - Sign In &amp; Register</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&amp;display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom-v2.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="small"></script>
+</head>
+<body class="bg-gray-50 w-[375px] min-h-[762px] mx-auto">
+    <header class="pt-8 pb-6 text-center">
+        <h1 class="font-[&#39;Pacifico&#39;] text-3xl text-custom">InstaShop</h1>
+    </header>
+    <main class="px-6">
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            <div class="flex mb-6 border-b">
+                <button class="flex-1 pb-3 text-custom border-b-2 border-custom font-medium">Sign In</button>
+                <button class="flex-1 pb-3 text-gray-400">Register</button>
+            </div>
+            <form id="signin-form" class="space-y-4">
+                <div>
+                    <div class="relative">
+                        <input type="email" placeholder="Email or Username" class="w-full px-4 py-3 bg-gray-50 border-none rounded-lg text-sm"/>
+                        <i class="fas fa-envelope absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    </div>
+                </div>
+                <div>
+                    <div class="relative">
+                        <input type="password" placeholder="Password" class="w-full px-4 py-3 bg-gray-50 border-none rounded-lg text-sm"/>
+                        <button type="button" class="absolute right-4 top-1/2 -translate-y-1/2">
+                            <i class="fas fa-eye text-gray-400 text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <a href="#" class="text-sm text-custom">Forgot Password?</a>
+                </div>
+                <button type="submit" class="w-full py-3 bg-custom text-white font-medium !rounded-button">Sign In</button>
+                <div class="relative my-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-200"></div>
+                    </div>
+                    <div class="relative flex justify-center">
+                        <span class="px-4 bg-white text-sm text-gray-500">or continue with</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 gap-4">
+                    <button id="google-signin" type="button" class="flex items-center justify-center w-full py-3 px-4 bg-transparent rounded-lg shadow-none">
+                        <img src="https://img.icons8.com/?size=100&id=17949&format=png&color=000000" alt="Google" class="w-6 h-6 mr-2"/>
+                        <span class="text-sm font-medium">Continue with Google</span>
+                    </button>
+                </div>
+                </form>
+            <form id="register-form" class="hidden space-y-4">
+                <div>
+                    <div class="relative">
+                        <input type="text" placeholder="Full Name" class="w-full px-4 py-3 bg-gray-50 border-none rounded-lg text-sm"/>
+                        <i class="fas fa-user absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    </div>
+                </div>
+                <div>
+                    <div class="relative">
+                        <input type="email" placeholder="Email Address" class="w-full px-4 py-3 bg-gray-50 border-none rounded-lg text-sm"/>
+                        <i class="fas fa-envelope absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    </div>
+                </div>
+                <div>
+                    <div class="relative">
+                        <input type="password" placeholder="Password" class="w-full px-4 py-3 bg-gray-50 border-none rounded-lg text-sm"/>
+                        <button type="button" class="absolute right-4 top-1/2 -translate-y-1/2">
+                            <i class="fas fa-eye text-gray-400 text-sm"></i>
+                        </button>
+                    </div>
+                    <div class="mt-1 h-1 bg-gray-200 rounded-full overflow-hidden">
+                        <div class="w-1/3 h-full bg-custom"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="relative">
+                        <input type="password" placeholder="Confirm Password" class="w-full px-4 py-3 bg-gray-50 border-none rounded-lg text-sm"/>
+                        <button type="button" class="absolute right-4 top-1/2 -translate-y-1/2">
+                            <i class="fas fa-eye text-gray-400 text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <div class="relative">
+                        <input type="tel" placeholder="Mobile Number" class="w-full px-4 py-3 bg-gray-50 border-none rounded-lg text-sm"/>
+                        <i class="fas fa-phone absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <input type="checkbox" class="mt-1 border-gray-300 rounded text-custom"/>
+                    <label class="ml-2 text-sm text-gray-600">I agree to the <a href="#" class="text-custom">Terms &amp; Conditions</a> and <a href="#" class="text-custom">Privacy Policy</a></label>
+                </div>
+                <div id="register-error-msg" class="text-red-500 text-sm mt-2 text-center"></div>
+
+                <button type="submit" class="w-full py-3 bg-custom text-white font-medium !rounded-button">Create Account</button>
+            </form>
+        </div>
+    </main>
+    <footer class="px-6 py-4 mt-6">
+        <div class="flex items-center justify-between">
+            <select class="text-sm text-gray-600 bg-transparent border-none">
+                <option>English</option>
+                <option>Español</option>
+                <option>Français</option>
+            </select>
+            <a href="#" class="text-sm text-custom">Need Help?</a>
+        </div>
+        <p class="mt-2 text-xs text-gray-500 text-center">By continuing, you agree to InstaShop&#39;s Terms of Service and acknowledge our Privacy Policy.</p>
+    </footer>
+    <script>
+        const signinTab = document.querySelector('button:first-child');
+        const registerTab = document.querySelector('button:last-child');
+        const signinForm = document.getElementById('signin-form');
+        const registerForm = document.getElementById('register-form');
+        signinTab.addEventListener('click', () => {
+            signinTab.classList.add('text-custom', 'border-b-2', 'border-custom');
+            registerTab.classList.remove('text-custom', 'border-b-2', 'border-custom');
+            registerTab.classList.add('text-gray-400');
+            signinForm.classList.remove('hidden');
+            registerForm.classList.add('hidden');
+        });
+        registerTab.addEventListener('click', () => {
+            registerTab.classList.add('text-custom', 'border-b-2', 'border-custom');
+            signinTab.classList.remove('text-custom', 'border-b-2', 'border-custom');
+            signinTab.classList.add('text-gray-400');
+            registerForm.classList.remove('hidden');
+            signinForm.classList.add('hidden');
+        });
+        
+        // Fixed registration form submission handler
+        document.getElementById('register-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const fullNameInput = this.querySelector('input[placeholder="Full Name"]');
+    const emailInput = this.querySelector('input[placeholder="Email Address"]');
+    const passwordInput = this.querySelector('input[type="password"]');
+    const confirmPasswordInput = this.querySelector('input[placeholder="Confirm Password"]');
+    const mobileNumberInput = this.querySelector('input[placeholder="Mobile Number"]');
+    const errorMsg = document.getElementById("register-error-msg"); // Error message container
+
+    // Clear previous error messages
+    errorMsg.textContent = "";
+
+    
+
+
+    const fullName = fullNameInput.value.trim();
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+    const confirmPassword = confirmPasswordInput.value.trim();
+    const mobileNumber = mobileNumberInput.value.trim();
+
+    // Mobile number validation (exactly 10 digits)
+    const mobileRegex = /^[0-9]{10}$/;
+    if (!mobileRegex.test(mobileNumber)) {
+        errorMsg.textContent = "Invalid mobile number! It must be exactly 10 digits.";
+        return;
+    }
+
+    // Password validation (at least 8 characters, 1 uppercase, 1 lowercase, 1 number)
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (!passwordRegex.test(password)) {
+        errorMsg.textContent = "Password must be at least 8 characters long, with one uppercase letter, one lowercase letter, and one number.";
+        return;
+    }
+    if (password !== confirmPassword) {
+        errorMsg.textContent = "Passwords do not match!";
+        return;
+    }
+    try {
+        const serverUrl = 'http://localhost:5000'; // Update with actual server URL
+        const response = await fetch(`${serverUrl}/api/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ fullName, email, password, mobileNumber })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+        errorMsg.classList.remove("text-red-500"); // Remove error styling
+        errorMsg.classList.add("text-green-500"); // Success styling
+        errorMsg.textContent = "Registration successful! Please sign in."; // ✅ Updated message
+        this.reset(); // ✅ Clear the form after success
+    } else {
+        errorMsg.classList.remove("text-green-500");
+        errorMsg.classList.add("text-red-500");
+        errorMsg.textContent = "Registration failed: " + (data.error || "Please try again.");
+    }
+    } catch (error) {
+        console.error('Error during registration:', error);
+        errorMsg.textContent = "Registration failed. Please try again later.";
+    }
+});
+
+//login accounts
+// Add this code after your existing register form event handler
+document.getElementById('signin-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const emailInput = this.querySelector('input[type="email"]');
+    const passwordInput = this.querySelector('input[type="password"]');
+    
+    // Basic validation
+    if (!emailInput || !passwordInput) {
+        console.error("Error: Email or password field not found");
+        return;
+    }
+    
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+    
+    if (!email || !password) {
+        alert("Please enter both email and password");
+        return;
+    }
+    
+    try {
+        // Fetch the seller.json file
+        const response = await fetch('seller.json');
+        if (!response.ok) {
+            throw new Error('Failed to load seller data');
+        }
+        
+        const sellerData = await response.json();
+        
+        // Check if the email exists in the seller data
+        const isSeller = sellerData.some(seller => seller.email === email);
+        
+        if (isSeller) {
+            // Seller found - redirect to seller dashboard
+            // You might want to add password verification here too
+            window.location.href = "seller_dash.html";
+        } else {
+            // Not a seller, generate JWT and redirect to index.html
+            // In a real implementation, you'd typically verify the password on the server first
+            const userData = { email, loginTime: new Date().toISOString() };
+            
+            // Create a simple JWT (in a real app, this would be done server-side)
+            const token = generateSimpleJWT(userData);
+            
+            // Store the token
+            localStorage.setItem('userToken', token);
+            
+            // Redirect to index page
+            window.location.href = "index.html";
+        }
+    } catch (error) {
+        console.error('Error during sign in:', error);
+        alert("Sign in failed. Please try again later.");
+    }
+});
+
+// Simple JWT generator function (for demonstration only)
+// In a real application, JWTs should be generated server-side with proper signing
+function generateSimpleJWT(payload) {
+    // This is a simplified version and NOT secure for production
+    const header = { alg: "HS256", typ: "JWT" };
+    
+    // Encode header and payload
+    const encodedHeader = btoa(JSON.stringify(header));
+    const encodedPayload = btoa(JSON.stringify(payload));
+    
+    // In a real implementation, you would create a proper signature
+    // This is just creating a placeholder
+    const signature = btoa(`${encodedHeader}.${encodedPayload}`);
+    
+    return `${encodedHeader}.${encodedPayload}.${signature}`;
+}
+        document.querySelectorAll('button[type="button"]').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const input = e.target.closest('.relative').querySelector('input');
+                const icon = e.target.closest('button').querySelector('i');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        });
+    </script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script>
+        function handleCredentialResponse(response) {
+    fetch("http://localhost:5000/api/auth/google", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ token: response.credential })
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("Google auth response:", data); // Add this for debugging
+        if (data.success) {
+            alert("Login successful!");
+            // Store user info in localStorage if needed
+            localStorage.setItem('user', JSON.stringify(data.user));
+            window.location.href = "/dashboard"; // Redirect after login
+        } else {
+            alert("Google sign-in failed: " + (data.error || "Unknown error"));
+        }
+    })
+    .catch(error => {
+        console.error("Google Sign-in Error:", error);
+        alert("Error during Google sign-in. Check console for details.");
+    });
+}
+window.onload = function() {
+    try {
+        if (!google || !google.accounts) {
+            console.error("Google API not loaded properly");
+            return;
+        }
+
+        google.accounts.id.initialize({
+            client_id: "91993078765-0lceomm0s2eadih3thuedhms49jbfevl.apps.googleusercontent.com",
+            callback: handleCredentialResponse
+        });
+
+        const buttonElement = document.getElementById("google-signin");
+        if (!buttonElement) {
+            console.error("Google sign-in button element not found");
+            return;
+        }
+
+        google.accounts.id.renderButton(
+            buttonElement,
+            { theme: "outline", size: "large", text: "continue_with", shape: "circle" }
+        );
+    } catch (error) {
+        console.error("Error initializing Google Sign-In:", error);
+    }
+};
+</script>
+    
+</body>
+</html>

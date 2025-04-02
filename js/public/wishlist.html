@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wishlist - InstaShop</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"/>
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom-v2.css" rel="stylesheet"/>
+    <style>
+        /* Color Palette */
+        :root {
+            --custom-pink: #C2185B;
+            --custom-light: #FCE4EC;
+            --custom-peach: #F8C8DC;
+            --custom-dark: #2D2D2D;
+            --custom-gray: #A5A5A5;
+        }
+
+        /* Header styles */
+        header {
+            background-color: var(--custom-light) !important;
+        }
+
+        .text-custom {
+            color: var(--custom-pink) !important;
+        }
+
+        .bg-custom {
+            background-color: var(--custom-pink) !important;
+        }
+
+        /* Button hover states */
+        .hover\:bg-opacity-90:hover {
+            background-color: var(--custom-dark) !important;
+        }
+
+        /* Border colors */
+        .border-custom {
+            border-color: var(--custom-pink) !important;
+        }
+
+        /* Mobile menu styles */
+        .mobile-menu-content {
+            background-color: var(--custom-light) !important;
+        }
+
+        .mobile-menu-link {
+            color: var(--custom-dark) !important;
+        }
+
+        .mobile-menu-link:hover {
+            color: var(--custom-pink) !important;
+            background-color: var(--custom-peach) !important;
+        }
+
+        /* Sidebar styles */
+        #sidebar {
+            background-color: var(--custom-light) !important;
+        }
+
+        #sidebar a:hover {
+            color: var(--custom-pink) !important;
+        }
+
+        /* Product card hover effects */
+        .hover\:shadow-md:hover {
+            box-shadow: 0 4px 6px -1px var(--custom-peach) !important;
+        }
+
+        .hover\:text-custom:hover {
+            color: var(--custom-pink) !important;
+        }
+
+        /* Cart badge */
+        #cart-count {
+            background-color: var(--custom-pink) !important;
+        }
+
+        /* Empty wishlist state */
+        .text-gray-300 {
+            color: var(--custom-peach) !important;
+        }
+
+        /* Button states */
+        .bg-custom:hover {
+            background-color: var(--custom-dark) !important;
+        }
+
+        .border-2.border-custom:hover {
+            background-color: var(--custom-peach) !important;
+            color: var(--custom-dark) !important;
+        }
+
+        /* Menu button hover */
+        #menu-button:hover {
+            color: var(--custom-pink) !important;
+        }
+
+        /* User and cart button hover */
+        .text-gray-600:hover {
+            color: var(--custom-pink) !important;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .animate-slide-in {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Replace the existing sidebar and mobile menu with this -->
+ 
+    <div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="bg-[#FCE4EC] w-64 h-full overflow-y-auto">
+            <div class="p-4 border-b">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-semibold text-[#2D2D2D]">Menu</h2>
+                    <button onclick="toggleMenu()" class="text-[#2D2D2D] hover:text-[#C2185B]">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <nav class="p-4">
+                <ul class="space-y-4">
+                    <li>
+                        <a href="index.html" class="flex items-center text-[#2D2D2D] hover:text-[#C2185B] hover:bg-[#F8C8DC] p-2 rounded transition-colors">
+                            <i class="fas fa-home w-6"></i>Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="InstagamShops.html" class="flex items-center text-[#2D2D2D] hover:text-[#C2185B] hover:bg-[#F8C8DC] p-2 rounded transition-colors">
+                            <i class="fas fa-shopping-bag w-6"></i>Instagram Shops
+                        </a>
+                    </li>
+                    <li>
+                        <a href="wishlist.html" class="flex items-center text-[#2D2D2D] hover:text-[#C2185B] hover:bg-[#F8C8DC] p-2 rounded transition-colors">
+                            <i class="fas fa-heart w-6"></i>Wishlist
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/order" class="flex items-center text-[#2D2D2D] hover:text-[#C2185B] hover:bg-[#F8C8DC] p-2 rounded transition-colors">
+                            <i class="fas fa-box w-6"></i>My Orders
+                        </a>
+                    </li>
+                    <li>
+                        <a href="seller_login.html" class="flex items-center text-[#2D2D2D] hover:text-[#C2185B] hover:bg-[#F8C8DC] p-2 rounded transition-colors">
+                            <i class="fas fa-cog w-6"></i>Seller login
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Update the header section -->
+    <header class="fixed top-0 w-full bg-white shadow-sm z-40">
+        <div class="container mx-auto px-0 py-2">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <button class="text-gray-600 mr-4" id="menu-button" onclick="toggleMenu()">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <img src="https://res.cloudinary.com/drvug594q/image/upload/v1743518570/1-removebg-preview_bobiph.png" alt="InstaShop Logo" class="h-[2.5rem] mr-auto">
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="handleUserClick()" id="userButton" class="text-gray-600">
+                        <i class="fas fa-user"></i>
+                        <span id="userActionText">Login</span>
+                    </button>
+                    <button onclick="handleCartClick()" class="text-gray-600 relative">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-custom text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="mt-20 px-4 max-w-6xl mx-auto pb-20">
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-2xl font-bold">My Wishlist</h1>
+            <span class="text-gray-500" id="wishlist-count">0 Items</span>
+        </div>
+        
+        <div id="wishlist-container">
+            <!-- Wishlist items will be loaded here -->
+        </div>
+    </main>
+
+    <script>
+        async function checkLoginStatus() {
+            try {
+                const response = await fetch('/user');
+                const data = await response.json();
+                
+                if (!data.loggedIn) {
+                    window.location.href = '/login';
+                }
+                return data.loggedIn;
+            } catch (error) {
+                console.error('Error checking login status:', error);
+                return false;
+            }
+        }
+
+        async function loadWishlist() {
+            try {
+                const response = await fetch('/api/wishlist');
+                const items = await response.json();
+                
+                const wishlistContainer = document.getElementById('wishlist-container');
+                const wishlistCount = document.getElementById('wishlist-count');
+                
+                if (!items || items.length === 0) {
+                    wishlistContainer.innerHTML = `
+                        <div class="text-center py-16 bg-[#FCE4EC] rounded-lg shadow-sm">
+                            <i class="fas fa-heart text-[#F8C8DC] text-5xl mb-4"></i>
+                            <p class="text-[#2D2D2D] mb-4">Your wishlist is empty</p>
+                            <a href="/" class="inline-block bg-[#C2185B] text-white px-6 py-2 rounded-md hover:bg-[#2D2D2D] transition-colors">
+                                Continue Shopping
+                            </a>
+                        </div>
+                    `;
+                    wishlistCount.textContent = '0 Items';
+                    return;
+                }
+
+                wishlistCount.textContent = `${items.length} Items`;
+                wishlistContainer.innerHTML = items.map(item => `
+                    <div class="bg-[#FCE4EC] rounded-lg shadow-sm mb-4 hover:shadow-md transition-shadow duration-200">
+                        <div class="flex flex-col sm:flex-row">
+                            <!-- Product Image -->
+                            <div class="sm:w-48 h-48 cursor-pointer" onclick="redirectToProduct('${item.productId}')">
+                                <img src="${item.image}" alt="${item.name}" 
+                                     class="w-full h-full object-cover rounded-t-lg sm:rounded-l-lg sm:rounded-t-none"/>
+                            </div>
+                            
+                            <!-- Product Details -->
+                            <div class="flex-1 p-4 flex flex-col">
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-start">
+                                        <h3 class="text-lg font-medium text-[#2D2D2D] cursor-pointer hover:text-[#C2185B]" 
+                                            onclick="redirectToProduct('${item.productId}')">${item.name}</h3>
+                                        <button onclick="removeFromWishlist('${item.productId}')" 
+                                                class="text-[#A5A5A5] hover:text-red-500">
+                                            <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                                    
+                                    <div class="mt-2">
+                                        <div class="flex items-center">
+                                            <span class="text-xl font-bold text-[#2D2D2D]">₹${item.price}</span>
+                                            ${item.originalPrice ? `
+                                                <span class="ml-2 text-sm text-[#A5A5A5] line-through">₹${item.originalPrice}</span>
+                                                <span class="ml-2 text-sm text-[#C2185B]">${Math.round((item.originalPrice - item.price) / item.originalPrice * 100)}% Off</span>
+                                            ` : ''}
+                                        </div>
+                                        <div class="mt-1 text-sm text-[#A5A5A5]">
+                                            <i class="fas fa-truck mr-1"></i> Free Delivery
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4 flex gap-3">
+                            <button onclick="moveToCart('${item.productId}', '${item.name}', ${item.price}, '${item.image}')" 
+                                            class="flex-1 bg-[#C2185B] text-white py-2 rounded-md hover:bg-[#2D2D2D] transition-colors">
+                                Move to Bag
+                            </button>
+                                    <button onclick="buyNow('${item.productId}')" 
+                                            class="flex-1 border-2 border-[#C2185B] text-[#C2185B] py-2 rounded-md hover:bg-[#F8C8DC] hover:text-[#2D2D2D] transition-colors">
+                                        Buy Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error loading wishlist:', error);
+                document.getElementById('wishlist-container').innerHTML = `
+                    <div class="text-center py-8 bg-white rounded-lg shadow-sm">
+                        <p class="text-red-500">Error loading wishlist. Please try again.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function redirectToProduct(productId) {
+            window.location.href = `/product.html?id=${productId}`;
+        }
+
+        async function removeFromWishlist(productId) {
+            try {
+                const response = await fetch('/api/wishlist', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ productId })
+                });
+                
+                if (response.ok) {
+                    loadWishlist();
+                    showToast('Item removed from wishlist', 'success');
+                }
+            } catch (error) {
+                console.error('Error removing from wishlist:', error);
+                showToast('Failed to remove item from wishlist', 'error');
+            }
+        }
+
+        async function moveToCart(productId, name, price, image) {
+            try {
+                const cartResponse = await fetch('/cart/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        productId,
+                        name,
+                        price,
+                        image
+                    })
+                });
+                
+                if (cartResponse.ok) {
+                    await removeFromWishlist(productId);
+                    updateCartCount();
+                    showToast('Item moved to cart successfully!', 'success');
+                }
+            } catch (error) {
+                console.error('Error moving item to cart:', error);
+                showToast('Failed to move item to cart', 'error');
+            }
+        }
+
+        async function buyNow(productId) {
+            try {
+                const response = await fetch(`/app/products/${productId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch product details');
+                }
+                window.location.href = `/buy.html?id=${productId}`;
+            } catch (error) {
+                console.error('Error processing buy now:', error);
+                showToast('Failed to process buy now request. Please try again.', 'error');
+            }
+        }
+
+        // Add the same cart and user handling functions from your other pages
+        async function handleCartClick() {
+            window.location.href = "/cart.html";
+        }
+
+        async function updateCartCount() {
+            try {
+                const response = await fetch("/cart");
+                const data = await response.json();
+                
+                const cartCount = document.getElementById("cart-count");
+                if (cartCount && data.cart) {
+                    cartCount.textContent = data.cart.reduce((total, item) => total + item.quantity, 0);
+                }
+            } catch (error) {
+                console.error("Error updating cart count:", error);
+            }
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu) {
+                menu.classList.toggle('hidden');
+                // Prevent body scroll when menu is open
+                if (!menu.classList.contains('hidden')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
+            }
+        }
+
+        // Add click outside to close menu
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('mobile-menu');
+            const menuButton = document.getElementById('menu-button');
+            
+            if (menu && !menu.classList.contains('hidden')) {
+                if (!event.target.closest('.bg-[#FCE4EC]') && event.target !== menuButton) {
+                    toggleMenu();
+                }
+            }
+        });
+
+        async function handleUserClick() {
+            try {
+                const response = await fetch('/user');
+                const data = await response.json();
+                
+                if (data.loggedIn) {
+                    window.location.href = '/logout';
+                } else {
+                    window.location.href = '/login';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                window.location.href = '/login';
+            }
+        }
+
+        async function checkUserStatus() {
+            try {
+                const response = await fetch('/user');
+                const data = await response.json();
+                const userActionText = document.getElementById('userActionText');
+                
+                if (data.loggedIn) {
+                    userActionText.textContent = 'Logout';
+                } else {
+                    userActionText.textContent = 'Login';
+                }
+            } catch (error) {
+                console.error('Error checking user status:', error);
+            }
+        }
+
+        // Add these functions to your existing script section
+        function openSidebar() {
+            document.getElementById("sidebar").classList.remove("-translate-x-full");
+            document.getElementById("overlay").classList.remove("hidden");
+        }
+
+        function closeSidebar() {
+            document.getElementById("sidebar").classList.add("-translate-x-full");
+            document.getElementById("overlay").classList.add("hidden");
+        }
+
+        // Update your existing event listeners
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (await checkLoginStatus()) {
+                await loadWishlist();
+                await updateCartCount();
+                await checkUserStatus();
+                
+                // Add event listeners for menu functionality
+                document.getElementById("menu-button").addEventListener("click", openSidebar);
+                document.getElementById("closeMenu").addEventListener("click", closeSidebar);
+                document.getElementById("overlay").addEventListener("click", closeSidebar);
+            }
+        });
+
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            
+            toast.innerHTML = `
+                <div class="flex items-center p-4 mb-3 text-white rounded-lg shadow-lg ${
+                    type === 'success' ? 'bg-[#C2185B]' : 
+                    type === 'error' ? 'bg-red-500' : 
+                    'bg-blue-500'} animate-slide-in">
+                    <i class="fas fa-${
+                        type === 'success' ? 'check-circle' : 
+                        type === 'error' ? 'exclamation-circle' : 
+                        'info-circle'} mr-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+
+            const container = document.getElementById('toast-container');
+            if (container) {
+                container.appendChild(toast);
+            } else {
+                const newContainer = document.createElement('div');
+                newContainer.id = 'toast-container';
+                newContainer.className = 'fixed bottom-4 right-4 z-50 flex flex-col gap-2';
+                document.body.appendChild(newContainer);
+                newContainer.appendChild(toast);
+            }
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => {
+                    if (toast.parentElement) {
+                        toast.parentElement.removeChild(toast);
+                    }
+                }, 300);
+            }, 3000);
+        }
+    </script>
+
+    <!-- Add toast container before closing body tag -->
+    <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2"></div>
+</body>
+</html> 

@@ -1,0 +1,527 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Complete Purchase - InstaShop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&amp;display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom-v2.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="small"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+    .toast {
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 0.5rem;
+        min-width: 300px;
+        animation: slideIn 0.3s ease-in-out;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .toast-success {
+        background-color: #10B981;
+        color: white;
+    }
+
+    .toast-error {
+        background-color: #EF4444;
+        color: white;
+    }
+
+    .toast-warning {
+        background-color: #F59E0B;
+        color: white;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <header class="fixed top-0 w-full bg-white shadow-sm z-50">
+        <div class="flex items-center justify-between px-4 h-14">
+            <img src="https://res.cloudinary.com/drvug594q/image/upload/v1743518570/1-removebg-preview_bobiph.png" alt="InstaShop Logo" class="h-[2.5rem]">
+            
+            <h2 class="text-lg font-semibold flex-1 text-center">Complete Your Purchase</h2>
+            
+            <div class="w-8"></div>
+        </div>
+        
+    </header>
+    <div id="toast-container" class="fixed top-16 right-4 z-50 flex flex-col gap-2"></div>
+    <main class="pt-16 pb-32 px-4">
+        <section class="bg-white rounded-lg shadow-sm p-4 mb-4">
+            <h3 class="text-lg font-semibold mb-3">Product Review</h3>
+            <div class="flex items-center space-x-4" id="product-details">
+                <!-- Product details will be populated dynamically -->
+            </div>
+        </section>
+        <section class="bg-white rounded-lg shadow-sm p-4 mb-4">
+            <h3 class="text-lg font-semibold mb-3">Shipping Information</h3>
+            <form class="space-y-4">
+                <div>
+                    <input type="text" placeholder="Full Name" class="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm"/>
+                </div>
+                <div>
+                    <input type="text" placeholder="Street Address" class="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm"/>
+                </div>
+                <div>
+                    <input type="text" placeholder="Apartment/Suite (optional)" class="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm"/>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="City" class="px-4 py-2 border border-gray-300 rounded-lg text-sm"/>
+                    <input type="text" placeholder="State/Province" class="px-4 py-2 border border-gray-300 rounded-lg text-sm"/>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="ZIP/Postal Code" id="pincode-input" class="px-4 py-2 border border-gray-300 rounded-lg text-sm"/>
+                    <input type="tel" placeholder="Phone Number" class="px-4 py-2 border border-gray-300 rounded-lg text-sm"/>
+                </div>
+            </form>
+        </section>
+        
+        <section class="bg-white rounded-lg shadow-sm p-4 mb-4">
+            <h3 class="text-lg font-semibold mb-3">Order Summary</h3>
+            <div class="space-y-2">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Subtotal</span>
+                    <span data-summary="subtotal">₹0</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Shipping</span>
+                    <span data-summary="shipping">₹0</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Tax</span>
+                    <span data-summary="tax">₹0</span>
+                </div>
+                <div class="border-t border-gray-200 pt-2 mt-2">
+                    <div class="flex justify-between font-semibold">
+                        <span>Total</span>
+                        <span data-summary="total">₹0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <h3 class="text-lg font-semibold mb-3">Payment Options</h3>
+                <div class="space-y-3">
+                    <button class="w-full py-3 bg-custom text-white font-semibold rounded-lg" data-summary="pay-button">
+                        Pay Now - ₹0
+                    </button>
+                    <button class="w-full py-3 border border-gray-300 rounded-lg">Cash on Delivery</button>
+                </div>
+            </div>
+        </section>
+        
+        <div class="flex items-center justify-center space-x-4 mb-4">
+            <i class="fas fa-lock text-gray-400"></i>
+            <span class="text-sm text-gray-600">Secure SSL Encrypted Payment</span>
+            <i class="fas fa-shield-alt text-gray-400"></i>
+        </div>
+    </main>
+
+<script>
+// Add toast functionality
+const showToast = (message, type = 'success') => {
+    const toastContainer = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type} flex items-center justify-between`;
+    
+    // Add icon based on type
+    let icon = '';
+    switch(type) {
+        case 'success':
+            icon = '<i class="fas fa-check-circle"></i>';
+            break;
+        case 'error':
+            icon = '<i class="fas fa-exclamation-circle"></i>';
+            break;
+        case 'warning':
+            icon = '<i class="fas fa-exclamation-triangle"></i>';
+            break;
+    }
+    
+    toast.innerHTML = `
+        <div class="flex items-center gap-2">
+            ${icon}
+            <span>${message}</span>
+        </div>
+        <button class="ml-4 hover:opacity-80" onclick="this.parentElement.remove()">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    toastContainer.appendChild(toast);
+
+    // Remove toast after 5 seconds
+    setTimeout(() => {
+        toast.style.animation = 'fadeOut 0.3s ease-in-out forwards';
+        setTimeout(() => toast.remove(), 300);
+    }, 5000);
+};
+
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        // First check login status
+        const userResponse = await fetch('/user');
+        const userData = await userResponse.json();
+        
+        if (!userData.loggedIn) {
+            window.location.href = '/login';
+            return;
+        }
+
+        // Check if we have a direct product purchase
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get("id");
+
+        let items = [];
+        let subtotal = 0;
+
+        if (productId) {
+            // Direct product purchase
+            const productResponse = await fetch(`/app/products/${productId}`);
+            if (!productResponse.ok) {
+                throw new Error('Failed to fetch product data');
+            }
+            const product = await productResponse.json();
+            
+            items = [{
+                productId: product._id,
+                name: product.name,
+                price: product.price,
+                quantity: 1,
+                seller: product.seller,
+                image: product.images[0],
+                total: product.price
+            }];
+            subtotal = product.price;
+        } else {
+            // Cart purchase
+            const cartResponse = await fetch('/cart');
+            if (!cartResponse.ok) {
+                throw new Error('Failed to fetch cart data');
+            }
+            
+            const cartData = await cartResponse.json();
+            
+            if (!cartData.cart || cartData.cart.length === 0) {
+                document.body.innerHTML = `
+                    <div class="text-center mt-20 p-4">
+                        <p class="text-gray-500 font-semibold text-lg mb-4">Your cart is empty</p>
+                        <a href="/" class="text-blue-500 hover:underline">Continue Shopping</a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Fetch product details for each cart item to get seller information
+            items = await Promise.all(cartData.cart.map(async (item) => {
+                try {
+                    const productResponse = await fetch(`/app/products/${item.productId}`);
+                    const productDetails = await productResponse.json();
+                    return {
+                        productId: item.productId,
+                        name: item.name,
+                        price: item.price,
+                        quantity: item.quantity,
+                        seller: productDetails.seller,
+                        image: item.image,
+                        total: item.price * item.quantity
+                    };
+                } catch (error) {
+                    console.error(`Error fetching product details for ${item.productId}:`, error);
+                    return {
+                        ...item,
+                        seller: 'Unknown Seller'
+                    };
+                }
+            }));
+            
+            subtotal = items.reduce((total, item) => total + item.total, 0);
+        }
+
+        // Update product details section
+        const productDetailsContainer = document.getElementById("product-details");
+        productDetailsContainer.innerHTML = '';  // Clear loading state
+
+        items.forEach(item => {
+            const itemElement = document.createElement('div');
+            itemElement.className = 'flex items-center mb-4 w-full';
+            itemElement.innerHTML = `
+                <img src="${item.image}" 
+                     alt="${item.name}" 
+                     class="w-20 h-20 object-cover rounded-lg"/>
+                <div class="flex-1 ml-4">
+                    <h4 class="font-medium">${item.name}</h4>
+                    <p class="text-gray-600 text-sm">Quantity: ${item.quantity}</p>
+                    <span class="font-semibold">₹${item.total.toLocaleString()}</span>
+                </div>
+            `;
+            productDetailsContainer.appendChild(itemElement);
+        });
+
+        const shipping = 40; // Default shipping charge
+        const tax = Math.round(subtotal * 0.08);
+        const total = subtotal + shipping + tax;
+
+        // Update order summary
+        document.querySelector('[data-summary="subtotal"]').textContent = `₹${subtotal.toLocaleString()}`;
+        document.querySelector('[data-summary="shipping"]').textContent = `₹${shipping}`;
+        document.querySelector('[data-summary="tax"]').textContent = `₹${tax.toLocaleString()}`;
+        document.querySelector('[data-summary="total"]').textContent = `₹${total.toLocaleString()}`;
+        document.querySelector('[data-summary="pay-button"]').textContent = `Pay Now - ₹${total.toLocaleString()}`;
+
+        // Add pincode input event listener
+        document.getElementById('pincode-input').addEventListener('input', (e) => {
+            const pincode = e.target.value.trim();
+            if (pincode.length === 6 && !isNaN(pincode)) {
+                const nagpurPincodes = [440001, 441108, 441110, 441203, 441201, 441202, 441106, 441105, 441104, 441001, 441107, 441501, 441302, 441301, 440010, 440003, 440024, 440008, 440037, 440014, 440013, 440019, 440012, 440017, 440018];
+                const shippingCharge = nagpurPincodes.includes(parseInt(pincode)) ? 40 : 100;
+                
+                const newTotal = subtotal + shippingCharge + tax;
+                document.querySelector('[data-summary="shipping"]').textContent = `₹${shippingCharge}`;
+                document.querySelector('[data-summary="total"]').textContent = `₹${newTotal.toLocaleString()}`;
+                document.querySelector('[data-summary="pay-button"]').textContent = `Pay Now - ₹${newTotal.toLocaleString()}`;
+                
+                showToast('Shipping cost updated', 'success');
+            } else if (pincode.length === 6) {
+                showToast('Invalid pincode', 'error');
+            }
+        });
+
+        // Update the COD button click handler
+        document.querySelector('button.border.border-gray-300').addEventListener('click', async (e) => {
+            e.preventDefault();
+            
+            const validation = validateForm();
+            if (!validation.isValid) {
+                return;
+            }
+
+            try {
+                // Format cart items with correct ID property
+                const orderItems = items.map(item => ({
+                    productId: item.productId,
+                    name: item.name,
+                    price: item.price,
+                    quantity: item.quantity,
+                    seller: item.seller || 'Unknown Seller',
+                    image: item.image,
+                    total: item.price * item.quantity
+                }));
+
+                const response = await fetch('/api/place-cod-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        items: orderItems,
+                        customer: {
+                            name: validation.data.fullName,
+                            address: `${validation.data.streetAddress}, ${validation.data.city}, ${validation.data.state} - ${validation.data.pincode}`,
+                            phone: validation.data.phone
+                        },
+                        pricing: {
+                            subtotal,
+                            shipping: parseFloat(document.querySelector('[data-summary="shipping"]').textContent.replace('₹', '')),
+                            tax,
+                            total: parseFloat(document.querySelector('[data-summary="total"]').textContent.replace('₹', '').replace(',', ''))
+                        },
+                        orderDetails: {
+                            paymentMethod: 'COD',
+                            orderDate: new Date().toISOString(),
+                            deliveryInstructions: document.querySelector('input[placeholder="Apartment/Suite (optional)"]').value.trim()
+                        }
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    showToast('Order placed successfully! We will contact you shortly.', 'success');
+                    setTimeout(() => window.location.href = '/', 2000);
+                } else {
+                    throw new Error(result.error || 'Failed to place order');
+                }
+            } catch (error) {
+                console.error('Error placing order:', error);
+                showToast(error.message || 'Failed to place order. Please try again.', 'error');
+            }
+        });
+
+        // Update the Razorpay payment handler
+        document.querySelector('[data-summary="pay-button"]').addEventListener('click', async (e) => {
+            e.preventDefault();
+            
+            const validation = validateForm();
+            if (!validation.isValid) {
+                return;
+            }
+
+            try {
+                // Format cart items with correct ID property
+                const orderItems = items.map(item => ({
+                    productId: item.productId,
+                    name: item.name,
+                    price: item.price,
+                    quantity: item.quantity,
+                    seller: item.seller || 'Unknown Seller',
+                    image: item.image,
+                    total: item.price * item.quantity
+                }));
+
+                const orderResponse = await fetch('/api/create-razorpay-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        items: orderItems,
+                        customer: {
+                            name: validation.data.fullName,
+                            address: `${validation.data.streetAddress}, ${validation.data.city}, ${validation.data.state} - ${validation.data.pincode}`,
+                            phone: validation.data.phone
+                        },
+                        pricing: {
+                            subtotal,
+                            shipping: parseFloat(document.querySelector('[data-summary="shipping"]').textContent.replace('₹', '')),
+                            tax,
+                            total: parseFloat(document.querySelector('[data-summary="total"]').textContent.replace('₹', '').replace(',', ''))
+                        }
+                    })
+                });
+
+                const orderData = await orderResponse.json();
+
+                // Initialize Razorpay payment
+                const options = {
+                    key: orderData.razorpayKeyId,
+                    amount: orderData.amount,
+                    currency: "INR",
+                    name: "InstaShop",
+                    description: "Order Payment",
+                    order_id: orderData.orderId,
+                    handler: async function (response) {
+                        try {
+                            const verifyResponse = await fetch('/api/verify-payment', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    razorpay_payment_id: response.razorpay_payment_id,
+                                    razorpay_order_id: response.razorpay_order_id,
+                                    razorpay_signature: response.razorpay_signature,
+                                    orderDetails: {
+                                        items: orderItems,
+                                        customer: {
+                                            name: validation.data.fullName,
+                                            address: `${validation.data.streetAddress}, ${validation.data.city}, ${validation.data.state} - ${validation.data.pincode}`,
+                                            phone: validation.data.phone
+                                        },
+                                        pricing: {
+                                            subtotal,
+                                            shipping: parseFloat(document.querySelector('[data-summary="shipping"]').textContent.replace('₹', '')),
+                                            tax,
+                                            total: parseFloat(document.querySelector('[data-summary="total"]').textContent.replace('₹', '').replace(',', ''))
+                                        }
+                                    }
+                                })
+                            });
+
+                            if (!verifyResponse.ok) {
+                                throw new Error('Payment verification failed');
+                            }
+
+                            const verifyResult = await verifyResponse.json();
+
+                            if (verifyResult.success) {
+                                showToast('Payment successful! Order confirmed.', 'success');
+                                setTimeout(() => window.location.href = '/', 2000);
+                            } else {
+                                throw new Error(verifyResult.error || 'Payment verification failed');
+                            }
+                        } catch (error) {
+                            console.error('Verification error:', error);
+                            showToast(error.message || 'Payment verification failed. Please contact support.', 'error');
+                        }
+                    },
+                    prefill: {
+                        name: validation.data.fullName,
+                        contact: validation.data.phone,
+                        email: orderData.userEmail
+                    },
+                    theme: {
+                        color: "#000000"
+                    }
+                };
+
+                const razorpay = new Razorpay(options);
+                razorpay.open();
+
+            } catch (error) {
+                console.error('Error initiating payment:', error);
+                showToast(error.message || 'Failed to initiate payment. Please try again.', 'error');
+            }
+        });
+
+    } catch (error) {
+        console.error("Error:", error);
+        document.body.innerHTML = `
+            <div class="text-center mt-20 p-4">
+                <p class="text-red-500 font-semibold text-lg mb-4">Error: ${error.message || 'Failed to load details'}</p>
+                <a href="/cart.html" class="text-blue-500 hover:underline">Return to Cart</a>
+            </div>
+        `;
+    }
+});
+
+function validateForm() {
+    const fullName = document.querySelector('input[placeholder="Full Name"]').value.trim();
+    const streetAddress = document.querySelector('input[placeholder="Street Address"]').value.trim();
+    const city = document.querySelector('input[placeholder="City"]').value.trim();
+    const state = document.querySelector('input[placeholder="State/Province"]').value.trim();
+    const pincode = document.querySelector('#pincode-input').value.trim();
+    const phone = document.querySelector('input[placeholder="Phone Number"]').value.trim();
+
+    const errors = [];
+    if (!fullName) errors.push("Please enter your full name");
+    if (!streetAddress) errors.push("Please enter your street address");
+    if (!city) errors.push("Please enter your city");
+    if (!state) errors.push("Please enter your state");
+    if (!pincode || pincode.length !== 6) errors.push("Please enter a valid 6-digit pincode");
+    if (!phone || phone.length < 10) errors.push("Please enter a valid phone number");
+
+    if (errors.length > 0) {
+        errors.forEach(error => showToast(error, 'error'));
+    }
+
+    return {
+        isValid: errors.length === 0,
+        errors,
+        data: { fullName, streetAddress, city, state, pincode, phone }
+    };
+}
+</script>

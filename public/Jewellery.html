@@ -1,0 +1,235 @@
+<script>
+    // Add this to your tailwind config at the top of the file
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    custom: {
+    DEFAULT: '#FF69B4',    // Hot Pink
+    secondary: '#FF85C0',  // Soft Pink
+    accent: '#FF7F98',     // Blush Pink
+    cherry: '#F48FB1',     // Cherry Blossom Pink
+    cotton: '#F8BBD0'      // Pastel Cotton Candy
+}
+
+                }
+            }
+        }
+    }
+</script>
+
+<style>
+    /* Base styles */
+    body {
+        background-color: #FADADD !important; /* Cotton Candy */
+    }
+
+    /* Header styles */
+    header {
+        background: linear-gradient(to right, #FFC0CB, #FFB6C1) !important;
+    }
+
+    /* Navigation bar below header */
+    .fixed.top-16 {
+        background-color: #FFD1DC !important; /* Baby Pink */
+    }
+
+    /* Product cards */
+    .product-card {
+        background-color: #FFC0CB !important; /* Pink */
+        border: 1px solid #FFB6C1;
+        transition: all 0.3s ease;
+    }
+    
+    .product-card:hover {
+        background-color: #FFB6C1 !important; /* Light Pink */
+        transform: translateY(-4px);
+        box-shadow: 0 4px 15px rgba(244, 167, 185, 0.2); /* Cherry Blossom shadow */
+    }
+
+    /* Sidebar */
+    #sidebar, #side-menu {
+        background-color: #FFD1DC !important; /* Baby Pink */
+    }
+
+    /* Buttons */
+    .bg-custom {
+        background-color: #570619 !important; /* Cherry Blossom #F4A7B9 */
+    }
+    
+    .bg-custom:hover {
+        background-color: #FFB6C1 !important; /* Light Pink */
+    }
+
+    /* Search overlay */
+    #searchOverlay .bg-white {
+        background-color: #FFD1DC !important; /* Baby Pink */
+    }
+
+    /* Input fields */
+    input[type="text"], 
+    input[type="number"], 
+    input[type="search"],
+    select {
+        background-color: #FADADD !important; /* Cotton Candy */
+        border-color: #FFB6C1 !important; /* Light Pink */
+    }
+
+    /* Navigation links */
+    nav a:hover {
+        background-color: #FFC0CB !important; /* Pink */
+    }
+
+    /* Filter sections */
+    .filter-section {
+        background-color: #FFD1DC !important; /* Baby Pink */
+    }
+
+    /* Toast notifications */
+    .toast.success {
+        background-color: #F4A7B9 !important; /* Cherry Blossom */
+    }
+    
+    .toast.error {
+        background-color: #FFB6C1 !important; /* Light Pink */
+    }
+
+    /* Checkboxes and radio buttons */
+    .form-checkbox:checked, 
+    .form-radio:checked {
+        background-color: #F4A7B9 !important; /* Cherry Blossom */
+        border-color: #FFB6C1 !important; /* Light Pink */
+    }
+
+    /* Sort dropdown */
+    #sortBy {
+        background-color: #FADADD !important; /* Cotton Candy */
+        border-color: #FFB6C1 !important; /* Light Pink */
+    }
+
+    /* Price range inputs */
+    #min-price, #max-price {
+        background-color: #FADADD !important; /* Cotton Candy */
+    }
+
+    /* Heart icon */
+    .heart-icon {
+        color: #F4A7B9 !important; /* Cherry Blossom */
+    }
+    
+    .heart-icon:hover {
+        color: #FFB6C1 !important; /* Light Pink */
+    }
+
+    /* Override any remaining white backgrounds */
+    .bg-white {
+        background-color: #FADADD !important; /* Cotton Candy */
+    }
+</style>
+
+<!-- Update these classes throughout the file -->
+<!-- Header section -->
+<header class="bg-custom-light shadow-sm fixed w-full z-50">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-24">
+            <div class="flex items-center">
+                <button class="text-custom-dark hover:text-custom-pink transition-colors duration-200 mr-4" id="menu-button" onclick="toggleMenu()">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <img src="https://res.cloudinary.com/drvug594q/image/upload/v1743516017/1-removebg-preview_bobiph.png" alt="InstaShop Logo" class="h-20 w-auto mr-auto">
+            </div>
+            <!-- ... rest of the header ... -->
+        </div>
+    </div>
+</header>
+
+<!-- Adjust the top position of the filter bar to match the new header height -->
+<div class="fixed top-24 left-0 z-40 px-4 py-2 bg-custom-peach shadow-sm w-full flex items-center justify-between">
+    <!-- ... filter button and other content ... -->
+</div>
+
+<!-- Sidebar -->
+<aside class="fixed top-0 left-0 w-64 h-full bg-[#FFD1DC] shadow-lg transform -translate-x-full transition-all duration-300 ease-in-out z-50 overflow-y-auto" id="sidebar">
+    <!-- ... existing code ... -->
+</aside>
+
+<!-- Update button colors -->
+<button class="flex-1 py-2 px-4 bg-custom text-white hover:bg-custom-secondary transition-colors">
+    Add To Bag
+</button>
+
+<!-- Update filter buttons -->
+<button id="showResults" class="flex-1 py-2 px-4 bg-custom border border-custom rounded text-sm font-medium text-white hover:bg-custom-secondary transition-colors">
+    Show Results
+</button>
+
+<!-- Update navigation links hover state -->
+<a href="index.html" class="text-gray-700 hover:bg-custom-accent hover:text-gray-900 px-2 py-1 rounded transition-colors">
+    Home
+</a>
+
+<!-- Update search overlay -->
+<div class="bg-custom-cotton w-full max-w-2xl rounded-lg shadow-lg overflow-hidden">
+    <!-- ... existing code ... -->
+</div>
+
+<!-- Update toast notifications -->
+<div class="toast flex items-center p-4 mb-2 rounded-lg shadow-lg text-white ${
+    type === 'success' ? 'bg-custom-cherry' : 'bg-custom-secondary'
+}">
+    <!-- ... existing code ... -->
+</div>
+
+<!-- Fix the menu button onclick attribute -->
+<div class="flex items-center">
+    <button class="text-custom-dark hover:text-custom-pink transition-colors duration-200 mr-4" id="menu-button" onclick="toggleMenu()">
+        <i class="fas fa-bars text-xl"></i>
+    </button>
+    <img src="https://res.cloudinary.com/drvug594q/image/upload/v1743516017/1-removebg-preview_bobiph.png" alt="InstaShop Logo" class="h-[5.5rem] mr-auto">
+</div>
+
+<!-- Update the toggleMenu function -->
+function toggleMenu() {
+    const sideMenu = document.getElementById('side-menu');
+    const overlay = document.getElementById('overlay');
+    
+    if (sideMenu.classList.contains('-translate-x-full')) {
+        // Open menu
+        sideMenu.classList.remove('-translate-x-full');
+        overlay.classList.remove('opacity-0', 'pointer-events-none');
+        overlay.classList.add('opacity-50');
+        document.body.classList.add('overflow-hidden');
+    } else {
+        // Close menu
+        sideMenu.classList.add('-translate-x-full');
+        overlay.classList.add('opacity-0', 'pointer-events-none');
+        overlay.classList.remove('opacity-50');
+        document.body.classList.remove('overflow-hidden');
+    }
+}
+
+// Add event listeners for menu interactions
+document.addEventListener('DOMContentLoaded', () => {
+    // Menu button click handler
+    const menuButton = document.getElementById('menu-button');
+    if (menuButton) {
+        menuButton.addEventListener('click', toggleMenu);
+    }
+
+    // Overlay click handler to close menu
+    const overlay = document.getElementById('overlay');
+    if (overlay) {
+        overlay.addEventListener('click', toggleMenu);
+    }
+
+    // Close button in menu click handler
+    const closeMenuButton = document.querySelector('#side-menu button');
+    if (closeMenuButton) {
+        closeMenuButton.addEventListener('click', toggleMenu);
+    }
+});
+
+<!-- Also adjust the main content margin-top to account for the taller header -->
+<main class="flex-1 mt-36">
+    <!-- ... existing code ... -->
+</main> 

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Add Jewellery</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+
+    <div class="container mx-auto mt-10">
+        <h1 class="text-2xl font-bold text-center mb-6">Add Jewellery</h1>
+
+        <form id="jewelleryForm" class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Product Name</label>
+                <input type="text" id="name" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Description</label>
+                <textarea id="description" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Category</label>
+                <select id="category" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="jewellery">Jewellery</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Subcategory</label>
+                <select id="subcategory" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="Necklaces">Necklaces</option>
+                    <option value="Rings">Rings</option>
+                    <option value="Earrings">Earrings</option>
+                    <option value="Bracelets">Bracelets</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Metal Type</label>
+                <select id="metal" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="Gold">Gold</option>
+                    <option value="Silver">Silver</option>
+                    <option value="Platinum">Platinum</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Original Price (₹)</label>
+                <input type="number" id="originalPrice" required min="1" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <p id="originalPriceError" class="hidden text-red-500 text-sm mt-1">Price must be greater than 0</p>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Discount Percentage (%)</label>
+                <input type="number" id="discount" required min="0" max="100" value="0" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <p id="discountError" class="hidden text-red-500 text-sm mt-1">Discount must be between 0 and 100</p>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Final Price (₹)</label>
+                <input type="number" id="price" required min="0" readonly class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <p class="text-sm text-gray-500 mt-1">Final price will be calculated automatically.</p>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Upload Image</label>
+                <input type="file" id="imageUpload" required accept="image/*" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div id="statusMessages">
+                <p id="uploadStatus" class="hidden text-blue-500 text-center mb-2">Uploading Image...</p>
+                <p id="savingStatus" class="hidden text-blue-500 text-center mb-2">Saving to Database...</p>
+                <p id="successMessage" class="hidden text-green-500 text-center mb-2">Jewellery Added Successfully!</p>
+                <p id="errorMessage" class="hidden text-red-500 text-center mb-2"></p>
+            </div>
+
+            <button type="submit" id="submitButton" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
+                Add Jewellery
+            </button>
+        </form>
+    </div>
+
+    <script>
+        // Form elements
+        const originalPriceEl = document.getElementById("originalPrice");
+        const discountEl = document.getElementById("discount");
+        const priceEl = document.getElementById("price");
+        const originalPriceErrorEl = document.getElementById("originalPriceError");
+        const discountErrorEl = document.getElementById("discountError");
+        const form = document.getElementById("jewelleryForm");
+        const submitButton = document.getElementById("submitButton");
+
+        // Status elements
+        const uploadStatusEl = document.getElementById("uploadStatus");
+        const savingStatusEl = document.getElementById("savingStatus");
+        const successMessageEl = document.getElementById("successMessage");
+        const errorMessageEl = document.getElementById("errorMessage");
+
+        // Calculate final price when original price or discount changes
+        originalPriceEl.addEventListener("input", validateAndCalculate);
+        discountEl.addEventListener("input", validateAndCalculate);
+
+        function validateAndCalculate() {
+            let isValid = true;
+            
+            // Validate original price
+            const originalPrice = parseFloat(originalPriceEl.value) || 0;
+            if (originalPrice <= 0) {
+                originalPriceErrorEl.classList.remove("hidden");
+                isValid = false;
+            } else {
+                originalPriceErrorEl.classList.add("hidden");
+            }
+            
+            // Validate discount
+            const discount = parseFloat(discountEl.value) || 0;
+            if (discount < 0 || discount > 100) {
+                discountErrorEl.classList.remove("hidden");
+                isValid = false;
+            } else {
+                discountErrorEl.classList.add("hidden");
+            }
+            
+            // Calculate final price if valid
+            if (isValid) {
+                const finalPrice = Math.round(originalPrice * (1 - discount / 100));
+                priceEl.value = finalPrice;
+            } else {
+                priceEl.value = "";
+            }
+            
+            return isValid;
+        }
+
+        // Form submission
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault();
+            
+            // Hide all status messages
+            hideAllStatusMessages();
+            
+            // Validate inputs before submission
+            if (!validateAndCalculate()) {
+                errorMessageEl.textContent = "Please fix the errors before submitting.";
+                errorMessageEl.classList.remove("hidden");
+                return;
+            }
+            
+            // Disable submit button during processing
+            submitButton.disabled = true;
+            submitButton.classList.add("bg-gray-400");
+            submitButton.classList.remove("bg-blue-500", "hover:bg-blue-600");
+            
+            const CLOUDINARY_UPLOAD_PRESET = "Acessories";
+            const CLOUDINARY_CLOUD_NAME = "drvug594q";
+
+            try {
+                // 1. Upload image
+                uploadStatusEl.classList.remove("hidden");
+                const imageFile = document.getElementById("imageUpload").files[0];
+                
+                if (!imageFile) {
+                    throw new Error("Please select an image");
+                }
+                
+                const formData = new FormData();
+                formData.append("file", imageFile);
+                formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+                const uploadResponse = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+                    method: "POST",
+                    body: formData
+                });
+                
+                const uploadData = await uploadResponse.json();
+                
+                if (!uploadData.secure_url) {
+                    throw new Error("Image upload failed");
+                }
+                
+                const imageUrl = uploadData.secure_url;
+                uploadStatusEl.classList.add("hidden");
+                
+                // 2. Prepare jewellery data
+                const jewelleryData = {
+                    name: document.getElementById("name").value,
+                    description: document.getElementById("description").value,
+                    category: document.getElementById("category").value,
+                    subcategory: document.getElementById("subcategory").value,
+                    metal: document.getElementById("metal").value,
+                    originalPrice: parseFloat(originalPriceEl.value),
+                    discount: parseFloat(discountEl.value),
+                    price: parseFloat(priceEl.value),
+                    imageUrl: imageUrl
+                };
+                
+                // 3. Send data to backend
+                savingStatusEl.classList.remove("hidden");
+                const backendResponse = await fetch("http://localhost:5000/api/jewellery", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(jewelleryData)
+                });
+                
+                // 4. Handle backend response
+                if (!backendResponse.ok) {
+                    const errorData = await backendResponse.json();
+                    throw new Error(errorData.message || "Failed to save jewellery data");
+                }
+                
+                // 5. Show success and reset form
+                savingStatusEl.classList.add("hidden");
+                successMessageEl.classList.remove("hidden");
+                form.reset();
+                priceEl.value = "";
+                
+                // Re-enable submit button after 3 seconds
+                setTimeout(() => {
+                    submitButton.disabled = false;
+                    submitButton.classList.remove("bg-gray-400");
+                    submitButton.classList.add("bg-blue-500", "hover:bg-blue-600");
+                    successMessageEl.classList.add("hidden");
+                }, 3000);
+                
+            } catch (error) {
+                // Handle errors
+                hideAllStatusMessages();
+                errorMessageEl.textContent = error.message || "An error occurred";
+                errorMessageEl.classList.remove("hidden");
+                
+                // Re-enable submit button
+                submitButton.disabled = false;
+                submitButton.classList.remove("bg-gray-400");
+                submitButton.classList.add("bg-blue-500", "hover:bg-blue-600");
+            }
+        });
+        
+        function hideAllStatusMessages() {
+            uploadStatusEl.classList.add("hidden");
+            savingStatusEl.classList.add("hidden");
+            successMessageEl.classList.add("hidden");
+            errorMessageEl.classList.add("hidden");
+        }
+    </script>
+</body>
+</html>

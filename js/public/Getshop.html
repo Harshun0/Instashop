@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Shop Information</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+
+    <div class="container mx-auto mt-10">
+        <h1 class="text-2xl font-bold text-center mb-6">Shop Information</h1>
+
+        <!-- Shop Information Form -->
+        <form id="shopForm" class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Shop Name</label>
+                <input type="text" id="shopName" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Shop Description</label>
+                <textarea id="description" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Instagram Link</label>
+                <div class="flex">
+                    <span class="inline-flex items-center px-3 text-gray-500 bg-gray-100 border border-r-0 border-gray-300 rounded-l-lg">
+                        <i class="fab fa-instagram"></i>
+                    </span>
+                    <input type="url" id="instagramLink" required placeholder="https://instagram.com/yourshop" class="w-full px-3 py-2 border rounded-r-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+            </div>
+
+            <!-- Logo Upload -->
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Upload Logo</label>
+                <input type="file" id="logoUpload" required accept="image/*" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <p class="text-sm text-gray-500 mt-1">Recommended size: 200x200px. Image will be uploaded to Cloudinary.</p>
+            </div>
+
+            <!-- Shop Image Upload -->
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Upload Shop Image</label>
+                <input type="file" id="shopImageUpload" required accept="image/*" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <p class="text-sm text-gray-500 mt-1">This image will be displayed as your shop's banner. Recommended size: 1200x400px.</p>
+            </div>
+
+            <div id="uploadStatus" class="mb-4 hidden">
+                <div class="flex items-center">
+                    <i class="fas fa-spinner fa-spin mr-2 text-blue-500"></i>
+                    <span>Uploading images, please wait...</span>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
+                Save Shop Information
+            </button>
+        </form>
+
+        <div id="successMessage" class="max-w-lg mx-auto mt-4 p-4 bg-green-100 text-green-700 rounded-lg hidden">
+            <i class="fas fa-check-circle mr-2"></i>
+            <span>Shop information saved successfully!</span>
+        </div>
+
+        <div id="errorMessage" class="max-w-lg mx-auto mt-4 p-4 bg-red-100 text-red-700 rounded-lg hidden">
+            <i class="fas fa-exclamation-circle mr-2"></i>
+            <span id="errorText">Error saving shop information.</span>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        const shopForm = document.getElementById("shopForm");
+        const logoUpload = document.getElementById("logoUpload");
+        const shopImageUpload = document.getElementById("shopImageUpload");
+        const uploadStatus = document.getElementById("uploadStatus");
+        const successMessage = document.getElementById("successMessage");
+        const errorMessage = document.getElementById("errorMessage");
+        const errorText = document.getElementById("errorText");
+
+        const CLOUDINARY_UPLOAD_PRESET = "Acessories";
+        const CLOUDINARY_CLOUD_NAME = "drvug594q";
+
+        // Hide messages on new form interaction
+        document.querySelectorAll("input, textarea").forEach(element => {
+            element.addEventListener("focus", () => {
+                successMessage.classList.add("hidden");
+                errorMessage.classList.add("hidden");
+            });
+        });
+
+        shopForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+            
+            // Reset messages
+            successMessage.classList.add("hidden");
+            errorMessage.classList.add("hidden");
+            
+            // Get form values
+            const shopName = document.getElementById("shopName").value;
+            const description = document.getElementById("description").value;
+            const instagramLink = document.getElementById("instagramLink").value;
+            
+            // Validate Instagram URL
+            if (instagramLink && !instagramLink.match(/^https?:\/\/(www\.)?instagram\.com\/.+/i)) {
+                errorText.textContent = "Please enter a valid Instagram URL";
+                errorMessage.classList.remove("hidden");
+                return;
+            }
+
+            // Validate file uploads
+            if (!logoUpload.files[0]) {
+                errorText.textContent = "Please upload a logo image";
+                errorMessage.classList.remove("hidden");
+                return;
+            }
+
+            if (!shopImageUpload.files[0]) {
+                errorText.textContent = "Please upload a shop banner image";
+                errorMessage.classList.remove("hidden");
+                return;
+            }
+            
+            // Show uploading status
+            uploadStatus.classList.remove("hidden");
+            
+            try {
+                // 1. Upload logo to Cloudinary
+                const logoFormData = new FormData();
+                logoFormData.append("file", logoUpload.files[0]);
+                logoFormData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+                console.log("Uploading logo to Cloudinary...");
+                const logoResponse = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+                    method: "POST",
+                    body: logoFormData
+                }).then(res => res.json());
+
+                if (!logoResponse.secure_url) {
+                    throw new Error("Logo upload failed");
+                }
+
+                const logoUrl = logoResponse.secure_url;
+                console.log("Logo uploaded successfully:", logoUrl);
+
+                // 2. Upload shop image to Cloudinary
+                const shopImageFormData = new FormData();
+                shopImageFormData.append("file", shopImageUpload.files[0]);
+                shopImageFormData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+                console.log("Uploading shop image to Cloudinary...");
+                const shopImageResponse = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+                    method: "POST",
+                    body: shopImageFormData
+                }).then(res => res.json());
+
+                if (!shopImageResponse.secure_url) {
+                    throw new Error("Shop image upload failed");
+                }
+
+                const shopImageUrl = shopImageResponse.secure_url;
+                console.log("Shop image uploaded successfully:", shopImageUrl);
+
+                // 3. Create shop data object
+                const shopData = { 
+                    shopName, 
+                    description, 
+                    instagramLink, 
+                    logoUrl, 
+                    shopImageUrl 
+                };
+                
+                console.log("Sending shop data to server:", shopData);
+
+                // 4. Send shop data to server
+                const response = await fetch("http://localhost:5000/api/shop", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(shopData)
+                });
+
+                // 5. Handle response
+                const responseData = await response.json();
+                
+                if (response.ok) {
+                    console.log("Shop information saved successfully:", responseData);
+                    successMessage.classList.remove("hidden");
+                    shopForm.reset();
+                } else {
+                    console.error("Server error:", responseData);
+                    errorText.textContent = responseData.error || "Error saving shop information";
+                    errorMessage.classList.remove("hidden");
+                }
+            } catch (error) {
+                console.error("Full error details:", error);
+                errorText.textContent = error.message || "Error processing request";
+                errorMessage.classList.remove("hidden");
+            } finally {
+                uploadStatus.classList.add("hidden");
+            }
+        });
+    </script>
+</body>
+</html>

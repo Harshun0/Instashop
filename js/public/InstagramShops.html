@@ -1,0 +1,122 @@
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    custom: {
+                        peach: '#F8C8DC',    // Soft Pink
+                        gray: '#A5A5A5',     // Medium Gray
+                        dark: '#2D2D2D',     // Charcoal Black
+                        pink: '#C2185B',     // Deep Pink
+                        light: '#FCE4EC',    // Ultra Light Pink
+                    }
+                }
+            }
+        }
+    }
+</script>
+
+<style>
+    .heart-icon:hover {
+        transform: scale(1.2);
+        transition: transform 0.2s ease;
+    }
+
+    /* Add new color styles */
+    header {
+        background-color: #FCE4EC !important;
+    }
+
+    .text-custom {
+        color: #C2185B !important;
+    }
+
+    .bg-custom {
+        background-color: #C2185B !important;
+    }
+
+    .hover\:bg-custom\/90:hover {
+        background-color: #2D2D2D !important;
+    }
+
+    #mobile-menu .bg-white {
+        background-color: #FCE4EC !important;
+    }
+
+    #mobile-menu .text-gray-700 {
+        color: #2D2D2D !important;
+    }
+
+    #mobile-menu .hover\:outline-black {
+        outline-color: #C2185B !important;
+    }
+
+    #mobile-menu .text-gray-500:hover {
+        color: #C2185B !important;
+    }
+
+    .focus\:ring-custom:focus {
+        --tw-ring-color: #C2185B !important;
+    }
+
+    .border-custom {
+        border-color: #C2185B !important;
+    }
+</style>
+
+<script>
+    function displayShops(shops) {
+        const shopList = document.getElementById('shop-list');
+        shopList.innerHTML = '';
+
+        shops.forEach(shop => {
+            const shopElement = `
+                <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6 hover:bg-[#F8C8DC] transition-colors duration-200">
+                    <div class="flex items-center space-x-3 mb-3 sm:mb-4">
+                        <img src="${shop.logoUrl}" alt="${shop.shopName} Logo" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover"/>
+                        <div>
+                            <h3 class="text-sm sm:text-base font-medium flex items-center">
+                                ${shop.shopName}
+                                <i class="fas fa-check-circle text-[#C2185B] ml-1"></i>
+                            </h3>
+                        </div>
+                    </div>
+                    
+                    <a href="${shop.instagramLink}" target="_blank" rel="noopener noreferrer">
+                        <img src="${shop.shopImageUrl}" alt="${shop.shopName} Image" class="object-cover object-center w-full h-48 rounded-md mb-3">
+                    </a>
+                    
+                    <p class="text-base sm:text-lg text-gray-500 mb-4 text-center line-clamp-2">${shop.description}</p>
+                    
+                    <button class="w-full bg-[#C2185B] hover:bg-[#2D2D2D] text-white py-1.5 sm:py-2 rounded-md text-sm sm:text-base font-medium transition-colors duration-200" 
+                        onclick="window.location.href='${shop.instagramLink}'">
+                        Follow Shop
+                    </button>
+                </div>
+            `;
+            shopList.innerHTML += shopElement;
+        });
+    }
+</script>
+
+<div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+    <div class="bg-[#FCE4EC] w-64 h-full overflow-y-auto">
+        <div class="p-4 border-b">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-semibold text-[#2D2D2D]">Menu</h2>
+                <button onclick="toggleMenu()" class="text-[#2D2D2D] hover:text-[#C2185B]">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <nav class="p-4">
+            <ul class="space-y-4">
+                <li><a href="index.html" class="flex items-center text-[#2D2D2D] hover:text-[#C2185B] hover:outline hover:outline-[#C2185B] hover:outline-2 p-2 rounded transition-colors"><i class="fas fa-home w-6"></i>Home</a></li>
+                <li><a href="InstagamShops.html" class="flex items-center text-[#2D2D2D] hover:text-[#C2185B] hover:outline hover:outline-[#C2185B] hover:outline-2 p-2 rounded transition-colors"><i class="fas fa-shopping-bag w-6"></i>Instagram Shops</a></li>
+                <li><a href="wishlist.html" class="flex items-center text-[#2D2D2D] hover:text-[#C2185B] hover:outline hover:outline-[#C2185B] hover:outline-2 p-2 rounded transition-colors"><i class="fas fa-heart w-6"></i>Wishlist</a></li>
+                <li><a href="/order" class="flex items-center text-[#2D2D2D] hover:text-[#C2185B] hover:outline hover:outline-[#C2185B] hover:outline-2 p-2 rounded transition-colors"><i class="fas fa-box"></i> My Orders</a></li>
+                <li><a href="seller_login.html" class="flex items-center text-[#2D2D2D] hover:text-[#C2185B] hover:outline hover:outline-[#C2185B] hover:outline-2 p-2 rounded transition-colors"><i class="fas fa-cog w-6"></i>Seller login</a></li>
+            </ul>
+        </nav>
+    </div>
+</div> 

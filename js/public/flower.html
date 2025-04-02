@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flower Bouquets Collection</title> 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .heart-icon:hover {
+            transform: scale(1.2);
+            transition: transform 0.2s ease;
+        }
+        /* Updated color styles */
+        .menu-section {
+            background-color: #FCE4EC !important; /* custom-light pink */
+        }
+        .filter-section {
+            background-color: #F8C8DC !important; /* custom-peach */
+        }
+        .menu-button {
+            color: #C2185B !important; /* custom-pink */
+        }
+        .menu-button:hover {
+            color: #2D2D2D !important; /* custom-dark */
+        }
+        .filter-button {
+            background-color: white !important;
+            color: #C2185B !important;
+            border: 1px solid #C2185B !important;
+        }
+        .filter-button:hover {
+            background-color: #FCE4EC !important;
+        }
+        .nav-link {
+            color: #2D2D2D !important;
+        }
+        .nav-link:hover {
+            color: #C2185B !important;
+            border-color: #C2185B !important;
+        }
+        /* Product card styles */
+        .product-card {
+            transition: all 0.3s ease;
+        }
+        .product-card:hover {
+            background-color: #F8C8DC !important;
+        }
+        .heart-icon {
+            color: #C2185B !important;
+            transition: transform 0.2s ease;
+        }
+        .heart-icon:hover {
+            transform: scale(1.2);
+            color: #2D2D2D !important;
+        }
+        /* Button styles */
+        .bg-custom-pink {
+            background-color: #C2185B !important;
+        }
+        .hover\:bg-custom-dark:hover {
+            background-color: #2D2D2D !important;
+        }
+        button.flex-1 {
+            background-color: #C2185B !important;
+            color: white !important;
+            transition: all 0.2s ease-in-out;
+        }
+        button.flex-1:hover {
+            background-color: #2D2D2D !important;
+        }
+        /* Sidebar filter styles */
+        .sidebar-filter {
+            background-color: #FCE4EC !important;
+        }
+        .filter-checkbox, .filter-radio {
+            accent-color: #C2185B !important;
+        }
+        .filter-button-primary {
+            background-color: #C2185B !important;
+            color: white !important;
+            border: 1px solid #C2185B !important;
+        }
+        .filter-button-primary:hover {
+            background-color: #2D2D2D !important;
+            border-color: #2D2D2D !important;
+        }
+        .filter-button-secondary {
+            background-color: white !important;
+            color: #2D2D2D !important;
+            border: 1px solid #A5A5A5 !important;
+        }
+        .filter-button-secondary:hover {
+            background-color: #F8C8DC !important;
+        }
+        .text-custom {
+            color: #C2185B !important;
+        }
+        .bg-custom {
+            background-color: #C2185B !important;
+        }
+        .hover\:text-custom:hover {
+            color: #C2185B !important;
+        }
+        .hover\:bg-custom:hover {
+            background-color: #C2185B !important;
+        }
+        .border-custom {
+            border-color: #C2185B !important;
+        }
+        /* Add header and navigation styles */
+        header {
+            background-color: #FCE4EC !important;
+        }
+        .fixed.top-16 {
+            background-color: #F8C8DC !important;
+        }
+        /* Product card styles */
+        .product-card {
+            transition: all 0.3s ease;
+        }
+        .product-card:hover {
+            background-color: #F8C8DC !important;
+        }
+        /* Button styles */
+        .bg-pink-500 {
+            background-color: #C2185B !important;
+        }
+        .hover\:bg-pink-600:hover {
+            background-color: #2D2D2D !important;
+        }
+        .border-pink-500 {
+            border-color: #C2185B !important;
+        }
+        /* Sidebar styles */
+        aside.bg-white {
+            background-color: #FCE4EC !important;
+        }
+        .form-checkbox, .form-radio {
+            accent-color: #C2185B !important;
+        }
+        /* Mobile menu styles */
+        #mobile-menu .bg-custom-light {
+            background-color: #FCE4EC !important;
+        }
+
+        #mobile-menu a {
+            color: #2D2D2D !important;
+            transition: all 0.3s ease;
+        }
+
+        #mobile-menu a:hover {
+            color: #C2185B !important;
+            background-color: #F8C8DC !important;
+        }
+
+        /* Menu button styles */
+        #menu-button {
+            color: #C2185B !important;
+        }
+
+        #menu-button:hover {
+            color: #2D2D2D !important;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&amp;display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/css/glide.core.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/css/glide.theme.min.css" rel="stylesheet"/>
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom-v2.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="small"></script>
+    
+</head>
+<body class="bg-gray-50 font-inter">
+    <div id="toast-container" class="fixed top-28 right-4 z-50 flex flex-col gap-2"></div>
+    <div class="min-h-screen flex flex-col">
+        <header class="bg-white shadow-sm fixed w-full z-50">
+            <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <button class="text-gray-600 mr-4" id="menu-button" onclick="toggleMenu()">
+                            <i class="fas fa-bars text-xl"></i>
+                        </button>
+                        <img src="https://res.cloudinary.com/drvug594q/image/upload/v1743518570/1-removebg-preview_bobiph.png" alt="InstaShop Logo" class="h-[2.5rem] mr-auto">
+                    </div>
+                    <h1 class="text-xl font-semibold text-gray-900 text-center flex-1">Flower Bouquets Collection</h1> 
+                    <div class="flex items-center space-x-4">
+                        <button class="text-gray-500 hover:text-black transition-colors duration-200" id="searchButton">
+                            <i class="fas fa-search text-xl"></i>
+                        </button>
+                        <button onclick="handleCartClick()" class="text-gray-600 relative hover:text-black transition-colors duration-200 relative">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span id="cart-count" class="absolute -top-2 -right-2 bg-custom text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">0</span>
+                        </button>
+                        <button id="userButton" class="text-gray-600 hover:text-black transition-colors duration-200 relative">
+                            <i class="fas fa-user"></i> 
+                            <span id="userActionText">Login</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="fixed top-16 left-0 z-40 px-4 py-2 bg-white shadow-sm w-full flex items-center justify-between">
+            <div class="flex items-center">
+                <button class="filter-button rounded-full px-4 py-1 text-sm flex items-center" id="filterButton">
+                    <i class="fas fa-filter mr-2"></i>
+                    Filter <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                </button>
+        
+        
+                <!-- Responsive Navigation Bar with horizontal scrolling on mobile -->
+                <nav class="w-full">
+                    <!-- Mobile version (scrollable) -->
+                    <div class="lg:hidden overflow-x-auto">
+                        <div class="flex whitespace-nowrap p-1">
+                            <a href="index.html" class="nav-link px-2 py-1 rounded mx-1 text-xs md:text-sm">Home</a>
+                            <a href="Jewellery.html" class="nav-link px-2 py-1 rounded mx-1 text-xs md:text-sm">Jewellery</a>
+                            <a href="crochet.html" class="nav-link px-2 py-1 rounded mx-1 text-xs md:text-sm">Crochet</a>
+                            <a href="clothing.html" class="nav-link px-2 py-1 rounded mx-1 text-xs md:text-sm">Clothing</a>
+                            <a href="GiftHampers.html" class="nav-link px-2 py-1 rounded mx-1 text-xs md:text-sm">Gift Hampers</a>
+                        </div>
+                        </div>
+                    
+                    <!-- Desktop version (your original spacing) -->
+                    <div class="hidden lg:flex">
+                        <a href="index.html" class="nav-link px-2 py-1 rounded ml-20 lg:text-base">Home</a>
+                        <a href="Jewellery.html" class="nav-link px-2 py-1 rounded ml-20 lg:text-base">Jewellery</a>
+                        <a href="crochet.html" class="nav-link px-2 py-1 rounded ml-20 lg:text-base">Crochet</a>
+                        <a href="clothing.html" class="nav-link px-2 py-1 rounded ml-20 lg:text-base">Clothing</a>
+                        <a href="GiftHampers.html" class="nav-link px-2 py-1 rounded ml-20 lg:text-base">Gift Hampers</a>
+                    </div>
+                    
+                </nav>
+            </div>
+        
+            <div class="relative">
+                <select id="sortBy" class="block appearance-none bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm">
+                    <option value="default">Sort by: Default</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="name-az">Name: A to Z</option>
+                    <option value="name-za">Name: Z to A</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-700">
+                    <i class="fas fa-chevron-down text-xs"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden" id="overlay"></div>
+        <aside class="fixed top-0 left-0 w-64 h-full bg-white shadow-lg transform -translate-x-full transition-all duration-300 ease-in-out z-50 overflow-y-auto" id="sidebar">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-semibold">Filters</h2>
+                    <button class="text-gray-500 hover:text-custom" id="closeMenu">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-medium text-gray-900 mb-3">Occasion</h3>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="form-checkbox text-custom filter" data-filter="subcategory" value="Birthday"/>
+                            <span class="ml-2 text-sm text-gray-700">Birthday</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="form-checkbox text-custom filter" data-filter="subcategory" value="Anniversary"/>
+                            <span class="ml-2 text-sm text-gray-700">Anniversary</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="form-checkbox text-custom filter" data-filter="subcategory" value="Wedding"/>
+                            <span class="ml-2 text-sm text-gray-700">Wedding</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="form-checkbox text-custom filter" data-filter="subcategory" value="Sympathy"/>
+                            <span class="ml-2 text-sm text-gray-700">Sympathy</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h3 class="text-sm font-medium text-gray-900 mb-3">Bouquet Type</h3>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="form-checkbox text-custom filter" data-filter="type" value="Roses"/>
+                            <span class="ml-2 text-sm text-gray-700">Roses</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="form-checkbox text-custom filter" data-filter="type" value="Lilies"/>
+                            <span class="ml-2 text-sm text-gray-700">Lilies</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="form-checkbox text-custom filter" data-filter="type" value="Mixed Flowers"/>
+                            <span class="ml-2 text-sm text-gray-700">Mixed Flowers</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="form-checkbox text-custom filter" data-filter="type" value="Tulips"/>
+                            <span class="ml-2 text-sm text-gray-700">Tulips</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-sm font-medium text-gray-900">Price</h3>
+                        <button class="text-gray-500 hover:text-custom">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="radio" name="price-range" class="form-radio text-custom filter-price" data-filter="price" value="0-1000"/>
+                            <span class="ml-2 text-sm text-gray-700">< ₹1,000</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="price-range" class="form-radio text-custom filter-price" data-filter="price" value="1000-2000"/>
+                            <span class="ml-2 text-sm text-gray-700">₹1,000 - ₹2,000</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="price-range" class="form-radio text-custom filter-price" data-filter="price" value="2000-3500"/>
+                            <span class="ml-2 text-sm text-gray-700">₹2,000 - ₹3,500</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="price-range" class="form-radio text-custom filter-price" data-filter="price" value="3500-999999999"/>
+                            <span class="ml-2 text-sm text-gray-700">₹3,500+</span>
+                        </label>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center space-x-2">
+                            <div class="relative w-full">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">₹</span>
+                                <input type="number" id="min-price" placeholder="Min Val" class="w-full border border-gray-300 rounded pl-6 py-2 text-sm" />
+                            </div>
+                            <span class="text-gray-500">TO</span>
+                            <div class="relative w-full">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">₹</span>
+                                <input type="number" id="max-price" placeholder="Max Val" class="w-full border border-gray-300 rounded pl-6 py-2 text-sm" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex space-x-2">
+                    <button id="clearFilters" class="flex-1 py-2 px-4 border border-gray-300 rounded text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                        Clear Filters
+                    </button>
+                    <button id="showResults" class="flex-1 py-2 px-4 bg-pink-500 border border-pink-500 rounded text-sm font-medium text-white hover:bg-pink-600 transition-colors">
+                        Show Results
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="flex-1 mt-28">
+            <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- Products will be loaded here -->
+                    <div class="col-span-full text-center py-8">
+                        <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-pink-500 mx-auto"></div>
+                        <p class="mt-2 text-gray-600">Loading products...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let filters = {
+            category: "flower_bouquets", 
+            subcategory: [],
+            type: [], 
+            priceRange: null
+        };
+        
+        let sortOption = "default";
+        let wishlistItems = [];
+
+        async function loadProducts() {
+    try {
+                // Get wishlist status before loading products
+                wishlistItems = await checkWishlistStatus();
+
+        // Create a proper URL search params object
+        const queryParams = new URLSearchParams();
+        
+        // Add category parameter
+        queryParams.append("category", "flower_bouquets");
+        
+                // Add subcategory filter
+        if (filters.subcategory && filters.subcategory.length > 0) {
+            queryParams.append("subcategory", filters.subcategory.join(','));
+        }
+        
+                // Add type filter
+        if (filters.type && filters.type.length > 0) {
+            queryParams.append("material", filters.type.join(','));
+        }
+        
+        // Add price range if set
+        if (filters.priceRange) {
+            queryParams.append("priceRange", filters.priceRange);
+        }
+        
+        // Add sort option if not default
+        if (sortOption !== "default") {
+            queryParams.append("sort", sortOption);
+        }
+        
+        const queryString = queryParams.toString();
+        console.log("Generated Query String:", queryString);
+
+        // Fetch from API
+        const apiUrl = `/api/products?${queryString}`;
+        console.log("Fetching from:", apiUrl);
+        const response = await fetch(apiUrl);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        const products = await response.json();
+        console.log("API returned products:", products);
+        
+        displayProducts(products);
+
+    } catch (error) {
+        console.error("❌ Error loading products:", error);
+        document.getElementById("product-list").innerHTML = `
+            <p class="text-red-500 text-center col-span-full py-8">Failed to load products. Please try again later.</p>
+        `;
+    }
+}
+
+function displayProducts(products) {
+    const productList = document.getElementById("product-list");
+    productList.innerHTML = "";
+
+    if (products.length === 0) {
+        productList.innerHTML = `<p class="text-gray-600 col-span-full text-center py-8">No products found that match your filters.</p>`;
+        return;
+    }
+
+    products.forEach(product => {
+        const discount = product.discount || 0;
+        const originalPrice = product.originalPrice || Math.round(product.price / (1 - discount / 100));
+                const isInWishlist = wishlistItems.includes(product._id);
+                const heartClass = isInWishlist ? 'fas' : 'far';
+
+                productList.innerHTML += `
+                    <div class="bg-white rounded-md shadow-sm overflow-hidden cursor-pointer product-card" 
+                         onclick="redirectToProduct('${product._id}')">
+                        <div class="p-4">
+                            <img src="${product.images[0]}" class="object-cover object-center w-full h-48 mx-auto"/>
+                            <div class="mt-4 text-center">
+                                <h3 class="text-sm font-medium text-gray-900">${product.name}</h3>
+                                <p class="text-xs text-gray-500 mt-1">${product.metaDescription || 'Beautiful flower bouquet'}</p>
+                                <div class="mt-2 flex justify-center items-center space-x-2">
+                                    <span class="text-gray-500 line-through text-sm">₹${originalPrice}</span>
+                                    <span class="font-medium">₹${product.price}</span>
+                                    <span class="text-green-600 text-sm">${discount}% Off</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center border-t">
+                            <button onclick="event.stopPropagation(); toggleWishlist(event, '${product._id}', '${product.name}', ${product.price}, '${product.images[0]}')" 
+                                    class="p-2 text-custom hover:text-custom-dark flex-none">
+                                <i class="${heartClass} fa-heart heart-icon"></i>
+                            </button>
+                            <button onclick="event.stopPropagation(); addToCart('${product._id}', '${product.name}', ${product.price}, '${product.images[0]}')" 
+                                    class="flex-1 bg-custom text-white py-3 hover:bg-custom-dark transition-colors">
+                                Add To Bag
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Function to navigate to product.html with productId as a query parameter
+        function redirectToProduct(productId) {
+            window.location.href = `product.html?id=${productId}`;
+        }
+        function showToast(message, type = 'success') {
+            const toastContainer = document.getElementById('toast-container');
+            
+            const toast = document.createElement('div');
+            toast.className = `toast flex items-center p-4 mb-2 rounded-lg shadow-lg text-white ${
+                type === 'success' ? 'bg-green-500' : 'bg-red-500'
+            }`;
+            
+            const icon = document.createElement('i');
+            icon.className = `fas ${
+                type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'
+            } mr-2`;
+            
+            const text = document.createElement('span');
+            text.textContent = message;
+            
+            toast.appendChild(icon);
+            toast.appendChild(text);
+            toastContainer.appendChild(toast);
+            
+            // Remove toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.add('hide');
+                setTimeout(() => {
+                    toastContainer.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+
+        // Function to apply any client-side filtering that can't be done by the API
+        function applyClientSideFilters(products) {
+            // Start with all products
+            let filteredProducts = [...products];
+            
+            // Apply subcategory filter if needed
+            if (filters.subcategory && filters.subcategory.length > 0) {
+                filteredProducts = filteredProducts.filter(product => 
+                    filters.subcategory.includes(product.subcategory)
+                );
+            }
+            
+            // Apply type/material filter if needed
+            if (filters.type && filters.type.length > 0) {
+                filteredProducts = filteredProducts.filter(product => 
+                    filters.type.includes(product.material || product.type)
+                );
+            }
+            
+            // Apply price range filter if needed
+            if (filters.priceRange) {
+                const [min, max] = filters.priceRange.split('-').map(Number);
+                filteredProducts = filteredProducts.filter(product => 
+                    product.price >= min && product.price <= max
+                );
+            }
+            
+            return filteredProducts;
+        }
+        
+        // Sample products for testing when API is not available
+        function getSampleProducts() {
+            return [
+                {
+                    id: 1,
+                    name: "Red Roses Bouquet",
+                    price: 999,
+                    discount: 15,
+                    originalPrice: 1199,
+                    images: ["https://via.placeholder.com/300x300?text=Red+Roses"],
+                    category: "flower_bouquets",
+                    subcategory: "Anniversary",
+                    material: "Roses",
+                    metaDescription: "Beautiful arrangement of fresh red roses"
+                },
+                {
+                    id: 2,
+                    name: "Mixed Flower Bouquet",
+                    price: 1299,
+                    discount: 10,
+                    originalPrice: 1449,
+                    images: ["https://via.placeholder.com/300x300?text=Mixed+Flowers"],
+                    category: "flower_bouquets",
+                    subcategory: "Birthday",
+                    material: "Mixed Flowers",
+                    metaDescription: "Colorful mix of seasonal flowers"
+                },
+                {
+                    id: 3,
+                    name: "White Lilies Arrangement",
+                    price: 1499,
+                    discount: 5,
+                    originalPrice: 1599,
+                    images: ["https://via.placeholder.com/300x300?text=White+Lilies"],
+                    category: "flower_bouquets",
+                    subcategory: "Sympathy",
+                    material: "Lilies",
+                    metaDescription: "Elegant arrangement of white lilies"
+                },
+                {
+                    id: 4,
+                    name: "Premium Rose Bouquet",
+                    price: 2999,
+                    discount: 20,
+                    originalPrice: 3749,
+                    images: ["https://via.placeholder.com/300x300?text=Premium+Roses"],
+                    category: "flower_bouquets",
+                    subcategory: "Anniversary",
+                    material: "Roses",
+                    metaDescription: "Luxury arrangement of 24 premium roses"
+                },
+                {
+                    id: 5,
+                    name: "Spring Tulip Bouquet",
+                    price: 1699,
+                    discount: 12,
+                    originalPrice: 1930,
+                    images: ["https://via.placeholder.com/300x300?text=Tulips"],
+                    category: "flower_bouquets",
+                    subcategory: "Birthday",
+                    material: "Tulips",
+                    metaDescription: "Vibrant tulips in seasonal colors"
+                },
+                {
+                    id: 6,
+                    name: "Wedding Flowers Package",
+                    price: 4999,
+                    discount: 8,
+                    originalPrice: 5430,
+                    images: ["https://via.placeholder.com/300x300?text=Wedding+Flowers"],
+                    category: "flower_bouquets",
+                    subcategory: "Wedding",
+                    material: "Mixed Flowers",
+                    metaDescription: "Complete floral package for your special day"
+                }
+            ];
+        }
+
+        function sortProducts(products, sortType) {
+            switch(sortType) {
+                case "price-low":
+                    return products.sort((a, b) => a.price - b.price);
+                case "price-high":
+                    return products.sort((a, b) => b.price - a.price);
+                case "name-az":
+                    return products.sort((a, b) => a.name.localeCompare(b.name));
+                case "name-za":
+                    return products.sort((a, b) => b.name.localeCompare(a.name));
+                default:
+                    return products;
+            }
+        }
+        
+        // Function to add item to cart
+        async function addToCart(productId, name, price, image) {
+            try {
+                const response = await fetch('/cart/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        productId,
+                        name,
+                        price,
+                        image
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.loginRedirect) {
+                    window.location.href = '/login';
+                    return;
+                }
+
+                if (data.success) {
+                    // Update cart count in UI
+                    const cartCount = document.getElementById('cart-count');
+                    if (cartCount) {
+                        cartCount.textContent = data.cart.reduce((total, item) => total + item.quantity, 0);
+                    }
+                    
+                    // Show success message
+                    showToast('Product added to cart successfully!');
+                } else {
+                    showToast('Failed to add product to cart');
+                }
+
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+                showToast('Failed to add product to cart');
+            }
+        }
+        
+        // Function to toggle the menu
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+        
+        document.getElementById("filterButton").addEventListener("click", () => {
+            document.getElementById("sidebar").classList.toggle("-translate-x-full");
+            document.getElementById("overlay").classList.toggle("hidden");
+        });
+
+        document.getElementById("closeMenu").addEventListener("click", () => {
+            document.getElementById("sidebar").classList.add("-translate-x-full");
+            document.getElementById("overlay").classList.add("hidden");
+        });
+
+        document.getElementById("overlay").addEventListener("click", () => {
+            document.getElementById("sidebar").classList.add("-translate-x-full");
+            document.getElementById("overlay").classList.add("hidden");
+        });
+
+        document.getElementById("showResults").addEventListener("click", () => {
+            loadProducts();
+            document.getElementById("sidebar").classList.add("-translate-x-full");
+            document.getElementById("overlay").classList.add("hidden");
+        });
+
+        document.getElementById("clearFilters").addEventListener("click", () => {
+            filters = {
+                category: "flower_bouquets",
+                subcategory: [], 
+                type: [], 
+                priceRange: null
+            };
+            
+            document.querySelectorAll(".filter").forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            document.querySelectorAll(".filter-price").forEach(radio => {
+                radio.checked = false;
+            });
+            
+            document.getElementById("min-price").value = "";
+            document.getElementById("max-price").value = "";
+            
+            loadProducts();
+        });
+
+        document.querySelectorAll(".filter").forEach(filter => {
+            filter.addEventListener("change", (event) => {
+                const filterType = event.target.dataset.filter;
+                const value = event.target.value;
+
+                if (event.target.checked) {
+                    filters[filterType].push(value);
+                } else {
+                    filters[filterType] = filters[filterType].filter(item => item !== value);
+                }
+                
+                console.log(`Filter changed: ${filterType}`, filters[filterType]);
+            });
+        });
+        
+        document.querySelectorAll(".filter-price").forEach(filter => {
+            filter.addEventListener("change", (event) => {
+                filters.priceRange = event.target.value;
+                
+                document.getElementById("min-price").value = "";
+                document.getElementById("max-price").value = "";
+                
+                console.log("Price range set to:", filters.priceRange);
+            });
+        });
+        
+        const minPriceInput = document.getElementById("min-price");
+        const maxPriceInput = document.getElementById("max-price");
+        
+        function applyCustomPriceRange() {
+            const minPrice = minPriceInput.value ? parseInt(minPriceInput.value) : 0;
+            const maxPrice = maxPriceInput.value ? parseInt(maxPriceInput.value) : 999999999;
+            
+            document.querySelectorAll(".filter-price").forEach(radio => {
+                radio.checked = false;
+            });
+            
+            filters.priceRange = `${minPrice}-${maxPrice}`;
+            console.log("Custom price range set to:", filters.priceRange);
+        }
+        
+        minPriceInput.addEventListener("change", applyCustomPriceRange);
+        maxPriceInput.addEventListener("change", applyCustomPriceRange);
+        
+        document.getElementById("sortBy").addEventListener("change", (event) => {
+            sortOption = event.target.value;
+            console.log("Sort option changed to:", sortOption);
+            loadProducts();
+        });
+
+        // Wait for the DOM to be fully loaded, then fetch products
+        document.addEventListener("DOMContentLoaded", loadProducts);
+
+        // Add cart handling functions
+        async function handleCartClick() {
+            try {
+                const response = await fetch("/user");
+                const data = await response.json();
+                
+                if (data.loggedIn) {
+                    window.location.href = "/cart.html";
+                } else {
+                    window.location.href = "/login";
+                }
+            } catch (error) {
+                console.error("Error checking login status:", error);
+            }
+        }
+
+        async function updateCartCount() {
+            try {
+                const response = await fetch("/cart");
+                const data = await response.json();
+                
+                const cartCount = document.getElementById("cart-count");
+                if (cartCount && data.cart) {
+                    cartCount.textContent = data.cart.reduce((total, item) => total + item.quantity, 0);
+                }
+            } catch (error) {
+                console.error("Error updating cart count:", error);
+            }
+        }
+
+        // Add user authentication functions
+        async function checkUserStatus() {
+            try {
+                let response = await fetch("/user");
+                let data = await response.json();
+                let userActionText = document.getElementById("userActionText");
+
+                if (data.loggedIn) {
+                    userActionText.textContent = "Logout";
+                    document.getElementById("userButton").onclick = handleLogout;
+                } else {
+                    userActionText.textContent = "Login";
+                    document.getElementById("userButton").onclick = handleUserClick;
+                }
+            } catch (error) {
+                console.error("Error checking login status", error);
+            }
+        }
+
+        async function handleUserClick() {
+            window.location.href = "/login";
+        }
+
+        async function handleLogout() {
+            window.location.href = "/logout";
+        }
+
+        // Add wishlist functions
+        async function checkWishlistStatus() {
+            try {
+                const response = await fetch('/api/wishlist');
+                const data = await response.json();
+                
+                if (data.loginRedirect) {
+                    return [];
+                }
+                
+                return data.map(item => item.productId);
+            } catch (error) {
+                console.error('Error checking wishlist status:', error);
+                return [];
+            }
+        }
+
+        async function toggleWishlist(event, productId, name, price, image) {
+            event.stopPropagation(); // Prevent product card click
+            
+            try {
+                const heartIcon = event.currentTarget.querySelector('i');
+                const isInWishlist = heartIcon.classList.contains('fas');
+                
+                const response = await fetch('/api/wishlist', {
+                    method: isInWishlist ? 'DELETE' : 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        productId,
+                        name,
+                        price,
+                        image
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.loginRedirect) {
+                    window.location.href = '/login';
+                    return;
+                }
+
+                if (response.ok) {
+                    // Toggle heart icon
+                    heartIcon.classList.toggle('far');
+                    heartIcon.classList.toggle('fas');
+                    
+                    // Show feedback to user
+                    const message = isInWishlist ? 'Removed from wishlist' : 'Added to wishlist';
+                    showToast(message);
+                }
+            } catch (error) {
+                console.error('Error updating wishlist:', error);
+                showToast('Failed to update wishlist');
+            }
+        }
+
+        // Update the DOMContentLoaded event listener
+        document.addEventListener("DOMContentLoaded", () => {
+            loadProducts();
+            updateCartCount();
+            checkUserStatus();
+        });
+        // First, we need to add the search UI elements to the HTML
+// This code should be run when the document loads
+document.addEventListener("DOMContentLoaded", function() {
+    // Add search overlay and input to the body
+    const searchOverlay = document.createElement('div');
+    searchOverlay.id = 'searchOverlay';
+    searchOverlay.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-start justify-center pt-20';
+    
+    searchOverlay.innerHTML = `
+        <div class="bg-white w-full max-w-2xl rounded-lg shadow-lg overflow-hidden">
+            <div class="p-4 border-b relative">
+                <input type="text" id="searchInput" class="w-full py-2 pl-10 pr-4 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-custom" placeholder="Search products...">
+                <i class="fas fa-search absolute left-7 top-7 text-gray-400"></i>
+                <button id="closeSearch" class="absolute right-6 top-6 text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="searchResults" class="hidden">
+                <div id="searchLoading" class="p-4 text-center">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-custom mx-auto"></div>
+                    <p class="mt-2 text-gray-600">Searching...</p>
+                </div>
+                <div id="searchContent" class="max-h-80 overflow-y-auto"></div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(searchOverlay);
+    
+    // Connect the search button to the overlay
+    const searchButton = document.getElementById('searchButton');
+    searchButton.addEventListener('click', function() {
+        document.getElementById('searchOverlay').classList.remove('hidden');
+        document.getElementById('searchInput').focus();
+        document.body.classList.add('overflow-hidden'); // Prevent scrolling when search is open
+    });
+    
+    // Close search when clicking the close button
+    document.getElementById('closeSearch').addEventListener('click', function() {
+        document.getElementById('searchOverlay').classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+    });
+    
+    // Close search when clicking the overlay background
+    document.getElementById('searchOverlay').addEventListener('click', function(event) {
+        if (event.target === this) {
+            this.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+    });
+
+    // Set up search functionality
+    let searchTimeout;
+
+    document.getElementById("searchInput").addEventListener("input", function() {
+        const query = this.value.trim();
+        const resultsDiv = document.getElementById("searchResults");
+        const loadingDiv = document.getElementById("searchLoading");
+        const contentDiv = document.getElementById("searchContent");
+
+        // Clear previous timeout
+        clearTimeout(searchTimeout);
+
+        if (query.length > 1) {
+            // Show loading state
+            resultsDiv.classList.remove("hidden");
+            loadingDiv.classList.remove("hidden");
+            contentDiv.innerHTML = "";
+
+            // Debounce the search
+            searchTimeout = setTimeout(() => {
+                performSearch(query);
+            }, 300);
+        } else {
+            resultsDiv.classList.add("hidden");
+        }
+    });
+
+    // Also close search with Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            document.getElementById('searchOverlay').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+    });
+});
+
+// Function to perform the search
+async function performSearch(query) {
+    const resultsDiv = document.getElementById("searchResults");
+    const loadingDiv = document.getElementById("searchLoading");
+    const contentDiv = document.getElementById("searchContent");
+
+    try {
+        // For demo purposes, if we can't reach the API, use sample data
+        let data;
+        
+        try {
+            const response = await fetch(`/search?query=${encodeURIComponent(query)}`);
+            data = await response.json();
+        } catch (apiError) {
+            console.warn("API search failed, using sample data:", apiError);
+            // Fallback to sample data if API fails
+            data = getSampleSearchResults(query);
+        }
+        
+        loadingDiv.classList.add("hidden");
+
+        if (data.length === 0) {
+            contentDiv.innerHTML = `
+                <div class="p-4 text-center text-gray-500">
+                    <i class="fas fa-search mb-2 text-2xl"></i>
+                    <p>No products found for "${query}"</p>
+                </div>`;
+        } else {
+            contentDiv.innerHTML = data.map(product => `
+                <div class="p-3 border-b hover:bg-gray-50 cursor-pointer flex items-center" 
+                     onclick="window.location.href='product.html?id=${product.id || product._id}'">
+                    <div class="w-12 h-12 mr-3">
+                        <img src="${product.images?.[0] || product.image}" 
+                             alt="${product.name}" 
+                             class="w-full h-full object-cover rounded">
+                    </div>
+                    <div class="flex-1">
+                        <div class="font-medium text-sm">${product.name}</div>
+                        <div class="text-sm font-semibold">₹${product.price}</div>
+                    </div>
+                </div>`
+            ).join('');
+        }
+    } catch (error) {
+        console.error("Search error:", error);
+        contentDiv.innerHTML = `
+            <div class="p-4 text-center text-red-500">
+                <i class="fas fa-exclamation-circle mb-2 text-2xl"></i>
+                <p>An error occurred while searching</p>
+            </div>`;
+    }
+}
+
+// Sample data function for testing when API is unavailable
+function getSampleSearchResults(query) {
+    query = query.toLowerCase();
+    
+    const allProducts = [
+        {
+            id: 1,
+            name: "Red Roses Bouquet",
+            price: 999,
+            images: ["https://via.placeholder.com/300x300?text=Red+Roses"],
+            category: "flower_bouquets"
+        },
+        {
+            id: 2,
+            name: "Mixed Flower Bouquet",
+            price: 1299,
+            images: ["https://via.placeholder.com/300x300?text=Mixed+Flowers"],
+            category: "flower_bouquets"
+        },
+        {
+            id: 3,
+            name: "White Lilies Arrangement",
+            price: 1499,
+            images: ["https://via.placeholder.com/300x300?text=White+Lilies"],
+            category: "flower_bouquets"
+        },
+        {
+            id: 4,
+            name: "Premium Rose Bouquet",
+            price: 2999,
+            images: ["https://via.placeholder.com/300x300?text=Premium+Roses"],
+            category: "flower_bouquets"
+        },
+        {
+            id: 5,
+            name: "Spring Tulip Bouquet",
+            price: 1699,
+            images: ["https://via.placeholder.com/300x300?text=Tulips"],
+            category: "flower_bouquets"
+        },
+        {
+            id: 6,
+            name: "Wedding Flowers Package",
+            price: 4999,
+            images: ["https://via.placeholder.com/300x300?text=Wedding+Flowers"],
+            category: "flower_bouquets"
+        }
+    ];
+    
+    // Filter products based on the query
+    return allProducts.filter(product => 
+        product.name.toLowerCase().includes(query) || 
+        product.category.toLowerCase().includes(query)
+    );
+}
+    </script>
+
+    <!-- Mobile Menu HTML structure -->
+    <div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="bg-custom-light w-64 h-full overflow-y-auto">
+            <div class="p-4 border-b">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-semibold text-custom-dark">Menu</h2>
+                    <button onclick="toggleMenu()" class="text-custom-dark hover:text-custom-pink">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <nav class="p-4">
+                <ul class="space-y-4">
+                    <li>
+                        <a href="/index.html" class="flex items-center text-custom-dark hover:text-custom-pink hover:bg-custom-peach p-2 rounded transition-colors">
+                            <i class="fas fa-home w-6"></i>Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="flower.html" class="flex items-center text-custom-dark hover:text-custom-pink hover:bg-custom-peach p-2 rounded transition-colors">
+                            <i class="fas fa-shopping-bag w-6"></i>Instagram Shops
+                        </a>
+                    </li>
+                    <li>
+                        <a href="wishlist.html" class="flex items-center text-custom-dark hover:text-custom-pink hover:bg-custom-peach p-2 rounded transition-colors">
+                            <i class="fas fa-heart w-6"></i>Wishlist
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center text-custom-dark hover:text-custom-pink hover:bg-custom-peach p-2 rounded transition-colors">
+                            <i class="fas fa-box"></i>My Orders
+                        </a>
+                    </li>
+                    <li>
+                        <a href="seller_login.html" class="flex items-center text-custom-dark hover:text-custom-pink hover:bg-custom-peach p-2 rounded transition-colors">
+                            <i class="fas fa-cog w-6"></i>Seller Login
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</body>
+</html>

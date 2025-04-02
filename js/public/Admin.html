@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Add Product</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+
+    <div class="container mx-auto mt-10">
+        <h1 class="text-2xl font-bold text-center mb-6">Add Product</h1>
+
+        <!-- ✅ Product Form -->
+        <form id="productForm" class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Product Name</label>
+                <input type="text" id="name" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Meta Description</label>
+                <input type="text" id="metaDescription" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Detailed Description</label>
+                <textarea id="detailedDescription" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+            </div>
+            
+            <!-- ✅ Category Selection (Updated with new categories) -->
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Category</label>
+                <select id="category" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">-- Select Category --</option>
+                    <option value="jewellery">Jewellery</option>
+                    <option value="crochet">Crochet</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="gift_hampers">Gift Hampers</option>
+                    <option value="flower_bouquets">Flower&Bouquets</option>
+                </select>
+            </div>
+
+            <!-- ✅ Subcategory Container -->
+            <div class="mb-4 hidden" id="subcategoryContainer">
+                <label class="block text-gray-700 font-bold mb-2">Subcategory</label>
+                <select id="subcategory" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </select>
+            </div>
+
+            <!-- ✅ Metal Type (Only for Jewellery) -->
+            <div class="mb-4 hidden" id="metalContainer">
+                <label class="block text-gray-700 font-bold mb-2">Metal Type</label>
+                <select id="metal" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="Gold">Gold</option>
+                    <option value="Silver">Silver</option>
+                    <option value="Platinum">Platinum</option>
+                </select>
+            </div>
+
+            <!-- ✅ Occasion Type (For Gift Hampers and Flower&Bouquets) -->
+            <div class="mb-4 hidden" id="occasionContainer">
+                <label class="block text-gray-700 font-bold mb-2">Occasion</label>
+                <select id="occasion" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="Birthday">Birthday</option>
+                    <option value="Anniversary">Anniversary</option>
+                    <option value="Wedding">Wedding</option>
+                    <option value="Valentine">Valentine's Day</option>
+                    <option value="Festival">Festival</option>
+                    <option value="Congratulations">Congratulations</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <!-- ✅ Price Section -->
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Original Price (₹)</label>
+                <input type="number" id="originalPrice" required min="0" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Discount Percentage (%)</label>
+                <input type="number" id="discount" required min="0" max="100" value="0" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Final Price (₹)</label>
+                <input type="number" id="price" required min="0" readonly class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <p class="text-sm text-gray-500 mt-1">Final price will be calculated automatically.</p>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Delivery Charge (Nagpur) ₹</label>
+                <input type="number" id="deliveryChargeNagpur" required min="0" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Delivery Charge (Outside Nagpur) ₹</label>
+                <input type="number" id="deliveryChargeOutside" required min="0" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            
+            <!-- ✅ Image Upload -->
+            <!-- ✅ Image Upload 1 (Required) -->
+<div class="mb-4">
+    <label class="block text-gray-700 font-bold mb-2">Upload Image 1 (Required)</label>
+    <input type="file" id="imageUpload" required accept="image/*" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+</div>
+
+<!-- ✅ Image Upload 2 (Optional) -->
+<div class="mb-4">
+    <label class="block text-gray-700 font-bold mb-2">Upload Image 2 (Optional)</label>
+    <input type="file" id="imageUpload2" accept="image/*" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+</div>
+
+<!-- ✅ Image Upload 3 (Optional) -->
+<div class="mb-4">
+    <label class="block text-gray-700 font-bold mb-2">Upload Image 3 (Optional)</label>
+    <input type="file" id="imageUpload3" accept="image/*" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+</div>
+
+<div id="uploadStatus" class="mb-4 hidden">
+    <div class="flex items-center">
+        <i class="fas fa-spinner fa-spin mr-2 text-blue-500"></i>
+        <span>Uploading images, please wait...</span>
+    </div>
+</div>
+
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
+                Add Product
+            </button>
+        </form>
+
+        <div id="successMessage" class="max-w-lg mx-auto mt-4 p-4 bg-green-100 text-green-700 rounded-lg hidden">
+            <i class="fas fa-check-circle mr-2"></i>
+            <span>Product added successfully!</span>
+        </div>
+
+        <div id="errorMessage" class="max-w-lg mx-auto mt-4 p-4 bg-red-100 text-red-700 rounded-lg hidden">
+            <i class="fas fa-exclamation-circle mr-2"></i>
+            <span id="errorText">Error adding product.</span>
+        </div>
+    </div>
+
+    <!-- ✅ JavaScript (Updated to handle new categories) -->
+    <script>
+        const categorySelect = document.getElementById("category");
+        const subcategoryContainer = document.getElementById("subcategoryContainer");
+        const subcategorySelect = document.getElementById("subcategory");
+        const metalContainer = document.getElementById("metalContainer");
+        const occasionContainer = document.getElementById("occasionContainer");
+        const originalPriceInput = document.getElementById("originalPrice");
+        const discountInput = document.getElementById("discount");
+        const finalPriceInput = document.getElementById("price");
+        const imageUpload = document.getElementById("imageUpload");
+        const uploadStatus = document.getElementById("uploadStatus");
+        const successMessage = document.getElementById("successMessage");
+        const errorMessage = document.getElementById("errorMessage");
+        const errorText = document.getElementById("errorText");
+    
+        const CLOUDINARY_UPLOAD_PRESET = "Acessories";
+        const CLOUDINARY_CLOUD_NAME = "drvug594q";
+    
+        function calculateFinalPrice() {
+            const originalPrice = parseFloat(originalPriceInput.value) || 0;
+            const discount = parseFloat(discountInput.value) || 0;
+            finalPriceInput.value = Math.round(originalPrice * (1 - discount / 100));
+        }
+    
+        originalPriceInput.addEventListener("input", calculateFinalPrice);
+        discountInput.addEventListener("input", calculateFinalPrice);
+    
+        categorySelect.addEventListener("change", function () {
+            const selectedCategory = this.value;
+            subcategorySelect.innerHTML = "";
+    
+            subcategoryContainer.classList.add("hidden");
+            metalContainer.classList.add("hidden");
+            occasionContainer.classList.add("hidden");
+    
+            if (selectedCategory === "jewellery") {
+                subcategoryContainer.classList.remove("hidden");
+                subcategorySelect.innerHTML = `
+                    <option value="Necklaces">Necklaces</option>
+                    <option value="Rings">Rings</option>
+                    <option value="Earrings">Earrings</option>
+                    <option value="Bracelets">Bracelets</option>
+                `;
+                metalContainer.classList.remove("hidden");
+            } else if (selectedCategory === "gift_hampers") {
+                subcategoryContainer.classList.remove("hidden");
+                subcategorySelect.innerHTML = `
+                    <option value="Food">Food Hampers</option>
+                    <option value="Beauty">Beauty & Spa Hampers</option>
+                    <option value="Corporate">Corporate Hampers</option>
+                    <option value="Personalized">Personalized Hampers</option>
+                    <option value="Festive">Festive Hampers</option>
+                `;
+                occasionContainer.classList.remove("hidden");
+            } else if (selectedCategory === "flower_bouquets") {
+                subcategoryContainer.classList.remove("hidden");
+                subcategorySelect.innerHTML = `
+                    <option value="Fresh">Fresh Flowers</option>
+                    <option value="Artificial">Artificial Flowers</option>
+                    <option value="Mixed">Mixed Arrangements</option>
+                    <option value="Exotic">Exotic Flowers</option>
+                `;
+                occasionContainer.classList.remove("hidden");
+            }
+        });
+    
+        // Hide messages when user starts interacting with form
+        document.querySelectorAll("input, select, textarea").forEach(element => {
+            element.addEventListener("focus", () => {
+                successMessage.classList.add("hidden");
+                errorMessage.classList.add("hidden");
+            });
+        });
+    
+        document.getElementById("productForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+    
+            successMessage.classList.add("hidden");
+            errorMessage.classList.add("hidden");
+            uploadStatus.classList.remove("hidden");
+    
+            try {
+                async function uploadImage(file) {
+                    if (!file) return null;
+                    const formData = new FormData();
+                    formData.append("file", file);
+                    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+    
+                    const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+                        method: "POST",
+                        body: formData
+                    });
+    
+                    const data = await response.json();
+                    if (!data.secure_url) throw new Error("Image upload failed");
+                    return data.secure_url;
+                }
+    
+                const imageUrl1 = await uploadImage(imageUpload.files[0]);
+                const imageUrl2 = await uploadImage(document.getElementById("imageUpload2").files[0]);
+                const imageUrl3 = await uploadImage(document.getElementById("imageUpload3").files[0]);
+    
+                const name = document.getElementById("name").value;
+                const metaDescription = document.getElementById("metaDescription").value;
+const detailedDescription = document.getElementById("detailedDescription").value;
+                const category = categorySelect.value;
+                let subcategory = subcategorySelect.value || null;
+                let metal = category === "jewellery" ? document.getElementById("metal").value : null;
+                let occasion = ["gift_hampers", "flower_bouquets"].includes(category) 
+                    ? document.getElementById("occasion").value.split(",").map(o => o.trim()) 
+                    : [];
+    
+                const originalPrice = parseFloat(originalPriceInput.value);
+                const discount = parseFloat(discountInput.value);
+                const price = parseFloat(finalPriceInput.value);
+    
+                // ✅ Define productData correctly
+                const productData = {
+    name,
+    metaDescription,
+    detailedDescription,
+    category,
+    subcategory,
+    metal,
+    occasion,
+    originalPrice,
+    discount,
+    price,
+    deliveryChargeNagpur: parseFloat(document.getElementById("deliveryChargeNagpur").value),
+    deliveryChargeOutside: parseFloat(document.getElementById("deliveryChargeOutside").value),
+    images: [imageUrl1, imageUrl2, imageUrl3].filter(img => img)
+};
+
+
+                console.log("Sending product data to server:", productData);
+    
+                const response = await fetch("http://localhost:5000/api/products", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(productData)
+                });
+    
+                const responseData = await response.json();
+    
+                if (response.ok) {
+                    console.log("Product added successfully:", responseData);
+                    successMessage.classList.remove("hidden");
+                    document.getElementById("productForm").reset();
+                } else {
+                    console.error("Server error:", responseData);
+                    errorText.textContent = responseData.error || "Error adding product";
+                    errorMessage.classList.remove("hidden");
+                }
+            } catch (error) {
+                console.error("Full error details:", error);
+                errorText.textContent = error.message || "Error processing request";
+                errorMessage.classList.remove("hidden");
+            } finally {
+                uploadStatus.classList.add("hidden");
+            }
+        });
+    </script>
+    
+</body>
+</html>

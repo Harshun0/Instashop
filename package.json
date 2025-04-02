@@ -1,0 +1,21 @@
+{
+  "name": "instashop",
+  "version": "1.0.0",
+  "description": "InstaShop E-commerce Platform",
+  "main": "js/server.js",
+  "scripts": {
+    "start": "node js/start.js",
+    "dev": "nodemon js/start.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-openid-connect": "^2.17.1",
+    "mongoose": "^7.0.3",
+    "node-telegram-bot-api": "^0.61.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+} 

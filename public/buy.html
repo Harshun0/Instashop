@@ -1,0 +1,130 @@
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        // First check login status
+        const userResponse = await fetch('/user');
+        const userData = await userResponse.json();
+        
+        if (!userData.loggedIn) {
+            window.location.href = '/login';
+            return;
+        }
+
+        // Fetch cart items
+        const cartResponse = await fetch('/cart');
+        if (!cartResponse.ok) {
+            throw new Error('Failed to fetch cart data');
+        }
+        
+        const cartData = await cartResponse.json();
+        
+        if (!cartData.cart || cartData.cart.length === 0) {
+            document.body.innerHTML = `
+                <div class="text-center mt-20 p-4">
+                    <p class="text-gray-500 font-semibold text-lg mb-4">Your cart is empty</p>
+                    <a href="/" class="text-blue-500 hover:underline">Continue Shopping</a>
+                </div>
+            `;
+            return;
+        }
+
+        // Update product details section to show all cart items
+        const productDetailsContainer = document.getElementById("product-details");
+        productDetailsContainer.innerHTML = '';  // Clear loading state
+
+        cartData.cart.forEach(item => {
+            const itemElement = document.createElement('div');
+            itemElement.className = 'flex items-center mb-4 w-full';
+            itemElement.innerHTML = `
+                <img src="${item.image}" 
+                     alt="${item.name}" 
+                     class="w-20 h-20 object-cover rounded-lg"/>
+                <div class="flex-1 ml-4">
+                    <h4 class="font-medium">${item.name}</h4>
+                    <p class="text-gray-600 text-sm">Quantity: ${item.quantity}</p>
+                    <span class="font-semibold">₹${(item.price * item.quantity).toLocaleString()}</span>
+                </div>
+            `;
+            productDetailsContainer.appendChild(itemElement);
+        });
+
+        // Calculate totals
+        const subtotal = cartData.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+        const shipping = 40; // Default shipping charge
+        const tax = Math.round(subtotal * 0.08);
+        const total = subtotal + shipping + tax;
+
+        // Update order summary
+        document.querySelector('[data-summary="subtotal"]').textContent = `₹${subtotal.toLocaleString()}`;
+        document.querySelector('[data-summary="shipping"]').textContent = `₹${shipping}`;
+        document.querySelector('[data-summary="tax"]').textContent = `₹${tax.toLocaleString()}`;
+        document.querySelector('[data-summary="total"]').textContent = `₹${total.toLocaleString()}`;
+        document.querySelector('[data-summary="pay-button"]').textContent = `Pay Now - ₹${total.toLocaleString()}`;
+
+        // Update window.updateOrderSummary function to handle cart items
+        window.updateOrderSummary = (shippingCharge = shipping) => {
+            const tax = Math.round(subtotal * 0.08);
+            const total = subtotal + shippingCharge + tax;
+
+            document.querySelector('[data-summary="subtotal"]').textContent = `₹${subtotal.toLocaleString()}`;
+            document.querySelector('[data-summary="shipping"]').textContent = shippingCharge === 0 ? 'Enter pincode to check' : `₹${shippingCharge.toLocaleString()}`;
+            document.querySelector('[data-summary="tax"]').textContent = `₹${tax.toLocaleString()}`;
+            document.querySelector('[data-summary="total"]').textContent = `₹${total.toLocaleString()}`;
+            document.querySelector('[data-summary="pay-button"]').textContent = `Pay Now - ₹${total.toLocaleString()}`;
+            
+            return { subtotal, shipping: shippingCharge, tax, total };
+        };
+
+        // Add event listeners for payment buttons
+        document.querySelector('button.border.border-gray-300').addEventListener('click', async (e) => {
+            e.preventDefault();
+            
+            const validation = validateForm();
+            if (!validation.isValid) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/place-cod-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        items: cartData.cart,
+                        customer: {
+                            name: validation.data.fullName,
+                            address: `${validation.data.streetAddress}, ${validation.data.city}, ${validation.data.state} - ${validation.data.pincode}`,
+                            phone: validation.data.phone
+                        },
+                        pricing: window.updateOrderSummary()
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    showToast('Order placed successfully! We will contact you shortly.', 'success');
+                    setTimeout(() => window.location.href = '/', 2000);
+                } else {
+                    throw new Error(result.error || 'Failed to place order');
+                }
+            } catch (error) {
+                console.error('Error placing order:', error);
+                showToast(error.message || 'Failed to place order. Please try again.', 'error');
+            }
+        });
+
+        // Similar update for the Razorpay payment button...
+
+    } catch (error) {
+        console.error("Error:", error);
+        document.body.innerHTML = `
+            <div class="text-center mt-20 p-4">
+                <p class="text-red-500 font-semibold text-lg mb-4">Error: ${error.message || 'Failed to load cart details'}</p>
+                <a href="/cart.html" class="text-blue-500 hover:underline">Return to Cart</a>
+            </div>
+        `;
+    }
+});
+</script> 

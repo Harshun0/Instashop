@@ -1,0 +1,247 @@
+<div class="px-4 py-2">
+    <div class="relative">
+        <input type="text" 
+               id="searchInput" 
+               placeholder="Search products or sellers..." 
+               class="w-full px-4 py-2 pl-10 bg-gray-100 rounded-lg text-sm border-none focus:ring-2 focus:ring-custom focus:outline-none"
+               autocomplete="off"/>
+        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+    </div>
+    <div id="searchResults" class="absolute left-0 right-0 bg-white w-full shadow-lg mt-1 rounded-lg max-h-96 overflow-y-auto z-50 hidden">
+        <div id="searchLoading" class="p-4 text-center hidden">
+            <i class="fas fa-spinner fa-spin text-custom"></i> Searching...
+        </div>
+        <div id="searchContent"></div>
+        <div id="searchViewAll" class="p-3 text-center border-t hidden">
+            <a href="#" class="text-custom hover:underline">View all results</a>
+        </div>
+    </div>
+</div>
+
+<script>
+let searchTimeout;
+const searchInput = document.getElementById("searchInput");
+const searchResults = document.getElementById("searchResults");
+const searchLoading = document.getElementById("searchLoading");
+const searchContent = document.getElementById("searchContent");
+const searchViewAll = document.getElementById("searchViewAll");
+
+// Handle input changes
+searchInput.addEventListener("input", function() {
+    const query = this.value.trim();
+    
+    // Clear previous timeout
+    clearTimeout(searchTimeout);
+    
+    if (query.length >= 2) {
+        // Show loading state
+        searchResults.classList.remove("hidden");
+        searchLoading.classList.remove("hidden");
+        searchContent.innerHTML = "";
+        searchViewAll.classList.add("hidden");
+        
+        // Debounce the search
+        searchTimeout = setTimeout(() => {
+            performSearch(query);
+        }, 300);
+    } else {
+        searchResults.classList.add("hidden");
+    }
+});
+
+// Perform search
+async function performSearch(query) {
+    try {
+        const response = await fetch(`/search?query=${encodeURIComponent(query)}`);
+        const data = await response.json();
+        
+        searchLoading.classList.add("hidden");
+        
+        if (data.error) {
+            searchContent.innerHTML = `
+                <div class="p-4 text-center text-red-500">
+                    <i class="fas fa-exclamation-circle mb-2"></i>
+                    <p>Error occurred while searching</p>
+                </div>`;
+            return;
+        }
+        
+        if (data.length === 0) {
+            searchContent.innerHTML = `
+                <div class="p-4 text-center text-gray-500">
+                    <p>No products found for "${query}"</p>
+                    <p class="text-sm mt-1">Try searching with different keywords</p>
+                </div>`;
+            return;
+        }
+        
+        // Updated search results display with proper image handling
+        searchContent.innerHTML = data.map(product => `
+            <a href="/product.html?id=${product._id}" 
+               class="flex items-center p-3 hover:bg-gray-50 border-b transition-colors duration-200 cursor-pointer">
+                <div class="w-16 h-16 flex-shrink-0 bg-gray-100 rounded overflow-hidden">
+                    <img src="${product.image}" 
+                         alt="${product.name}"
+                         class="w-full h-full object-cover"
+                         onerror="this.onerror=null; this.src='/placeholder.jpg';">
+                </div>
+                <div class="ml-3 flex-grow">
+                    <div class="font-medium text-sm">${product.name}</div>
+                    <div class="text-xs text-gray-500 mt-0.5">${product.category}</div>
+                    <div class="text-sm font-semibold mt-0.5">₹${product.price.toLocaleString('en-IN')}</div>
+                </div>
+                <i class="fas fa-chevron-right text-gray-400 ml-2"></i>
+            </a>
+        `).join('');
+        
+        if (data.length > 0) {
+            searchViewAll.classList.remove("hidden");
+            searchViewAll.querySelector('a').href = `/search-results?query=${encodeURIComponent(query)}`;
+        }
+
+        // Debug log
+        console.log('Rendered products:', data);
+    } catch (error) {
+        console.error("Search error:", error);
+        searchContent.innerHTML = `
+            <div class="p-4 text-center text-red-500">
+                <i class="fas fa-exclamation-circle mb-2"></i>
+                <p>An error occurred while searching</p>
+            </div>`;
+    }
+}
+
+// Update keyboard navigation
+searchInput.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") {
+        searchResults.classList.add("hidden");
+    } else if (e.key === "Enter" && !searchResults.classList.contains("hidden")) {
+        e.preventDefault();
+        const firstResult = searchContent.querySelector("a");
+        if (firstResult) {
+            window.location.href = firstResult.href;
+        }
+    }
+});
+
+// Close search results when clicking outside
+document.addEventListener("click", function(e) {
+    if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+        searchResults.classList.add("hidden");
+    }
+});
+
+// Prevent form submission
+searchInput.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        e.preventDefault();
+    }
+});
+
+const products = [
+    {
+        id: "silvi-bracelet",  // Add unique IDs for each product
+        name: "Anti Tarnish Bracelet",
+        price: "₹749",
+        image: "https://res.cloudinary.com/drvug594q/image/upload/v1741118653/2025-03-05_01.33.44_a1cmmj.jpg",
+        seller: "Silvi Collection",
+        sellerLogo: "https://res.cloudinary.com/drvug594q/image/upload/v1741116017/273396200_710789520084042_4375971845209788437_n_zmscg3.jpg"
+    },
+    {
+        id: "apsara-resin",
+        name: "Full Resin Set",
+        price: "₹4000",
+        image: "https://res.cloudinary.com/drvug594q/image/upload/v1741118653/2025-03-05_01.33.31_bweidk.jpg",
+        seller: "Apsara Angan",
+        sellerLogo: "https://res.cloudinary.com/drvug594q/image/upload/v1741116017/430396883_7263228333744514_1885622215148202771_n_nvibjr.jpg"
+    }
+];
+
+const container = document.getElementById("product-container");
+
+products.forEach(product => {
+    const productHTML = `
+        <article class="bg-white rounded-lg shadow-sm overflow-hidden p-4 md:p-6 lg:p-8 flex flex-col">
+            <img src="${product.image}" 
+                class="w-full md:w-full lg:w-full h-40 sm:h-48 md:h-72 lg:h-80 object-contain bg-white rounded" 
+                alt="${product.name}"/>
+            <div class="p-3 md:p-4 lg:p-5 w-full">
+                <div class="flex items-center mb-2">
+                    <img src="${product.sellerLogo}" class="w-6 h-6 md:w-8 md:h-8 rounded-full mr-2" alt="${product.seller} logo"/>
+                    <span class="text-xs md:text-sm lg:text-base text-gray-500">${product.seller}</span>
+                    <i class="fas fa-check-circle text-custom ml-1 text-xs md:text-sm"></i>
+                </div>
+                <h3 class="text-sm md:text-lg lg:text-xl font-medium mb-1">${product.name}</h3>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm md:text-lg lg:text-xl font-bold">${product.price}</span>
+                    <button 
+                        onclick="addToCart('${product.id}', '${product.name}', '${product.price}', '${product.image}')"
+                        class="rounded bg-custom text-white text-xs md:text-sm lg:text-base px-3 py-1 md:px-4 md:py-2 hover:bg-custom/90 transition-colors">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+        </article>
+    `;
+    container.innerHTML += productHTML;
+});
+
+// Add cart functionality
+function addToCart(productId, name, price, image) {
+    // Get existing cart items from localStorage
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    // Check if product already exists in cart
+    const existingProduct = cart.find(item => item.id === productId);
+    
+    if (existingProduct) {
+        existingProduct.quantity += 1;
+    } else {
+        cart.push({
+            id: productId,
+            name: name,
+            price: price,
+            image: image,
+            quantity: 1
+        });
+    }
+    
+    // Save updated cart back to localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+    // Update cart count in header
+    updateCartCount();
+    
+    // Show success message
+    showNotification('Product added to cart!');
+}
+
+// Update cart count in header
+function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+    const cartCountElement = document.querySelector('.fa-shopping-cart + span');
+    if (cartCountElement) {
+        cartCountElement.textContent = totalItems;
+    }
+}
+
+// Show notification
+function showNotification(message) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg';
+    notification.textContent = message;
+    
+    // Add to document
+    document.body.appendChild(notification);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
+// Initialize cart count when page loads
+updateCartCount();
+</script> 

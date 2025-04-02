@@ -1,0 +1,217 @@
+<script>
+    // Add these functions at the top of your script section
+    async function checkLoginStatus() {
+        try {
+            const response = await fetch('/user');
+            const data = await response.json();
+            return data.loggedIn;
+        } catch (error) {
+            console.error('Error checking login status:', error);
+            return false;
+        }
+    }
+
+    // Update the cart button HTML first
+    document.querySelector('.flex.items-center.space-x-4').innerHTML = `
+        <button class="text-gray-500 hover:text-black transition-colors duration-200" id="searchButton">
+            <i class="fas fa-search text-xl"></i>
+        </button>
+        <button onclick="handleCartClick()" class="text-gray-600 relative hover:text-black transition-colors duration-200">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count" class="absolute -top-2 -right-2 bg-custom text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">0</span>
+        </button>
+        <button id="userButton" class="text-gray-600 hover:text-black transition-colors duration-200">
+            <i class="fas fa-user"></i>
+            <span id="userActionText">Login</span>
+        </button>
+    `;
+
+    // Add cart functionality
+    async function handleCartClick() {
+        const isLoggedIn = await checkLoginStatus();
+        if (isLoggedIn) {
+            window.location.href = '/cart.html';
+        } else {
+            window.location.href = '/login';
+        }
+    }
+
+    async function updateCartCount() {
+        try {
+            const response = await fetch('/cart');
+            const data = await response.json();
+            const cartCount = document.getElementById('cart-count');
+            if (cartCount && data.cart) {
+                cartCount.textContent = data.cart.reduce((total, item) => total + item.quantity, 0);
+            }
+        } catch (error) {
+            console.error('Error updating cart count:', error);
+        }
+    }
+
+    async function addToCart(productId, name, price, image) {
+        try {
+            const isLoggedIn = await checkLoginStatus();
+            if (!isLoggedIn) {
+                window.location.href = '/login';
+                return;
+            }
+
+            const response = await fetch('/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    productId,
+                    name,
+                    price,
+                    image,
+                    quantity: 1
+                })
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                await updateCartCount();
+                alert('Product added to cart successfully!');
+            } else {
+                alert('Failed to add product to cart');
+            }
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+            alert('Failed to add product to cart');
+        }
+    }
+
+    // Add wishlist functionality
+    async function checkWishlistStatus() {
+        try {
+            const response = await fetch('/api/wishlist');
+            const data = await response.json();
+            
+            if (data.loginRedirect) {
+                return [];
+            }
+            
+            return data.map(item => item.productId);
+        } catch (error) {
+            console.error('Error checking wishlist status:', error);
+            return [];
+        }
+    }
+
+    async function toggleWishlist(event, productId, name, price, image) {
+        event.stopPropagation();
+        try {
+            const isLoggedIn = await checkLoginStatus();
+            if (!isLoggedIn) {
+                window.location.href = '/login';
+                return;
+            }
+
+            const heartIcon = event.currentTarget.querySelector('i');
+            const isInWishlist = heartIcon.classList.contains('fas');
+
+            const response = await fetch('/api/wishlist', {
+                method: isInWishlist ? 'DELETE' : 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    productId,
+                    name,
+                    price,
+                    image
+                })
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                heartIcon.classList.toggle('far');
+                heartIcon.classList.toggle('fas');
+                const message = isInWishlist ? 'Removed from wishlist' : 'Added to wishlist';
+                alert(message);
+            }
+        } catch (error) {
+            console.error('Error updating wishlist:', error);
+            alert('Failed to update wishlist');
+        }
+    }
+
+    // Update the displayProducts function
+    async function displayProducts(products) {
+        const productList = document.getElementById("product-list");
+        productList.innerHTML = "";
+
+        if (products.length === 0) {
+            productList.innerHTML = `<p class="text-gray-600 col-span-full text-center py-10">No products found.</p>`;
+            return;
+        }
+
+        // Get wishlist status for all products
+        const wishlistItems = await checkWishlistStatus();
+
+        products.forEach(product => {
+            const discount = product.discount || 0;
+            const originalPrice = product.originalPrice || Math.round(product.price / (1 - discount / 100));
+            const isInWishlist = wishlistItems.includes(product._id);
+            const heartClass = isInWishlist ? 'fas' : 'far';
+
+            productList.innerHTML += `
+                <div class="bg-white rounded-md shadow-sm overflow-hidden cursor-pointer product-card">
+                    <div class="p-4" onclick="redirectToProduct('${product._id}')">
+                        <img src="${product.images[0]}" class="object-contain object-center w-full h-48 mx-auto"/>
+                        <div class="mt-4 text-center">
+                            <h3 class="text-sm font-medium text-gray-900">${product.name}</h3>
+                            <p class="text-xs text-gray-500 mt-1">${product.description || 'Stylish clothing item'}</p>
+                            <div class="mt-2 flex justify-center items-center space-x-2">
+                                <span class="text-gray-500 line-through text-sm">₹${originalPrice}</span>
+                                <span class="font-medium">₹${product.price}</span>
+                                <span class="text-green-600 text-sm">${discount}% Off</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center border-t">
+                        <button onclick="toggleWishlist(event, '${product._id}', '${product.name}', ${product.price}, '${product.images[0]}')" 
+                                class="p-2 text-pink-500 hover:text-pink-700 flex-none">
+                            <i class="${heartClass} fa-heart heart-icon"></i>
+                        </button>
+                        <button onclick="addToCart('${product._id}', '${product.name}', ${product.price}, '${product.images[0]}')" 
+                                class="flex-1 bg-pink-500 text-white py-3 hover:bg-pink-600 transition-colors">
+                            Add To Bag
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    // Update user status
+    async function updateUserStatus() {
+        try {
+            const isLoggedIn = await checkLoginStatus();
+            const userActionText = document.getElementById("userActionText");
+            const userButton = document.getElementById("userButton");
+
+            if (isLoggedIn) {
+                userActionText.textContent = "Account";
+                userButton.onclick = () => window.location.href = '/account.html';
+            } else {
+                userActionText.textContent = "Login";
+                userButton.onclick = () => window.location.href = '/login';
+            }
+        } catch (error) {
+            console.error('Error updating user status:', error);
+        }
+    }
+
+    // Update the initialization
+    document.addEventListener("DOMContentLoaded", async () => {
+        await loadProducts();
+        await updateCartCount();
+        await updateUserStatus();
+    });
+
+    // ... rest of your existing code ...
+</script> 

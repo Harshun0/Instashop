@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Settings</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom-v2.css" rel="stylesheet">    <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#4F46E5" data-border-radius='small'></script>
+</head>
+<body class="bg-gray-50 font-['Inter']">
+    <div class="max-w-[375px] mx-auto min-h-screen pb-20">
+        <header class="sticky top-0 z-50 bg-white border-b border-gray-100 px-4 py-4 flex items-center justify-between">            <button class="text-gray-700">
+                <i class="fas fa-arrow-left text-lg"></i>
+            </button>
+            <h1 class="text-lg font-semibold">Settings</h1>
+            <div class="w-8"></div>
+        </header>
+
+        <div class="px-4 py-6">
+            <div class="flex items-center space-x-4 mb-8">                <div class="w-16 h-16 rounded-full overflow-hidden">
+                    <img src="https://creatie.ai/ai/api/search-image?query=professional headshot of a young business woman with blonde hair, wearing a blue blazer, natural makeup, bright friendly smile, high quality studio lighting, clean background&width=200&height=200&orientation=squarish&flag=dd6fed73-e159-4d34-ac36-389956e41f72" alt="Profile" class="w-full h-full object-cover">                </div>
+                <div class="flex-1">
+                    <h2 class="font-semibold">Emma Thompson</h2>
+                    <p class="text-sm text-gray-500">emma.thompson@example.com</p>
+                </div>
+                <button class="text-custom">
+                    <i class="fas fa-pen text-sm"></i>
+                </button>
+            </div>
+
+            <section class="space-y-6">
+                <div class="bg-white rounded-lg p-4 space-y-4">                    <h3 class="font-semibold mb-3">Personal Information</h3>
+                    <div class="flex items-center justify-between">                        <div>
+                            <p class="text-sm text-gray-500">Shipping Address</p>
+                            <p class="text-sm">123 Park Avenue, New York, NY 10001</p>
+                        </div>
+                        <button class="text-gray-400">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="flex items-center justify-between">                        <div>
+                            <p class="text-sm text-gray-500">Phone Number</p>
+                            <p class="text-sm">+1 (555) 123-4567</p>
+                        </div>
+                        <button class="text-gray-400">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg p-4 space-y-4">                    <h3 class="font-semibold mb-3">Shopping Preferences</h3>
+                    <div class="flex items-center justify-between">                        <p class="text-sm">Order Notifications</p>
+                        <label class="relative inline-flex items-center cursor-pointer">                            <input type="checkbox" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-custom"></div>
+                        </label>
+                    </div>
+                    <div class="flex items-center justify-between">                        <p class="text-sm">Promotional Emails</p>
+                        <label class="relative inline-flex items-center cursor-pointer">                            <input type="checkbox" class="sr-only peer">
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-custom"></div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg p-4 space-y-4">                    <h3 class="font-semibold mb-3">Security</h3>
+                    <div class="flex items-center justify-between">                        <p class="text-sm">Change Password</p>
+                        <button class="text-gray-400">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="flex items-center justify-between">                        <p class="text-sm">Two-Factor Authentication</p>
+                        <label class="relative inline-flex items-center cursor-pointer">                            <input type="checkbox" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-custom"></div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg p-4 space-y-4">                    <h3 class="font-semibold mb-3">Language & Region</h3>
+                    <div class="flex items-center justify-between">                        <p class="text-sm">Language</p>
+                        <select class="text-sm text-gray-700 bg-transparent border-none appearance-none pr-8">                            <option>English (US)</option>
+                            <option>Spanish</option>
+                            <option>French</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center justify-between">                        <p class="text-sm">Currency</p>
+                        <select class="text-sm text-gray-700 bg-transparent border-none appearance-none pr-8">                            <option>USD ($)</option>
+                            <option>EUR (€)</option>
+                            <option>GBP (£)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg p-4 space-y-4">                    <h3 class="font-semibold mb-3">Help & Support</h3>
+                    <a href="#" class="flex items-center justify-between text-sm">                        <span>FAQ</span>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </a>                    <a href="#" class="flex items-center justify-between text-sm">
+                        <span>Contact Support</span>                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </a>
+                    <a href="#" class="flex items-center justify-between text-sm">                        <span>Privacy Policy</span>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </a>                </div>
+
+                <button class="w-full py-3 text-red-600 font-medium !rounded-button bg-red-50">
+                    Sign Out
+                </button>            </section>
+        </div>
+    </div>
+</body>
+</html>

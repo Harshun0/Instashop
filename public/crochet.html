@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crochet Collection</title>
+    <!-- Add these CSS links if not already present -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&amp;display=swap" rel="stylesheet"/>
+    
+    <!-- Add this style for heart icon animation -->
+    <style>
+        .heart-icon:hover {
+            transform: scale(1.2);
+            transition: transform 0.2s ease;
+        }
+        
+        /* Toast styles */
+        #toast-container {
+            position: fixed;
+            top: 32px;
+            right: 1rem;
+            z-index: 9999;
+        }
+        
+        .toast {
+            min-width: 300px;
+            max-width: 400px;
+            background-color: #22c55e;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            animation: slideIn 0.3s ease-in-out;
+        }
+        
+        .toast.error {
+            background-color: #ef4444;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        
+        .toast.hide {
+            animation: slideOut 0.3s ease-in-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-inter">
+    <div id="toast-container"></div>
+    <div class="min-h-screen flex flex-col">
+        <!-- Header with Logo, Centered Title, Search & Cart -->
+        <header class="bg-white shadow-sm fixed w-full z-50">
+            <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <button class="text-gray-600 mr-4" id="menu-button" onclick="toggleMenu()">
+                            <i class="fas fa-bars text-xl"></i>
+                        </button>
+                        <h1 class="font-[&#39;Pacifico&#39;] text-2xl text-custom mr-auto">InstaShop</h1>
+                    </div>
+                    <h1 class="text-xl font-semibold text-gray-900 text-center flex-1">Crochet Collection</h1>
+                    <div class="flex items-center space-x-4">
+                        <button class="text-gray-500 hover:text-black transition-colors duration-200" id="searchButton">
+                            <i class="fas fa-search text-xl"></i>
+                        </button>
+                        <button onclick="handleCartClick()" class="text-gray-600 relative hover:text-black transition-colors duration-200 relative">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span id="cart-count" class="absolute -top-2 -right-2 bg-custom text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">0</span>
+                        </button>
+                        <button id="userButton" class="text-gray-600 hover:text-black transition-colors duration-200 relative">
+                            <i class="fas fa-user"></i> 
+                            <span id="userActionText">Login</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Rest of your existing content -->
+        
+    </div>
+
+    <!-- Add this script section at the end of your body tag -->
+    <script>
+        // Toast notification function
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            toast.className = `toast ${type === 'error' ? 'error' : ''}`;
+            toast.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} mr-2"></i>
+                <span class="flex-grow">${message}</span>
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('hide');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Filter and Product Loading
+        let filters = {
+            category: "crochet",
+            subcategory: [],
+            material: [],
+            priceRange: null
+        };
+        
+        let sortOption = "default";
+
+        async function loadProducts() {
+            // ... existing loadProducts code ...
+        }
+
+        async function displayProducts(products) {
+            // ... existing displayProducts code ...
+        }
+
+        // Cart Functions
+        async function handleCartClick() {
+            try {
+                const response = await fetch("/user");
+                const data = await response.json();
+                
+                if (data.loggedIn) {
+                    window.location.href = "/cart.html";
+                } else {
+                    window.location.href = "/login";
+                }
+            } catch (error) {
+                console.error("Error checking login status:", error);
+            }
+        }
+
+        async function updateCartCount() {
+            try {
+                const response = await fetch("/cart");
+                const data = await response.json();
+                
+                const cartCount = document.getElementById("cart-count");
+                if (cartCount && data.cart) {
+                    cartCount.textContent = data.cart.reduce((total, item) => total + item.quantity, 0);
+                }
+            } catch (error) {
+                console.error("Error updating cart count:", error);
+            }
+        }
+
+        async function addToCart(productId, name, price, image) {
+            try {
+                const response = await fetch('/cart/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        productId,
+                        name,
+                        price,
+                        image
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.loginRedirect) {
+                    window.location.href = '/login';
+                    return;
+                }
+
+                if (data.success) {
+                    const cartCount = document.getElementById('cart-count');
+                    if (cartCount) {
+                        cartCount.textContent = data.cart.reduce((total, item) => total + item.quantity, 0);
+                    }
+                    showToast('Product added to cart successfully!');
+                } else {
+                    showToast('Failed to add product to cart', 'error');
+                }
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+                showToast('Failed to add product to cart', 'error');
+            }
+        }
+
+        // Wishlist Functions
+        async function checkWishlistStatus() {
+            try {
+                const response = await fetch('/api/wishlist');
+                const data = await response.json();
+                
+                if (data.loginRedirect) {
+                    return [];
+                }
+                return data.map(item => item.productId);
+            } catch (error) {
+                console.error('Error checking wishlist status:', error);
+                return [];
+            }
+        }
+
+        async function toggleWishlist(event, productId, name, price, image) {
+            event.stopPropagation();
+            
+            try {
+                const heartIcon = event.currentTarget.querySelector('i');
+                const isInWishlist = heartIcon.classList.contains('fas');
+                
+                const response = await fetch('/api/wishlist', {
+                    method: isInWishlist ? 'DELETE' : 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        productId,
+                        name,
+                        price,
+                        image
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.loginRedirect) {
+                    window.location.href = '/login';
+                    return;
+                }
+
+                if (response.ok) {
+                    heartIcon.classList.toggle('far');
+                    heartIcon.classList.toggle('fas');
+                    const message = isInWishlist ? 'Removed from wishlist' : 'Added to wishlist';
+                    showToast(message);
+                }
+            } catch (error) {
+                console.error('Error updating wishlist:', error);
+                showToast('Failed to update wishlist', 'error');
+            }
+        }
+
+        // User Account Functions
+        async function checkUserStatus() {
+            try {
+                let response = await fetch("/user");
+                let data = await response.json();
+                let userActionText = document.getElementById("userActionText");
+        
+                if (data.loggedIn) {
+                    userActionText.textContent = "Logout";
+                    document.getElementById("userButton").onclick = handleLogout;
+                } else {
+                    userActionText.textContent = "Login";
+                    document.getElementById("userButton").onclick = handleUserClick;
+                }
+            } catch (error) {
+                console.error("Error checking login status", error);
+                showToast("Error checking login status", "error");
+            }
+        }
+
+        function handleUserClick() {
+            window.location.href = "/login";
+        }
+
+        function handleLogout() {
+            window.location.href = "/logout";
+        }
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Event Listeners
+        document.addEventListener("DOMContentLoaded", () => {
+            loadProducts();
+            updateCartCount();
+            checkUserStatus();
+        });
+
+        // Filter button opens sidebar
+        document.getElementById("filterButton").addEventListener("click", () => {
+            document.getElementById("sidebar").classList.toggle("-translate-x-full");
+            document.getElementById("overlay").classList.toggle("hidden");
+        });
+
+        document.getElementById("closeMenu").addEventListener("click", () => {
+            document.getElementById("sidebar").classList.add("-translate-x-full");
+            document.getElementById("overlay").classList.add("hidden");
+        });
+
+        document.getElementById("overlay").addEventListener("click", () => {
+            document.getElementById("sidebar").classList.add("-translate-x-full");
+            document.getElementById("overlay").classList.add("hidden");
+        });
+
+        // ... keep all other existing event listeners ...
+    </script>
+</body>
+</html>
