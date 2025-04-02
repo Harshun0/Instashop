@@ -1,5 +1,4 @@
 require("dotenv").config();
-console.log('TWILIO_ACCOUNT_SID:', process.env.TWILIO_ACCOUNT_SID);  // Should show your Twilio SID
 
 const TelegramBot = require('node-telegram-bot-api');
 const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: false });
@@ -8,8 +7,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
-const otpController = require('../controllers/otpController');
-const otpRoutes = require('./routes/otpRoutes');
+const { auth } = require("express-openid-connect");
+
 const User = require("./models/User"); 
 // const jewelleryRoutes = require("./routes/jewelleryRoutes");
 // const authRoutes = require("./routes/auth");
@@ -19,7 +18,6 @@ const sellerRoutes = require("./routes/sellers"); // Import sellers.js
 const shopRoutes = require("./routes/shopRoutes"); // Import shopRoutes.js
 
 //ye test h 
-const { auth } = require("express-openid-connect");
 const config = {
     authRequired: false,
     auth0Logout: true,
@@ -104,7 +102,6 @@ app.use("/uploads", express.static("uploads"));
 app.use(authRoutes); // Use auth routes
 app.use('/', sellerRoutes);
 app.use("/api", shopRoutes);
-app.use('/api', otpRoutes);
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -283,9 +280,6 @@ app.delete("/cart/:productId", async (req, res) => {
     res.json({ success: true, cart: user.cart });
 });
 //yaha cart ka end hai
-//otps
-app.post('/api/send-otp', otpController.sendOTP);
-app.post('/api/verify-otp', otpController.verifyOTP);
 // 🔹 GET: Jewellery Products with Filters
 app.get("/api/products/jewellery", async (req, res) => {
     try {
