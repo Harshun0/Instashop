@@ -410,7 +410,7 @@
                     queryParams.push(`sort=${sortOption}`);
                 }
 
-                let apiUrl = `http://localhost:5000/api/products/crochet`;
+                let apiUrl = `/api/products/crochet`;
                 if (queryParams.length > 0) {
                     apiUrl += `?${queryParams.join("&")}`;
                 }
