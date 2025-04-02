@@ -89,10 +89,10 @@ const config = {
 
 // Middleware
 app.use(cors({
-    origin: 'http://localhost:5000',  // Match your server's address
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: ['http://localhost:5000', 'https://instashop-ur4l.onrender.com'],  // Allow both localhost and your render domain
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],  // Added OPTIONS for preflight requests
     credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'Accept']
 }));
 
 app.use(express.json()); // Parse incoming JSON requests
