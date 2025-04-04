@@ -57,11 +57,29 @@
     <body class="bg-gray-50">
     <header class="fixed top-0 w-full bg-custom-light shadow-sm z-50">
         <div id="root"></div>
-        <div class="px-4 py-2 flex items-center"><button class="text-gray-600 mr-4" id="menu-button" onclick="toggleMenu()"><i class="fas fa-bars text-xl"></i></button>
-            <img src="https://res.cloudinary.com/drvug594q/image/upload/v1743518570/1-removebg-preview_bobiph.png" alt="InstaShop Logo" class="h-[2.5rem] mr-auto">
-                    <div class="flex items-center gap-2"><button class="text-gray-600 mr-4 flex items-center"><i class="fab fa-instagram text-xl mr-2 hover:text-black transition-colors duration-200 relative"></i><span class="text-sm hover:text-black transition-colors duration-200 relative">Connect</span></button>
-                <button id="userButton" class="text-gray-600 hover:text-black transition-colors duration-200 relative" onclick="handleUserClick()">
-                    <i class="fas fa-user"></i> <span id="userActionText">Login</span>
+        <div class="px-4 py-2 flex items-center justify-between w-full">
+            <!-- Left Side: Menu + Logo -->
+            <div class="flex items-center gap-2 sm:gap-4">
+                <button class="text-gray-600" id="menu-button" onclick="toggleMenu()">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+        
+                <img src="https://res.cloudinary.com/drvug594q/image/upload/v1743518570/1-removebg-preview_bobiph.png"
+                    alt="InstaShop Logo"
+                    class="h-8 sm:h-10 w-auto">
+            </div>
+        
+            <!-- Right Side: Connect + Login -->
+            <div class="flex items-center gap-3 sm:gap-4">
+                <button class="text-gray-600 flex items-center">
+                    <i class="fab fa-instagram text-lg sm:text-xl mr-1 sm:mr-2 hover:text-black transition-colors duration-200"></i>
+                    <span class="text-sm sm:text-base hover:text-black transition-colors duration-200">Connect</span>
+                </button>
+        
+                <button id="userButton"
+                    class="text-gray-600 hover:text-black transition-colors duration-200 flex items-center"
+                    onclick="handleUserClick()">
+                    <i class="fas fa-user"></i> <span id="userActionText" class="ml-1">Login</span>
                 </button>
                 
                 <script>
