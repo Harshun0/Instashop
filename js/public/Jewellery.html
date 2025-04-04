@@ -171,33 +171,46 @@
     <div class="min-h-screen flex flex-col">
         <!-- ✅ Header with Logo, Centered Title, Search & Cart -->
         <header style="background-color: #FCE4EC !important;" class="shadow-sm fixed w-full z-50">
-
             <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-16">
-                    <div class="flex items-center">
-                        <button class="text-custom-dark hover:text-custom-pink transition-colors duration-200 mr-4" id="menu-button" onclick="toggleMenu()">
-                            <i class="fas fa-bars text-xl"></i>
-                        </button>
-                        <img src="https://res.cloudinary.com/drvug594q/image/upload/v1743518570/1-removebg-preview_bobiph.png" alt="InstaShop Logo" class="h-[2.5rem] mr-auto">
-                    </div>
-                    <h1 class="text-xl font-semibold text-custom-dark text-center flex-1">Jewellery Collection</h1>
-                    <div class="flex items-center space-x-4">
-                        <button class="text-gray-600 hover:text-custom-dark transition-colors duration-200" id="searchButton">
-                            <i class="fas fa-search text-xl"></i>
-                        </button>
-                        <button onclick="handleCartClick()" class="text-gray-600 relative hover:text-black transition-colors duration-200 relative">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span id="cart-count" class="absolute -top-2 -right-2 bg-custom text-black text-xs rounded-full w-4 h-4 flex items-center justify-center">0</span>
-                        </button>
-                        <button id="userButton" class="text-gray-600 hover:text-black transition-colors duration-200 relative">
-                            <i class="fas fa-user"></i> 
-                            <span id="userActionText">Login</span>
-                        </button>
-                    </div>
+              <div class="flex items-center justify-between h-16">
+          
+                <!-- Left: Hamburger + Logo -->
+                <div class="flex items-center space-x-3 min-w-0">
+                  <button class="text-custom-dark hover:text-custom-pink transition duration-200" id="menu-button" onclick="toggleMenu()">
+                    <i class="fas fa-bars text-xl"></i>
+                  </button>
+                  <img src="https://res.cloudinary.com/drvug594q/image/upload/v1743518570/1-removebg-preview_bobiph.png" alt="InstaShop Logo" class="h-8 sm:h-10">
                 </div>
+          
+                <!-- Center: Title (stacked on small screens) -->
+                <!-- Title (Centered for large screens, stacked for mobile) -->
+<div class="flex flex-col sm:flex-row items-center justify-center text-center flex-1">
+    <span class="text-sm sm:text-lg font-semibold text-custom-dark leading-tight">Jewellery</span>
+    <span class="text-sm sm:text-lg font-semibold text-custom-dark leading-tight sm:ml-1">Collection</span>
+  </div>
+  
+          
+                <!-- Right: Icons -->
+                <div class="flex items-center space-x-3 sm:space-x-4">
+                  <button class="text-gray-600 hover:text-custom-dark transition duration-200" id="searchButton">
+                    <i class="fas fa-search text-lg sm:text-xl"></i>
+                  </button>
+          
+                  <button onclick="handleCartClick()" class="text-gray-600 relative hover:text-black transition duration-200">
+                    <i class="fas fa-shopping-cart text-lg sm:text-xl"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-2 bg-custom text-black text-[10px] rounded-full w-4 h-4 flex items-center justify-center">0</span>
+                  </button>
+          
+                  <button id="userButton" class="text-gray-600 hover:text-black transition duration-200 flex items-center space-x-1">
+                    <i class="fas fa-user text-lg sm:text-xl"></i>
+                    <span id="userActionText" class="hidden sm:inline text-sm">Login</span>
+                  </button>
+                </div>
+          
+              </div>
             </div>
-        </header>
-
+          </header>
+          
         <!-- ✅ Filter button below header -->
         <div class="fixed top-16 left-0 z-40 px-4 py-2 bg-custom-peach shadow-sm w-full flex items-center justify-between">
             <div class="flex items-center">
@@ -211,7 +224,7 @@
                 <!-- Responsive Navigation Bar with horizontal scrolling on mobile -->
                 <nav class="w-full">
                     <!-- Mobile version (scrollable) -->
-                    <div class="lg:hidden overflow-x-auto">
+                    <div class="lg:hidden overflow-x-auto min-w-full">
                         <div class="flex whitespace-nowrap p-1">
                           <a href="index.html" class="nav-link px-2 py-1 rounded mx-1 text-xs md:text-sm ">Home</a>
                           <a href="crochet.html" class="nav-link px-1 py-1 rounded mx-1 text-xs md:text-sm ">Crochet</a>
