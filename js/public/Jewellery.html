@@ -215,23 +215,25 @@
         <div class="fixed top-16 left-0 z-40 px-4 py-2 bg-custom-peach shadow-sm w-full">
             <div class="flex items-center justify-between flex-wrap lg:flex-nowrap">
           
-              <!-- Mobile Navbar Scrollable (with Sort included) -->
+              <!-- ✅ Mobile Scrollable Wrapper -->
               <div class="flex items-center overflow-x-auto lg:overflow-visible w-full lg:w-auto space-x-2">
+                <!-- Filter Button -->
                 <button class="filter-button flex-shrink-0 rounded-full px-3 py-1 text-xs sm:text-sm flex items-center">
                   <i class="fas fa-filter mr-1"></i> Filter
                   <i class="fas fa-chevron-down ml-1 text-xs"></i>
                 </button>
           
-                <div class="flex flex-nowrap items-center text-xs sm:text-sm">
+                <!-- Scrollable Nav Links -->
+                <div class="flex flex-nowrap items-center text-xs sm:text-sm lg:hidden">
                   <a href="index.html" class="nav-link px-2 py-1 rounded mx-1 whitespace-nowrap">Home</a>
                   <a href="crochet.html" class="nav-link px-2 py-1 rounded mx-1 whitespace-nowrap">Crochet</a>
                   <a href="GiftHampers.html" class="nav-link px-2 py-1 rounded mx-1 whitespace-nowrap">Gift & Hampers</a>
                   <a href="clothing.html" class="nav-link px-2 py-1 rounded mx-1 whitespace-nowrap">Clothing</a>
                   <a href="flower.html" class="nav-link px-2 py-1 rounded mx-1 whitespace-nowrap">Flowers & Bouquets</a>
           
-                  <!-- ✅ Sort included inside scroll -->
+                  <!-- Sort by inside scrollable -->
                   <div class="relative flex-shrink-0 mx-1 min-w-[140px] lg:hidden">
-                    <select id="sortBy" class="block bg-white border border-gray-300 hover:border-gray-400 px-2 py-1 pr-6 rounded shadow text-xs sm:text-sm w-full">
+                    <select id="sortByMobile" class="block bg-white border border-gray-300 hover:border-gray-400 px-2 py-1 pr-6 rounded shadow text-xs sm:text-sm w-full">
                       <option value="default">Sort by: Default</option>
                       <option value="price-low">Price: Low to High</option>
                       <option value="price-high">Price: High to Low</option>
@@ -245,17 +247,29 @@
                 </div>
               </div>
           
-              <!-- ✅ Desktop Sort on right as before -->
-              <div class="hidden lg:block relative ml-4">
-                <select id="sortByDesktop" class="block bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded shadow text-sm">
-                  <option value="default">Sort by: Default</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="name-az">Name: A to Z</option>
-                  <option value="name-za">Name: Z to A</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-700">
-                  <i class="fas fa-chevron-down text-xs"></i>
+              <!-- ✅ Desktop View with spacing preserved -->
+              <div class="hidden lg:flex items-center justify-between w-full">
+                <!-- Desktop Nav Links with spacing -->
+                <div class="flex items-center text-sm">
+                  <a href="index.html" class="nav-link px-2 py-1 rounded ml-20">Home</a>
+                  <a href="crochet.html" class="nav-link px-2 py-1 rounded" style="margin-left: 70px;">Crochet</a>
+                  <a href="GiftHampers.html" class="nav-link px-2 py-1 rounded" style="margin-left: 70px;">Gift & Hampers</a>
+                  <a href="clothing.html" class="nav-link px-2 py-1 rounded" style="margin-left: 70px;">Clothing</a>
+                  <a href="flower.html" class="nav-link px-2 py-1 rounded" style="margin-left: 70px;">Flowers & Bouquets</a>
+                </div>
+          
+                <!-- Desktop Sort by -->
+                <div class="relative mr-4">
+                  <select id="sortByDesktop" class="block bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded shadow text-sm">
+                    <option value="default">Sort by: Default</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="name-az">Name: A to Z</option>
+                    <option value="name-za">Name: Z to A</option>
+                  </select>
+                  <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-700">
+                    <i class="fas fa-chevron-down text-xs"></i>
+                  </div>
                 </div>
               </div>
           
