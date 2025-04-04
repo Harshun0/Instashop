@@ -224,25 +224,26 @@
                 <!-- Responsive Navigation Bar with horizontal scrolling on mobile -->
                 <nav class="w-full">
                     <!-- Mobile version (scrollable) -->
-                    <div class="lg:hidden overflow-x-auto">
-                        <div class="flex whitespace-nowrap p-1 w-full">
-                          <a href="index.html" class="nav-link px-2 py-1 rounded mx-1 text-xs md:text-sm">Home</a>
-                          <a href="crochet.html" class="nav-link px-1 py-1 rounded mx-1 text-xs md:text-sm">Crochet</a>
-                          <a href="GiftHampers.html" class="nav-link px-1 py-1 rounded mx-1 text-xs md:text-sm">Gift & Hampers</a>
-                          <a href="clothing.html" class="nav-link px-1 py-1 rounded mx-1 text-xs md:text-sm">Clothing</a>
-                          <a href="flower.html" class="nav-link px-1 py-1 rounded mx-1 text-xs md:text-sm">Flowers & Bouquets</a>
-                        </div>
-                      </div>   
-                      <!-- Desktop version (your original spacing) -->
-                      <div class="hidden lg:flex">
-                        <a href="index.html" class="nav-link px-2 py-1 rounded ml-20 lg:text-base">Home</a>
-                        <a href="crochet.html" class="nav-link px-2 py-1 rounded lg:text-base" style="margin-left: 70px;">Crochet</a>
-                        <a href="GiftHampers.html" class="nav-link px-2 py-1 rounded lg:text-base" style="margin-left: 70px;">Gift & Hampers</a>
-                        <a href="clothing.html" class="nav-link px-2 py-1 rounded lg:text-base" style="margin-left: 70px;">Clothing</a>
-                        <a href="flower.html" class="nav-link px-2 py-1 rounded lg:text-base" style="margin-left: 70px;">Flowers & Bouquets</a>
+                    <div class="lg:hidden w-full overflow-x-scroll">
+                      <div class="flex whitespace-nowrap p-1" style="min-width: max-content;">
+                        <a href="index.html" class="nav-link px-2 py-1 rounded mx-1 text-xs md:text-sm">Home</a>
+                        <a href="crochet.html" class="nav-link px-1 py-1 rounded mx-1 text-xs md:text-sm">Crochet</a>
+                        <a href="GiftHampers.html" class="nav-link px-1 py-1 rounded mx-1 text-xs md:text-sm">Gift & Hampers</a>
+                        <a href="clothing.html" class="nav-link px-1 py-1 rounded mx-1 text-xs md:text-sm">Clothing</a>
+                        <a href="flower.html" class="nav-link px-1 py-1 rounded mx-1 text-xs md:text-sm">Flowers & Bouquets</a>
                       </div>
+                    </div>
+                    
+                    <!-- Desktop version (your original spacing) -->
+                    <div class="hidden lg:flex">
+                      <a href="index.html" class="nav-link px-2 py-1 rounded ml-20 lg:text-base">Home</a>
+                      <a href="crochet.html" class="nav-link px-2 py-1 rounded lg:text-base" style="margin-left: 70px;">Crochet</a>
+                      <a href="GiftHampers.html" class="nav-link px-2 py-1 rounded lg:text-base" style="margin-left: 70px;">Gift & Hampers</a>
+                      <a href="clothing.html" class="nav-link px-2 py-1 rounded lg:text-base" style="margin-left: 70px;">Clothing</a>
+                      <a href="flower.html" class="nav-link px-2 py-1 rounded lg:text-base" style="margin-left: 70px;">Flowers & Bouquets</a>
+                    </div>
                   </nav>
-            </div>
+                            </div>
         
             <!-- ✅ Sort by dropdown (Stays at the right side) -->
             <div class="relative">
