@@ -549,7 +549,7 @@ async function uploadToCloudinary(file) {
         function loadProducts() {
     showLoading();
     
-    fetch('http://localhost:5000/products')
+    fetch('/api/products')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -888,7 +888,7 @@ async function uploadToCloudinary(file) {
         }
         
         // Send the update request to the API
-        const response = await fetch(`http://localhost:5000/products/${productId}`, {
+        const response = await fetch(`/api/products/${productId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -982,7 +982,7 @@ async function uploadToCloudinary(file) {
         }
         
         // Send the product data to your server
-        const response = await fetch('http://localhost:5000/products', {
+        const response = await fetch('/api/products', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -1010,7 +1010,7 @@ async function uploadToCloudinary(file) {
         function handleDeleteProduct() {
     if (!productToDelete) return;
     
-    fetch(`http://localhost:5000/products/${productToDelete}`, {
+    fetch(`/api/products/${productToDelete}`, {
         method: 'DELETE'
     })
     .then(response => {
