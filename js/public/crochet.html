@@ -120,10 +120,26 @@
 
         .product-card {
             transition: all 0.3s ease;
+            background-color: white;
         }
 
-        .product-card:hover {
-            background-color: #F8C8DC !important;
+        /* Only apply hover effect on devices that support hover */
+        @media (hover: hover) {
+            .product-card:hover {
+                background-color: #F8C8DC !important;
+            }
+        }
+
+        /* Add active state for touch devices */
+        .product-card:active {
+            background-color: white !important;
+        }
+
+        /* Remove any existing hover styles that might conflict */
+        @media (hover: none) {
+            .product-card:hover {
+                background-color: white !important;
+            }
         }
 
         .heart-icon {
@@ -237,7 +253,7 @@
               <div class="flex items-center overflow-x-auto lg:overflow-visible w-full lg:hidden space-x-2">
           
                 <!-- Filter Button -->
-                <button class="filter-button flex-shrink-0 rounded-full px-3 py-1 text-xs sm:text-sm flex items-center" id="filterButton">
+                <button class="filter-button flex-shrink-0 rounded-full px-3 py-1 text-xs sm:text-sm flex items-center" id="mobileFilterButton">
                   <i class="fas fa-filter mr-2"></i>
                   Filter <i class="fas fa-chevron-down ml-2 text-xs"></i>
                 </button>
@@ -270,7 +286,7 @@
               <div class="hidden lg:flex items-center justify-between w-full">
                 <!-- Filter + Category links -->
                 <div class="flex items-center space-x-16 text-sm">
-                  <button class="filter-button flex-shrink-0 rounded-full px-3 py-1 text-sm flex items-center" id="filterButton">
+                  <button class="filter-button flex-shrink-0 rounded-full px-3 py-1 text-sm flex items-center" id="desktopFilterButton">
                     <i class="fas fa-filter mr-2"></i> Filter <i class="fas fa-chevron-down ml-2 text-xs"></i>
                   </button>
                   <a href="index.html" class="nav-link px-2 py-1 rounded">Home</a>
@@ -559,11 +575,26 @@
             }, 3000);
         }
         // Filter button opens sidebar
-        document.getElementById("filterButton").addEventListener("click", () => {
-            document.getElementById("sidebar").classList.toggle("-translate-x-full");
-            document.getElementById("overlay").classList.toggle("hidden");
+        function openFilter() {
+            document.getElementById("sidebar").classList.remove("-translate-x-full");
+            document.getElementById("overlay").classList.remove("hidden");
+        }
+
+        // Add event listeners for both buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileFilterBtn = document.getElementById('mobileFilterButton');
+            const desktopFilterBtn = document.getElementById('desktopFilterButton');
+            
+            if (mobileFilterBtn) {
+                mobileFilterBtn.addEventListener('click', openFilter);
+            }
+            
+            if (desktopFilterBtn) {
+                desktopFilterBtn.addEventListener('click', openFilter);
+            }
         });
 
+        // Keep the existing close handlers
         document.getElementById("closeMenu").addEventListener("click", () => {
             document.getElementById("sidebar").classList.add("-translate-x-full");
             document.getElementById("overlay").classList.add("hidden");
