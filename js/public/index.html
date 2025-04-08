@@ -76,20 +76,23 @@
                     <span class="text-sm sm:text-base hover:text-black transition-colors duration-200">Connect</span>
                 </button>
         
-                <button id="userButton"
-                    class="text-gray-600 hover:text-black transition-colors duration-200 flex items-center relative"
-                    onclick="handleUserClick()">
-                    <i class="fas fa-user"></i> 
-                    <span id="userActionText" class="ml-1">Login</span>
-                </button>
-                
-                <!-- Updated dropdown styling -->
-                <div id="userDropdown" class="hidden absolute right-4 mt-1 w-48 bg-white rounded-md shadow-lg py-2 z-50">
-                    <div id="userInfo" class="px-4 py-2 text-sm text-gray-700 border-b"></div>
-                    <button onclick="handleLogout()" 
-                        class="w-full text-left px-4 py-2 text-sm text-white bg-custom-dark hover:bg-gray-600 transition-colors duration-200">
-                        Logout
+                <!-- Wrap the button and dropdown in a container -->
+                <div class="relative">
+                    <button id="userButton"
+                        class="text-gray-600 hover:text-black transition-colors duration-200 flex items-center"
+                        onclick="handleUserClick()">
+                        <i class="fas fa-user"></i> 
+                        <span id="userActionText" class="ml-1">Login</span>
                     </button>
+
+                    <!-- Updated dropdown positioning -->
+                    <div id="userDropdown" class="hidden absolute top-full left-0 w-48 bg-white rounded-md shadow-lg py-2 z-50 mt-1">
+                        <div id="userInfo" class="px-4 py-2 text-sm text-gray-700 border-b"></div>
+                        <button onclick="handleLogout()" 
+                            class="w-full text-left px-4 py-2 text-sm text-white bg-custom-dark hover:bg-gray-600 transition-colors duration-200">
+                            Logout
+                        </button>
+                    </div>
                 </div>
                 
                 <button id="cartButton" class="text-gray-600 relative hover:text-black transition-colors duration-200">
