@@ -162,6 +162,19 @@
         #mobile-menu .hover\:text-custom-pink:hover {
             color: #C2185B !important;
         }
+
+        /* Add or update these styles */
+        #sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .sidebar-filter {
+            background-color: #FCE4EC !important;
+        }
+        
+        #overlay {
+            transition: opacity 0.3s ease-in-out;
+        }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
@@ -261,7 +274,7 @@
               <div class="hidden lg:flex items-center justify-between w-full">
                 <!-- Filter + Category links -->
                 <div class="flex items-center space-x-16 text-sm">
-                  <button class="filter-button flex-shrink-0 rounded-full px-3 py-1 text-sm flex items-center" id="filterButton">
+                  <button class="filter-button flex-shrink-0 rounded-full px-3 py-1 text-sm flex items-center" id="desktopFilterButton">
                     <i class="fas fa-filter mr-2"></i> Filter <i class="fas fa-chevron-down ml-2 text-xs"></i>
                   </button>
                   <a href="index.html" class="text-gray-700 hover:text-gray-900 hover:border hover:border-black px-2 py-1 rounded">Home</a>
@@ -774,19 +787,43 @@ document.querySelectorAll('input[data-filter="size"]').forEach(checkbox => {
     });
 });
 
-document.getElementById("filterButton").addEventListener("click", () => {
-    document.getElementById("sidebar").classList.toggle("-translate-x-full");
-    document.getElementById("overlay").classList.toggle("hidden");
+document.addEventListener("DOMContentLoaded", function() {
+    const mobileFilterButton = document.getElementById("filterButton");
+    const desktopFilterButton = document.getElementById("desktopFilterButton");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+
+    function toggleSidebar() {
+        sidebar.classList.toggle("-translate-x-full");
+        overlay.classList.toggle("hidden");
+        document.body.classList.toggle("overflow-hidden");
+    }
+
+    // Mobile filter button
+    mobileFilterButton.addEventListener("click", toggleSidebar);
+
+    // Desktop filter button
+    desktopFilterButton.addEventListener("click", toggleSidebar);
+
+    // Rest of your existing event listeners...
 });
 
 document.getElementById("closeMenu").addEventListener("click", () => {
-    document.getElementById("sidebar").classList.add("-translate-x-full");
-    document.getElementById("overlay").classList.add("hidden");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+    
+    sidebar.classList.add("-translate-x-full");
+    overlay.classList.add("hidden");
+    document.body.classList.remove("overflow-hidden");
 });
 
 document.getElementById("overlay").addEventListener("click", () => {
-    document.getElementById("sidebar").classList.add("-translate-x-full");
-    document.getElementById("overlay").classList.add("hidden");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+    
+    sidebar.classList.add("-translate-x-full");
+    overlay.classList.add("hidden");
+    document.body.classList.remove("overflow-hidden");
 });
 
 document.getElementById("showResults").addEventListener("click", () => {
