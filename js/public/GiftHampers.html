@@ -188,82 +188,115 @@
     <div id="toast-container" class="fixed top-28 right-4 z-50 flex flex-col gap-2"></div>
     <div class="min-h-screen flex flex-col">
         <!-- Header with Logo, Centered Title, Search & Cart -->
-        <header class="menu-section shadow-sm fixed w-full z-50">
+        <header style="background-color: #FCE4EC !important;" class="shadow-sm fixed w-full z-50">
             <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-16">
-                    <div class="flex items-center">
-                        <button class="menu-button mr-4" id="menu-button" onclick="toggleMenu()">
-                            <i class="fas fa-bars text-xl"></i>
-                        </button>
-                        <img src="https://res.cloudinary.com/drvug594q/image/upload/v1743518570/1-removebg-preview_bobiph.png" alt="InstaShop Logo" class="h-[2.5rem] mr-auto">
-                    </div>
-                    <h1 class="text-xl font-semibold text-gray-900 text-center flex-1">Gift Hampers Collection</h1>
-                    <div class="flex items-center space-x-4">
-                        <button class="text-gray-500 hover:text-black transition-colors duration-200" id="searchButton">
-                            <i class="fas fa-search text-xl"></i>
-                        </button>
-                        <button onclick="handleCartClick()" class="text-gray-600 relative hover:text-black transition-colors duration-200 relative">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span id="cart-count" class="absolute -top-2 -right-2 bg-custom text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">0</span>
-                        </button>
-                        <button id="userButton" class="text-gray-600 hover:text-black transition-colors duration-200 relative">
-                            <i class="fas fa-user"></i> 
-                            <span id="userActionText">Login</span>
-                        </button>
-                    </div>
+              <div class="flex items-center justify-between h-16">
+          
+                <!-- Left: Hamburger + Logo -->
+                <div class="flex items-center space-x-3 min-w-0">
+                  <button class="text-custom-dark hover:text-custom-pink transition duration-200" id="menu-button" onclick="toggleMenu()">
+                    <i class="fas fa-bars text-xl"></i>
+                  </button>
+                  <img src="https://res.cloudinary.com/drvug594q/image/upload/v1743518570/1-removebg-preview_bobiph.png" alt="InstaShop Logo" class="h-8 sm:h-10">
                 </div>
-            </div>
-        </header>
+          
+                <!-- Center: Title (stacked on small screens) -->
+                <!-- Title (Centered for large screens, stacked for mobile) -->
+<div class="flex flex-col sm:flex-row items-center justify-center text-center flex-1">
+  <span class="text-sm sm:text-lg font-semibold text-custom-dark leading-tight">Gift Hampers</span>
+  <span class="text-sm sm:text-lg font-semibold text-custom-dark leading-tight sm:ml-1">Collection</span>
+</div>
 
-        <!-- Filter button below header -->
-        <div class="filter-section fixed top-16 left-0 z-40 px-4 py-2 shadow-sm w-full flex items-center justify-between">
-            <div class="flex items-center">
-                <!-- Filter Button -->
-                <button class="filter-button rounded-full px-4 py-1 text-sm flex items-center" id="filterButton">
-                    <i class="fas fa-filter mr-2"></i>
-                    Filter <i class="fas fa-chevron-down ml-2 text-xs"></i>
-                </button>
-        
-                <!-- Navbar (Right next to Filter Button) -->
-                <!-- Navbar (Right next to Filter Button) -->
-                <!-- Responsive Navigation Bar with horizontal scrolling on mobile -->
-                <nav class="w-full">
-                    <!-- Mobile version (scrollable) -->
-                    <div class="lg:hidden overflow-x-auto">
-                      <div class="flex whitespace-nowrap p-1">
-                        <a href="index.html" class="nav-link px-2 py-1 rounded mx-1 text-xs md:text-sm ">Home</a>
-                        <a href="Jewellery.html" class="nav-link px-1 py-1 rounded mx-1 text-xs md:text-sm ">Jewellery</a>
-                        <a href="crochet.html" class="nav-link px-1 py-1 rounded mx-1 text-xs md:text-sm ">Crochet</a>
-                        <a href="clothing.html" class="nav-link px-1 py-1 rounded mx-1 text-xs md:text-sm ">Clothing</a>
-                        <a href="flower.html" class="nav-link px-1 py-1 rounded mx-1 text-xs md:text-sm ">Flowers & Bouquets</a>
-                      </div>
-                    </div>
-                    
-                    <!-- Desktop version (your original spacing) -->
-                    <div class="hidden lg:flex">
-                      <a href="index.html" class="nav-link px-2 py-1 rounded ml-20 lg:text-base">Home</a>
-                      <a href="Jewellery.html" class="nav-link px-2 py-1 rounded lg:text-base" style="margin-left: 70px;">Jewellery</a>
-                      <a href="crochet.html" class="nav-link px-2 py-1 rounded lg:text-base" style="margin-left: 70px;">Crochet</a>
-                      <a href="clothing.html" class="nav-link px-2 py-1 rounded lg:text-base" style="margin-left: 70px;">Clothing</a>
-                      <a href="flower.html" class="nav-link px-2 py-1 rounded lg:text-base" style="margin-left: 70px;">Flowers & Bouquets</a>
-                    </div>
-                </nav>
+          
+                <!-- Right: Icons -->
+                <div class="flex items-center space-x-3 sm:space-x-4">
+                  <button class="text-gray-600 hover:text-custom-dark transition duration-200" id="searchButton">
+                    <i class="fas fa-search text-lg sm:text-xl"></i>
+                  </button>
+          
+                  <button onclick="handleCartClick()" class="text-gray-600 relative hover:text-black transition duration-200">
+                    <i class="fas fa-shopping-cart text-lg sm:text-xl"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-2 bg-custom text-black text-[10px] rounded-full w-4 h-4 flex items-center justify-center">0</span>
+                  </button>
+          
+                  <button id="userButton" class="text-gray-600 hover:text-black transition duration-200 flex items-center space-x-1">
+                    <i class="fas fa-user text-lg sm:text-xl"></i>
+                    <span id="userActionText" class="hidden sm:inline text-sm">Login</span>
+                  </button>
+                </div>
+          
+              </div>
             </div>
-        
-            <!-- ✅ Sort by dropdown (Stays at the right side) -->
-            <div class="relative">
-                <select id="sortBy" class="block appearance-none bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm">
+          </header>
+       
+        <!-- Filter button below header -->
+        <div class="filter-section fixed top-16 left-0 z-40 px-4 py-2 shadow-sm w-full bg-custom-peach">
+            <div class="flex items-center justify-between flex-wrap lg:flex-nowrap">
+          
+              <!-- ✅ Mobile & Scrollable Section -->
+              <div class="flex items-center overflow-x-auto lg:overflow-visible w-full lg:hidden space-x-2">
+          
+                <!-- Filter Button -->
+                <button class="filter-button flex-shrink-0 rounded-full px-3 py-1 text-xs sm:text-sm flex items-center" id="filterButton">
+                  <i class="fas fa-filter mr-2"></i>
+                  Filter <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                </button>
+          
+                <!-- Mobile Category Nav -->
+                <div class="flex flex-nowrap items-center text-xs sm:text-sm">
+                  <a href="index.html" class="nav-link px-2 py-1 rounded mx-1 whitespace-nowrap">Home</a>
+                  <a href="Jewellery.html" class="nav-link px-2 py-1 rounded mx-1 whitespace-nowrap">Jewellery</a>
+                  <a href="crochet.html" class="nav-link px-2 py-1 rounded mx-1 whitespace-nowrap">Crochet</a>
+                  <a href="clothing.html" class="nav-link px-2 py-1 rounded mx-1 whitespace-nowrap">Clothing</a>
+                  <a href="flower.html" class="nav-link px-2 py-1 rounded mx-1 whitespace-nowrap">Flowers & Bouquets</a>
+                </div>
+          
+                <!-- Sort (mobile) -->
+                <div class="relative flex-shrink-0 min-w-[140px] mx-1">
+                  <select id="sortBy" class="block bg-white border border-custom-pink hover:border-custom-dark px-4 py-2 pr-8 rounded shadow text-xs sm:text-sm w-full">
                     <option value="default">Sort by: Default</option>
                     <option value="price-low">Price: Low to High</option>
                     <option value="price-high">Price: High to Low</option>
                     <option value="name-az">Name: A to Z</option>
                     <option value="name-za">Name: Z to A</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-700">
+                  </select>
+                  <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center text-custom-dark">
                     <i class="fas fa-chevron-down text-xs"></i>
+                  </div>
                 </div>
+              </div>
+          
+              <!-- ✅ Desktop View -->
+              <div class="hidden lg:flex items-center justify-between w-full">
+                <!-- Filter + Category links -->
+                <div class="flex items-center space-x-16 text-sm">
+                  <button class="filter-button flex-shrink-0 rounded-full px-3 py-1 text-sm flex items-center" id="filterButton">
+                    <i class="fas fa-filter mr-2"></i> Filter <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                  </button>
+                  <a href="index.html" class="nav-link px-2 py-1 rounded">Home</a>
+                  <a href="Jewellery.html" class="nav-link px-2 py-1 rounded">Jewellery</a>
+                  <a href="crochet.html" class="nav-link px-2 py-1 rounded">Crochet</a>
+                  <a href="clothing.html" class="nav-link px-2 py-1 rounded">Clothing</a>
+                  <a href="flower.html" class="nav-link px-2 py-1 rounded">Flowers & Bouquets</a>
+                </div>
+          
+                <!-- Sort (desktop) -->
+                <div class="relative mr-4">
+                  <select id="sortBy" class="block bg-white border border-custom-pink hover:border-custom-dark px-4 py-2 pr-8 rounded shadow text-sm">
+                    <option value="default">Sort by: Default</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="name-az">Name: A to Z</option>
+                    <option value="name-za">Name: Z to A</option>
+                  </select>
+                  <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center text-custom-dark">
+                    <i class="fas fa-chevron-down text-xs"></i>
+                  </div>
+                </div>
+              </div>
+          
             </div>
-        </div>
+          </div>
         <!-- Sidebar Filters -->
         <div class="sidebar-filter fixed inset-0 bg-gray-600 bg-opacity-50 hidden" id="overlay"></div>
         <aside class="sidebar-filter fixed top-0 left-0 w-64 h-full shadow-lg transform -translate-x-full transition-all duration-300 ease-in-out z-50 overflow-y-auto" id="sidebar">
@@ -537,21 +570,33 @@ function redirectToProduct(productId) {
                 }, 300);
             }, 3000);
         }
-        // Filter button opens sidebar
-        document.getElementById("filterButton").addEventListener("click", () => {
-            document.getElementById("sidebar").classList.toggle("-translate-x-full");
-            document.getElementById("overlay").classList.toggle("hidden");
+        // Update the filter button event listeners
+        document.addEventListener("DOMContentLoaded", () => {
+            // Get all filter buttons (mobile and desktop)
+            const filterButtons = document.querySelectorAll("#filterButton");
+            
+            filterButtons.forEach(button => {
+                button.addEventListener("click", () => {
+                    document.getElementById("sidebar").classList.remove("-translate-x-full");
+                    document.getElementById("overlay").classList.remove("hidden");
+                });
+            });
+
+            // Close sidebar handlers
+            document.getElementById("closeMenu").addEventListener("click", closeSidebar);
+            document.getElementById("overlay").addEventListener("click", closeSidebar);
+
+            // Load initial products
+            loadProducts();
+            updateCartCount();
+            checkUserStatus();
         });
 
-        document.getElementById("closeMenu").addEventListener("click", () => {
+        // Add this helper function for closing the sidebar
+        function closeSidebar() {
             document.getElementById("sidebar").classList.add("-translate-x-full");
             document.getElementById("overlay").classList.add("hidden");
-        });
-
-        document.getElementById("overlay").addEventListener("click", () => {
-            document.getElementById("sidebar").classList.add("-translate-x-full");
-            document.getElementById("overlay").classList.add("hidden");
-        });
+        }
 
         // Show Results Button - Apply filters and close sidebar
         document.getElementById("showResults").addEventListener("click", () => {
