@@ -177,76 +177,102 @@
 <body class="bg-gray-50 font-inter">
     <div id="toast-container" class="fixed top-28 right-4 z-50 flex flex-col gap-2"></div>
     <div class="min-h-screen flex flex-col">
-        <header class="bg-white shadow-sm fixed w-full z-50">
+        <header style="background-color: #FCE4EC !important;" class="shadow-sm fixed w-full z-50">
             <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-16">
-                    <div class="flex items-center">
-                        <button class="text-gray-600 mr-4" id="menu-button" onclick="toggleMenu()">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Left: Hamburger + Logo -->
+                    <div class="flex items-center space-x-3 min-w-0">
+                        <button class="text-custom-dark hover:text-custom-pink transition duration-200" id="menu-button" onclick="toggleMenu()">
                             <i class="fas fa-bars text-xl"></i>
                         </button>
-                        <img src="https://res.cloudinary.com/drvug594q/image/upload/v1743518570/1-removebg-preview_bobiph.png" alt="InstaShop Logo" class="h-[2.5rem] mr-auto">
+                        <img src="https://res.cloudinary.com/drvug594q/image/upload/v1743518570/1-removebg-preview_bobiph.png" alt="InstaShop Logo" class="h-8 sm:h-10">
                     </div>
-                    <h1 class="text-xl font-semibold text-gray-900 text-center flex-1">Flower Bouquets Collection</h1> 
-                    <div class="flex items-center space-x-4">
-                        <button class="text-gray-500 hover:text-black transition-colors duration-200" id="searchButton">
-                            <i class="fas fa-search text-xl"></i>
+
+                    <!-- Center: Title (stacked on small screens) -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center text-center flex-1">
+                        <span class="text-sm sm:text-lg font-semibold text-custom-dark leading-tight">Flower Bouquets</span>
+                        <span class="text-sm sm:text-lg font-semibold text-custom-dark leading-tight sm:ml-1">Collection</span>
+                    </div>
+
+                    <!-- Right: Icons -->
+                    <div class="flex items-center space-x-3 sm:space-x-4">
+                        <button class="text-gray-600 hover:text-custom-dark transition duration-200" id="searchButton">
+                            <i class="fas fa-search text-lg sm:text-xl"></i>
                         </button>
-                        <button onclick="handleCartClick()" class="text-gray-600 relative hover:text-black transition-colors duration-200 relative">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span id="cart-count" class="absolute -top-2 -right-2 bg-custom text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">0</span>
+                        <button onclick="handleCartClick()" class="text-gray-600 relative hover:text-black transition duration-200">
+                            <i class="fas fa-shopping-cart text-lg sm:text-xl"></i>
+                            <span id="cart-count" class="absolute -top-1 -right-2 bg-custom text-black text-[10px] rounded-full w-4 h-4 flex items-center justify-center">0</span>
                         </button>
-                        <button id="userButton" class="text-gray-600 hover:text-black transition-colors duration-200 relative">
-                            <i class="fas fa-user"></i> 
-                            <span id="userActionText">Login</span>
+                        <button id="userButton" class="text-gray-600 hover:text-black transition duration-200 flex items-center space-x-1">
+                            <i class="fas fa-user text-lg sm:text-xl"></i>
+                            <span id="userActionText" class="hidden sm:inline text-sm">Login</span>
                         </button>
                     </div>
                 </div>
             </div>
         </header>
 
-        <div class="fixed top-16 left-0 z-40 px-4 py-2 bg-white shadow-sm w-full flex items-center justify-between">
-            <div class="flex items-center">
-                <button class="filter-button rounded-full px-4 py-1 text-sm flex items-center" id="filterButton">
-                    <i class="fas fa-filter mr-2"></i>
-                    Filter <i class="fas fa-chevron-down ml-2 text-xs"></i>
-                </button>
+        <div class="filter-section fixed top-16 left-0 z-40 px-4 py-2 shadow-sm w-full bg-custom-peach">
+            <div class="flex items-center justify-between flex-wrap lg:flex-nowrap">
+                <!-- Mobile Section -->
+                <div class="flex items-center overflow-x-auto lg:overflow-visible w-full lg:hidden space-x-2">
+                    <!-- Mobile Filter Button -->
+                    <button class="filter-button flex-shrink-0 rounded-full px-3 py-1 text-xs sm:text-sm flex items-center filterBtn" id="mobileFilterButton">
+                        <i class="fas fa-filter mr-2"></i>
+                        Filter <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                    </button>
         
-        
-                <!-- Responsive Navigation Bar with horizontal scrolling on mobile -->
-                <nav class="w-full">
-                    <!-- Mobile version (scrollable) -->
-                    <div class="lg:hidden overflow-x-auto">
-                        <div class="flex whitespace-nowrap p-1">
-                            <a href="index.html" class="nav-link px-2 py-1 rounded mx-1 text-xs md:text-sm">Home</a>
-                            <a href="Jewellery.html" class="nav-link px-2 py-1 rounded mx-1 text-xs md:text-sm">Jewellery</a>
-                            <a href="crochet.html" class="nav-link px-2 py-1 rounded mx-1 text-xs md:text-sm">Crochet</a>
-                            <a href="clothing.html" class="nav-link px-2 py-1 rounded mx-1 text-xs md:text-sm">Clothing</a>
-                            <a href="GiftHampers.html" class="nav-link px-2 py-1 rounded mx-1 text-xs md:text-sm">Gift Hampers</a>
+                    <!-- Mobile Category Nav -->
+                    <div class="flex flex-nowrap items-center text-xs sm:text-sm">
+                        <a href="index.html" class="nav-link px-2 py-1 rounded mx-1 whitespace-nowrap">Home</a>
+                        <a href="Jewellery.html" class="nav-link px-2 py-1 rounded mx-1 whitespace-nowrap">Jewellery</a>
+                        <a href="crochet.html" class="nav-link px-2 py-1 rounded mx-1 whitespace-nowrap">Crochet</a>
+                        <a href="clothing.html" class="nav-link px-2 py-1 rounded mx-1 whitespace-nowrap">Clothing</a>
+                        <a href="GiftHampers.html" class="nav-link px-2 py-1 rounded mx-1 whitespace-nowrap">Gift Hampers</a>
+                    </div>
+
+                    <!-- Sort (mobile) -->
+                    <div class="relative flex-shrink-0 min-w-[140px] mx-1">
+                        <select id="sortBy" class="block bg-white border border-custom-pink hover:border-custom-dark px-4 py-2 pr-8 rounded shadow text-xs sm:text-sm w-full">
+                            <option value="default">Sort by: Default</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="name-az">Name: A to Z</option>
+                            <option value="name-za">Name: Z to A</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center text-custom-dark">
+                            <i class="fas fa-chevron-down text-xs"></i>
                         </div>
                         </div>
-                    
-                    <!-- Desktop version (your original spacing) -->
-                    <div class="hidden lg:flex">
-                        <a href="index.html" class="nav-link px-2 py-1 rounded ml-20 lg:text-base">Home</a>
-                        <a href="Jewellery.html" class="nav-link px-2 py-1 rounded ml-20 lg:text-base">Jewellery</a>
-                        <a href="crochet.html" class="nav-link px-2 py-1 rounded ml-20 lg:text-base">Crochet</a>
-                        <a href="clothing.html" class="nav-link px-2 py-1 rounded ml-20 lg:text-base">Clothing</a>
-                        <a href="GiftHampers.html" class="nav-link px-2 py-1 rounded ml-20 lg:text-base">Gift Hampers</a>
                     </div>
                     
-                </nav>
+                <!-- Desktop View -->
+                <div class="hidden lg:flex items-center justify-between w-full">
+                    <div class="flex items-center space-x-16 text-sm">
+                        <!-- Desktop Filter Button -->
+                        <button class="filter-button flex-shrink-0 rounded-full px-3 py-1 text-sm flex items-center filterBtn" id="desktopFilterButton">
+                            <i class="fas fa-filter mr-2"></i> Filter <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                        </button>
+                        <a href="index.html" class="nav-link px-2 py-1 rounded">Home</a>
+                        <a href="Jewellery.html" class="nav-link px-2 py-1 rounded">Jewellery</a>
+                        <a href="crochet.html" class="nav-link px-2 py-1 rounded">Crochet</a>
+                        <a href="clothing.html" class="nav-link px-2 py-1 rounded">Clothing</a>
+                        <a href="GiftHampers.html" class="nav-link px-2 py-1 rounded">Gift Hampers</a>
             </div>
         
-            <div class="relative">
-                <select id="sortBy" class="block appearance-none bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm">
+                    <!-- Sort (desktop) -->
+                    <div class="relative mr-4">
+                        <select id="sortBy" class="block bg-white border border-custom-pink hover:border-custom-dark px-4 py-2 pr-8 rounded shadow text-sm">
                     <option value="default">Sort by: Default</option>
                     <option value="price-low">Price: Low to High</option>
                     <option value="price-high">Price: High to Low</option>
                     <option value="name-az">Name: A to Z</option>
                     <option value="name-za">Name: Z to A</option>
                 </select>
-                <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-700">
+                        <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center text-custom-dark">
                     <i class="fas fa-chevron-down text-xs"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -685,25 +711,39 @@ function displayProducts(products) {
             menu.classList.toggle('hidden');
         }
         
-        document.getElementById("filterButton").addEventListener("click", () => {
-            document.getElementById("sidebar").classList.toggle("-translate-x-full");
-            document.getElementById("overlay").classList.toggle("hidden");
-        });
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all filter buttons using the common class
+            const filterButtons = document.querySelectorAll('.filterBtn');
+            
+            // Add click event listener to each filter button
+            filterButtons.forEach(button => {
+                button.addEventListener("click", () => {
+                    document.getElementById("sidebar").classList.remove("-translate-x-full");
+                    document.getElementById("overlay").classList.remove("hidden");
+                });
+            });
 
-        document.getElementById("closeMenu").addEventListener("click", () => {
-            document.getElementById("sidebar").classList.add("-translate-x-full");
-            document.getElementById("overlay").classList.add("hidden");
-        });
+            // Keep existing close handlers
+            document.getElementById("closeMenu").addEventListener("click", () => {
+                document.getElementById("sidebar").classList.add("-translate-x-full");
+                document.getElementById("overlay").classList.add("hidden");
+            });
 
-        document.getElementById("overlay").addEventListener("click", () => {
-            document.getElementById("sidebar").classList.add("-translate-x-full");
-            document.getElementById("overlay").classList.add("hidden");
-        });
+            document.getElementById("overlay").addEventListener("click", () => {
+                document.getElementById("sidebar").classList.add("-translate-x-full");
+                document.getElementById("overlay").classList.add("hidden");
+            });
 
-        document.getElementById("showResults").addEventListener("click", () => {
+            document.getElementById("showResults").addEventListener("click", () => {
+                loadProducts();
+                document.getElementById("sidebar").classList.add("-translate-x-full");
+                document.getElementById("overlay").classList.add("hidden");
+            });
+
+            // Initialize other functionality
+            updateCartCount();
+            checkUserStatus();
             loadProducts();
-            document.getElementById("sidebar").classList.add("-translate-x-full");
-            document.getElementById("overlay").classList.add("hidden");
         });
 
         document.getElementById("clearFilters").addEventListener("click", () => {
@@ -777,9 +817,6 @@ function displayProducts(products) {
             console.log("Sort option changed to:", sortOption);
             loadProducts();
         });
-
-        // Wait for the DOM to be fully loaded, then fetch products
-        document.addEventListener("DOMContentLoaded", loadProducts);
 
         // Add cart handling functions
         async function handleCartClick() {
@@ -896,208 +933,6 @@ function displayProducts(products) {
                 showToast('Failed to update wishlist');
             }
         }
-
-        // Update the DOMContentLoaded event listener
-        document.addEventListener("DOMContentLoaded", () => {
-            loadProducts();
-            updateCartCount();
-            checkUserStatus();
-        });
-        // First, we need to add the search UI elements to the HTML
-// This code should be run when the document loads
-document.addEventListener("DOMContentLoaded", function() {
-    // Add search overlay and input to the body
-    const searchOverlay = document.createElement('div');
-    searchOverlay.id = 'searchOverlay';
-    searchOverlay.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-start justify-center pt-20';
-    
-    searchOverlay.innerHTML = `
-        <div class="bg-white w-full max-w-2xl rounded-lg shadow-lg overflow-hidden">
-            <div class="p-4 border-b relative">
-                <input type="text" id="searchInput" class="w-full py-2 pl-10 pr-4 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-custom" placeholder="Search products...">
-                <i class="fas fa-search absolute left-7 top-7 text-gray-400"></i>
-                <button id="closeSearch" class="absolute right-6 top-6 text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div id="searchResults" class="hidden">
-                <div id="searchLoading" class="p-4 text-center">
-                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-custom mx-auto"></div>
-                    <p class="mt-2 text-gray-600">Searching...</p>
-                </div>
-                <div id="searchContent" class="max-h-80 overflow-y-auto"></div>
-            </div>
-        </div>
-    `;
-    
-    document.body.appendChild(searchOverlay);
-    
-    // Connect the search button to the overlay
-    const searchButton = document.getElementById('searchButton');
-    searchButton.addEventListener('click', function() {
-        document.getElementById('searchOverlay').classList.remove('hidden');
-        document.getElementById('searchInput').focus();
-        document.body.classList.add('overflow-hidden'); // Prevent scrolling when search is open
-    });
-    
-    // Close search when clicking the close button
-    document.getElementById('closeSearch').addEventListener('click', function() {
-        document.getElementById('searchOverlay').classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
-    });
-    
-    // Close search when clicking the overlay background
-    document.getElementById('searchOverlay').addEventListener('click', function(event) {
-        if (event.target === this) {
-            this.classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-        }
-    });
-
-    // Set up search functionality
-    let searchTimeout;
-
-    document.getElementById("searchInput").addEventListener("input", function() {
-        const query = this.value.trim();
-        const resultsDiv = document.getElementById("searchResults");
-        const loadingDiv = document.getElementById("searchLoading");
-        const contentDiv = document.getElementById("searchContent");
-
-        // Clear previous timeout
-        clearTimeout(searchTimeout);
-
-        if (query.length > 1) {
-            // Show loading state
-            resultsDiv.classList.remove("hidden");
-            loadingDiv.classList.remove("hidden");
-            contentDiv.innerHTML = "";
-
-            // Debounce the search
-            searchTimeout = setTimeout(() => {
-                performSearch(query);
-            }, 300);
-        } else {
-            resultsDiv.classList.add("hidden");
-        }
-    });
-
-    // Also close search with Escape key
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-            document.getElementById('searchOverlay').classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-        }
-    });
-});
-
-// Function to perform the search
-async function performSearch(query) {
-    const resultsDiv = document.getElementById("searchResults");
-    const loadingDiv = document.getElementById("searchLoading");
-    const contentDiv = document.getElementById("searchContent");
-
-    try {
-        // For demo purposes, if we can't reach the API, use sample data
-        let data;
-        
-        try {
-            const response = await fetch(`/search?query=${encodeURIComponent(query)}`);
-            data = await response.json();
-        } catch (apiError) {
-            console.warn("API search failed, using sample data:", apiError);
-            // Fallback to sample data if API fails
-            data = getSampleSearchResults(query);
-        }
-        
-        loadingDiv.classList.add("hidden");
-
-        if (data.length === 0) {
-            contentDiv.innerHTML = `
-                <div class="p-4 text-center text-gray-500">
-                    <i class="fas fa-search mb-2 text-2xl"></i>
-                    <p>No products found for "${query}"</p>
-                </div>`;
-        } else {
-            contentDiv.innerHTML = data.map(product => `
-                <div class="p-3 border-b hover:bg-gray-50 cursor-pointer flex items-center" 
-                     onclick="window.location.href='product.html?id=${product.id || product._id}'">
-                    <div class="w-12 h-12 mr-3">
-                        <img src="${product.images?.[0] || product.image}" 
-                             alt="${product.name}" 
-                             class="w-full h-full object-cover rounded">
-                    </div>
-                    <div class="flex-1">
-                        <div class="font-medium text-sm">${product.name}</div>
-                        <div class="text-sm font-semibold">₹${product.price}</div>
-                    </div>
-                </div>`
-            ).join('');
-        }
-    } catch (error) {
-        console.error("Search error:", error);
-        contentDiv.innerHTML = `
-            <div class="p-4 text-center text-red-500">
-                <i class="fas fa-exclamation-circle mb-2 text-2xl"></i>
-                <p>An error occurred while searching</p>
-            </div>`;
-    }
-}
-
-// Sample data function for testing when API is unavailable
-function getSampleSearchResults(query) {
-    query = query.toLowerCase();
-    
-    const allProducts = [
-        {
-            id: 1,
-            name: "Red Roses Bouquet",
-            price: 999,
-            images: ["https://via.placeholder.com/300x300?text=Red+Roses"],
-            category: "flower_bouquets"
-        },
-        {
-            id: 2,
-            name: "Mixed Flower Bouquet",
-            price: 1299,
-            images: ["https://via.placeholder.com/300x300?text=Mixed+Flowers"],
-            category: "flower_bouquets"
-        },
-        {
-            id: 3,
-            name: "White Lilies Arrangement",
-            price: 1499,
-            images: ["https://via.placeholder.com/300x300?text=White+Lilies"],
-            category: "flower_bouquets"
-        },
-        {
-            id: 4,
-            name: "Premium Rose Bouquet",
-            price: 2999,
-            images: ["https://via.placeholder.com/300x300?text=Premium+Roses"],
-            category: "flower_bouquets"
-        },
-        {
-            id: 5,
-            name: "Spring Tulip Bouquet",
-            price: 1699,
-            images: ["https://via.placeholder.com/300x300?text=Tulips"],
-            category: "flower_bouquets"
-        },
-        {
-            id: 6,
-            name: "Wedding Flowers Package",
-            price: 4999,
-            images: ["https://via.placeholder.com/300x300?text=Wedding+Flowers"],
-            category: "flower_bouquets"
-        }
-    ];
-    
-    // Filter products based on the query
-    return allProducts.filter(product => 
-        product.name.toLowerCase().includes(query) || 
-        product.category.toLowerCase().includes(query)
-    );
-}
     </script>
 
     <!-- Mobile Menu HTML structure -->
@@ -1114,7 +949,7 @@ function getSampleSearchResults(query) {
             <nav class="p-4">
                 <ul class="space-y-4">
                     <li>
-                        <a href="/index.html" class="flex items-center text-custom-dark hover:text-custom-pink hover:bg-custom-peach p-2 rounded transition-colors">
+                        <a href="index.html" class="flex items-center text-custom-dark hover:text-custom-pink hover:bg-custom-peach p-2 rounded transition-colors">
                             <i class="fas fa-home w-6"></i>Home
                         </a>
                     </li>
@@ -1129,7 +964,7 @@ function getSampleSearchResults(query) {
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center text-custom-dark hover:text-custom-pink hover:bg-custom-peach p-2 rounded transition-colors">
+                        <a href="order.html" class="flex items-center text-custom-dark hover:text-custom-pink hover:bg-custom-peach p-2 rounded transition-colors">
                             <i class="fas fa-box"></i>My Orders
                         </a>
                     </li>
