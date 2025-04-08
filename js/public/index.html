@@ -77,43 +77,19 @@
                 </button>
         
                 <button id="userButton"
-                    class="text-gray-600 hover:text-black transition-colors duration-200 flex items-center"
+                    class="text-gray-600 hover:text-black transition-colors duration-200 flex items-center relative"
                     onclick="handleUserClick()">
-                    <i class="fas fa-user"></i> <span id="userActionText" class="ml-1">Login</span>
+                    <i class="fas fa-user"></i> 
+                    <span id="userActionText" class="ml-1">Login</span>
                 </button>
                 
-                <script>
-                    async function checkUserStatus() {
-                        try {
-                            let response = await fetch("/user");
-                            let data = await response.json();
-                            let userActionText = document.getElementById("userActionText");
+                <!-- Add this simple dropdown for email display -->
+                <div id="userDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50" style="top: 100%;">
+                    <div id="userInfo" class="px-4 py-2 text-sm text-gray-700"></div>
+                    <button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
+                </div>
                 
-                            if (data.loggedIn) {
-                                userActionText.textContent = "Logout"; // Change button text to Logout
-                                document.getElementById("userButton").onclick = handleLogout;
-                            } else {
-                                userActionText.textContent = "Login"; // Default to Login
-                                document.getElementById("userButton").onclick = handleUserClick;
-                            }
-                        } catch (error) {
-                            console.error("Error checking login status", error);
-                        }
-                    }
-                
-                    async function handleUserClick() {
-                        window.location.href = "/login"; // Go to login page
-                    }
-                
-                    async function handleLogout() {
-                        window.location.href = "/logout"; // Redirect to logout
-                    }
-                
-                    // Check user status when page loads
-                    checkUserStatus();
-                </script>
-                 
-                 <button id="cartButton" class="text-gray-600 relative hover:text-black transition-colors duration-200">
+                <button id="cartButton" class="text-gray-600 relative hover:text-black transition-colors duration-200">
                     <i class="fas fa-shopping-cart"></i>
                 </button>
                 
@@ -383,7 +359,7 @@
         
     <section class="px-4 py-8 bg-white"><h2 class="text-xl font-semibold mb-6 text-center">About Us</h2><p class="text-gray-600 text-sm mb-8 text-center">InstaShop bridges the gap between social media and seamless shopping, connecting you directly with your favorite Instagram sellers. We bring you the latest trends, unique finds, and handcrafted products from small businesses and independent creators—right to your doorstep.  
 
-        Discover exclusive collections, support passionate entrepreneurs, and shop with confidence, knowing that every purchase helps grow a dream. At InstaShop, we make it easy to explore and buy the best products from Instagram’s thriving marketplace—all in one place.</p><div class="grid grid-cols-2 gap-6 mb-8"><div class="text-center"><i class="fas fa-shipping-fast text-custom text-2xl mb-2"></i><h3 class="text-sm font-semibold mb-1">Fast Delivery</h3><p class="text-xs text-gray-500">2-3 business days</p></div><div class="text-center"><i class="fas fa-shield-alt text-custom text-2xl mb-2"></i><h3 class="text-sm font-semibold mb-1">Secure Shopping</h3><p class="text-xs text-gray-500">100% secure payment</p></div><div class="text-center"><i class="fas fa-undo text-custom text-2xl mb-2"></i><h3 class="text-sm font-semibold mb-1">Easy Returns</h3><p class="text-xs text-gray-500">30-day return policy</p></div><div class="text-center"><i class="fas fa-headset text-custom text-2xl mb-2"></i><h3 class="text-sm font-semibold mb-1">24/7 Support</h3><p class="text-xs text-gray-500">Always here to help</p></div></div><div class="border-t pt-6"><h3 class="text-lg font-semibold mb-4 text-center">Contact Us</h3><div class="space-y-4"><div class="flex items-center justify-center gap-2"><i class="fas fa-envelope text-custom"></i><a href="mailto:instashopcustomercare@gmail.com" class="text-sm text-gray-600">instashopcustomercare@gmail.com</a></div><div class="flex items-center justify-center gap-2"><i class="fas fa-phone text-custom"></i><a href="tel:+918103146100" class="text-sm text-gray-600">+91 8103146100 </a></div><div class="flex items-center justify-center gap-4 mt-4"><a href="#" class="text-custom hover:text-custom/80"><i class="fab fa-facebook text-xl"></i></a><a href="#" class="text-custom hover:text-custom/80"><i class="fab fa-instagram text-xl"></i></a><a href="#" class="text-custom hover:text-custom/80"><i class="fab fa-twitter text-xl"></i></a></div></div></div><div class="text-center text-xs text-gray-500 mt-8">© 2024 InstaShop. All rights reserved.</div></section></main>
+        Discover exclusive collections, support passionate entrepreneurs, and shop with confidence, knowing that every purchase helps grow a dream. At InstaShop, we make it easy to explore and buy the best products from Instagram's thriving marketplace—all in one place.</p><div class="grid grid-cols-2 gap-6 mb-8"><div class="text-center"><i class="fas fa-shipping-fast text-custom text-2xl mb-2"></i><h3 class="text-sm font-semibold mb-1">Fast Delivery</h3><p class="text-xs text-gray-500">2-3 business days</p></div><div class="text-center"><i class="fas fa-shield-alt text-custom text-2xl mb-2"></i><h3 class="text-sm font-semibold mb-1">Secure Shopping</h3><p class="text-xs text-gray-500">100% secure payment</p></div><div class="text-center"><i class="fas fa-undo text-custom text-2xl mb-2"></i><h3 class="text-sm font-semibold mb-1">Easy Returns</h3><p class="text-xs text-gray-500">30-day return policy</p></div><div class="text-center"><i class="fas fa-headset text-custom text-2xl mb-2"></i><h3 class="text-sm font-semibold mb-1">24/7 Support</h3><p class="text-xs text-gray-500">Always here to help</p></div></div><div class="border-t pt-6"><h3 class="text-lg font-semibold mb-4 text-center">Contact Us</h3><div class="space-y-4"><div class="flex items-center justify-center gap-2"><i class="fas fa-envelope text-custom"></i><a href="mailto:instashopcustomercare@gmail.com" class="text-sm text-gray-600">instashopcustomercare@gmail.com</a></div><div class="flex items-center justify-center gap-2"><i class="fas fa-phone text-custom"></i><a href="tel:+918103146100" class="text-sm text-gray-600">+91 8103146100 </a></div><div class="flex items-center justify-center gap-4 mt-4"><a href="#" class="text-custom hover:text-custom/80"><i class="fab fa-facebook text-xl"></i></a><a href="#" class="text-custom hover:text-custom/80"><i class="fab fa-instagram text-xl"></i></a><a href="#" class="text-custom hover:text-custom/80"><i class="fab fa-twitter text-xl"></i></a></div></div></div><div class="text-center text-xs text-gray-500 mt-8">© 2024 InstaShop. All rights reserved.</div></section></main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/glide.min.js"></script>
     <script>
     new Glide('.glide', {
@@ -526,4 +502,53 @@ document.addEventListener('DOMContentLoaded', updateOrdersLink);
 </script>
 
 <div id="ordersLinkContainer"></div>
+    
+<script>
+    async function checkUserStatus() {
+        try {
+            let response = await fetch("/user");
+            let data = await response.json();
+            let userActionText = document.getElementById("userActionText");
+            let userDropdown = document.getElementById("userDropdown");
+            let userInfo = document.getElementById("userInfo");
+            
+            if (data.loggedIn) {
+                userActionText.textContent = "Account";
+                userInfo.textContent = data.user.email; // Display user's email
+                document.getElementById("userButton").onclick = toggleDropdown;
+            } else {
+                userActionText.textContent = "Login";
+                document.getElementById("userButton").onclick = handleUserClick;
+            }
+        } catch (error) {
+            console.error("Error checking login status", error);
+        }
+    }
+
+    function toggleDropdown() {
+        const dropdown = document.getElementById("userDropdown");
+        dropdown.classList.toggle("hidden");
+    }
+
+    async function handleUserClick() {
+        window.location.href = "/login";
+    }
+
+    async function handleLogout() {
+        window.location.href = "/logout";
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", function(event) {
+        const userButton = document.getElementById("userButton");
+        const userDropdown = document.getElementById("userDropdown");
+        
+        if (!userButton.contains(event.target) && !userDropdown.contains(event.target)) {
+            userDropdown.classList.add("hidden");
+        }
+    });
+
+    // Check user status when page loads
+    checkUserStatus();
+</script>
     
