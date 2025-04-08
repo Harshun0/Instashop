@@ -121,11 +121,14 @@
             <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
                     <div class="flex items-center">
-                        <button class="text-gray-600 mr-4" id="menu-button" onclick="toggleMenu()"><i class="fas fa-bars text-xl"></i></button>
-                        <img src="https://res.cloudinary.com/drvug594q/image/upload/v1743518570/1-removebg-preview_bobiph.png" alt="InstaShop Logo" class="h-[2.5rem] mr-auto">
-                    </div>
-                    <h1 class="text-xl font-semibold text-gray-900 text-center flex-1">Instagram Shops</h1>
-                    <div class="flex items-center space-x-4">
+                        <button class="text-gray-600 mr-1" id="menu-button" onclick="toggleMenu()"><i class="fas fa-bars text-xl"></i></button>
+                        <img src="https://res.cloudinary.com/drvug594q/image/upload/v1743518570/1-removebg-preview_bobiph.png" alt="InstaShop Logo" class="h-8 sm:h-10">
+                   </div>
+                   <div class="flex flex-col sm:flex-row items-center justify-center text-center flex-1">
+                    <span class="text-sm sm:text-lg font-semibold text-custom-dark leading-tight">Instagram </span>
+                    <span class="text-sm sm:text-lg font-semibold text-custom-dark leading-tight sm:ml-1">Shops</span>
+                </div>
+<div class="flex items-center space-x-4">
                         <button class="text-gray-500 hover:text-black transition-colors duration-200" id="searchButton">
                             <i class="fas fa-search text-xl"></i>
                         </button>
@@ -135,7 +138,7 @@
                         
                         <script>
                         document.getElementById("cartButton").addEventListener("click", function() {
-                            window.location.href = "/cart.html";
+                            window.location.href = "cart.html";
                         });
                         </script>
                         <button id="userButton" class="text-gray-600 hover:text-black transition-colors duration-200 relative" onclick="handleUserClick()">
@@ -463,7 +466,7 @@ function getSampleSearchResults(query) {
                     </a>
                 </li>
                 <li>
-                    <a href="/order" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded">
+                    <a href="order.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded">
                         <i class="fas fa-box"></i> My Orders
                     </a>
                 </li>
