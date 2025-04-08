@@ -176,7 +176,7 @@
                 console.log("Sending shop data to server:", shopData);
 
                 // 4. Send shop data to server
-                const response = await fetch("http://localhost:5000/api/shop", {
+                const response = await fetch("/api/shop", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(shopData)
