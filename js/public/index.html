@@ -83,10 +83,13 @@
                     <span id="userActionText" class="ml-1">Login</span>
                 </button>
                 
-                <!-- Add this simple dropdown for email display -->
-                <div id="userDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50" style="top: 100%;">
-                    <div id="userInfo" class="px-4 py-2 text-sm text-gray-700"></div>
-                    <button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
+                <!-- Updated dropdown styling -->
+                <div id="userDropdown" class="hidden absolute right-4 mt-1 w-48 bg-white rounded-md shadow-lg py-2 z-50">
+                    <div id="userInfo" class="px-4 py-2 text-sm text-gray-700 border-b"></div>
+                    <button onclick="handleLogout()" 
+                        class="w-full text-left px-4 py-2 text-sm text-white bg-custom-dark hover:bg-gray-600 transition-colors duration-200">
+                        Logout
+                    </button>
                 </div>
                 
                 <button id="cartButton" class="text-gray-600 relative hover:text-black transition-colors duration-200">
@@ -514,7 +517,7 @@ document.addEventListener('DOMContentLoaded', updateOrdersLink);
             
             if (data.loggedIn) {
                 userActionText.textContent = "Account";
-                userInfo.textContent = data.user.email; // Display user's email
+                userInfo.textContent = data.user.email;
                 document.getElementById("userButton").onclick = toggleDropdown;
             } else {
                 userActionText.textContent = "Login";
