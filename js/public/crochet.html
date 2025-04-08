@@ -233,24 +233,27 @@
         <div class="filter-section fixed top-16 left-0 z-40 px-4 py-2 shadow-sm w-full bg-custom-peach">
             <div class="flex items-center justify-between flex-wrap lg:flex-nowrap">
           
-              <!-- ✅ Mobile Scrollable Filter + Nav + Sort -->
-              <div class="flex items-center overflow-x-auto lg:hidden w-full space-x-2">
+              <!-- ✅ Mobile & Scrollable Section -->
+              <div class="flex items-center overflow-x-auto lg:overflow-visible w-full lg:hidden space-x-2">
+          
                 <!-- Filter Button -->
-                <button class="filter-button flex-shrink-0 rounded-full px-3 py-1 text-xs sm:text-sm flex items-center">
-                  <i class="fas fa-filter mr-1"></i> Filter
-                  <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                <button class="filter-button flex-shrink-0 rounded-full px-3 py-1 text-xs sm:text-sm flex items-center" id="filterButton">
+                  <i class="fas fa-filter mr-2"></i>
+                  Filter <i class="fas fa-chevron-down ml-2 text-xs"></i>
                 </button>
           
-                <!-- Nav Links -->
-                <a href="index.html" class="nav-link px-2 py-1 rounded mx-1 text-xs whitespace-nowrap">Home</a>
-                <a href="Jewellery.html" class="nav-link px-2 py-1 rounded mx-1 text-xs whitespace-nowrap">Jewellery</a>
-                <a href="clothing.html" class="nav-link px-2 py-1 rounded mx-1 text-xs whitespace-nowrap">Clothing</a>
-                <a href="Gifthampers.html" class="nav-link px-2 py-1 rounded mx-1 text-xs whitespace-nowrap">Gift Hampers</a>
-                <a href="flower.html" class="nav-link px-2 py-1 rounded mx-1 text-xs whitespace-nowrap">Flowers & Bouquets</a>
+                <!-- Mobile Category Nav -->
+                <div class="flex flex-nowrap items-center text-xs sm:text-sm">
+                  <a href="index.html" class="nav-link px-2 py-1 rounded mx-1 whitespace-nowrap">Home</a>
+                  <a href="Jewellery.html" class="nav-link px-2 py-1 rounded mx-1 whitespace-nowrap">Jewellery</a>
+                  <a href="clothing.html" class="nav-link px-2 py-1 rounded mx-1 whitespace-nowrap">Clothing</a>
+                  <a href="Gifthampers.html" class="nav-link px-2 py-1 rounded mx-1 whitespace-nowrap">Gift Hampers</a>
+                  <a href="flower.html" class="nav-link px-2 py-1 rounded mx-1 whitespace-nowrap">Flowers & Bouquets</a>
+                </div>
           
-                <!-- Mobile Sort -->
-                <div class="relative flex-shrink-0 mx-1 min-w-[140px]">
-                  <select id="sortByMobile" class="block bg-white border border-custom-pink hover:border-custom-dark px-2 py-1 pr-6 rounded shadow text-xs w-full">
+                <!-- Sort (mobile) -->
+                <div class="relative flex-shrink-0 min-w-[140px] mx-1">
+                  <select id="sortBy" class="block bg-white border border-custom-pink hover:border-custom-dark px-4 py-2 pr-8 rounded shadow text-xs sm:text-sm w-full">
                     <option value="default">Sort by: Default</option>
                     <option value="price-low">Price: Low to High</option>
                     <option value="price-high">Price: High to Low</option>
@@ -263,41 +266,38 @@
                 </div>
               </div>
           
-              <!-- ✅ Desktop Filter + Nav Links (with proper spacing) -->
-              <div class="hidden lg:flex items-center w-full">
-                <!-- Filter -->
-                <button class="filter-button rounded-full px-4 py-1 text-sm flex items-center">
-                  <i class="fas fa-filter mr-2"></i>
-                  Filter <i class="fas fa-chevron-down ml-2 text-xs"></i>
-                </button>
-          
-                <!-- Nav Links with spacing -->
-                <div class="flex ml-20 space-x-[70px] text-base">
+              <!-- ✅ Desktop View -->
+              <div class="hidden lg:flex items-center justify-between w-full">
+                <!-- Filter + Category links -->
+                <div class="flex items-center space-x-16 text-sm">
+                  <button class="filter-button flex-shrink-0 rounded-full px-3 py-1 text-sm flex items-center" id="filterButton">
+                    <i class="fas fa-filter mr-2"></i> Filter <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                  </button>
                   <a href="index.html" class="nav-link px-2 py-1 rounded">Home</a>
                   <a href="Jewellery.html" class="nav-link px-2 py-1 rounded">Jewellery</a>
                   <a href="clothing.html" class="nav-link px-2 py-1 rounded">Clothing</a>
-                  <a href="GiftHampers.html" class="nav-link px-2 py-1 rounded">Gift Hampers</a>
+                  <a href="Gifthampers.html" class="nav-link px-2 py-1 rounded">Gift Hampers</a>
                   <a href="flower.html" class="nav-link px-2 py-1 rounded">Flowers & Bouquets</a>
                 </div>
-              </div>
           
-              <!-- ✅ Desktop Sort on Right -->
-              <div class="hidden lg:block relative ml-4">
-                <select id="sortByDesktop" class="block appearance-none bg-white border border-custom-pink hover:border-custom-dark px-4 py-2 pr-8 rounded shadow text-sm">
-                  <option value="default">Sort by: Default</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="name-az">Name: A to Z</option>
-                  <option value="name-za">Name: Z to A</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center text-custom-dark">
-                  <i class="fas fa-chevron-down text-xs"></i>
+                <!-- Sort (desktop) -->
+                <div class="relative mr-4">
+                  <select id="sortBy" class="block bg-white border border-custom-pink hover:border-custom-dark px-4 py-2 pr-8 rounded shadow text-sm">
+                    <option value="default">Sort by: Default</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="name-az">Name: A to Z</option>
+                    <option value="name-za">Name: Z to A</option>
+                  </select>
+                  <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center text-custom-dark">
+                    <i class="fas fa-chevron-down text-xs"></i>
+                  </div>
                 </div>
               </div>
           
             </div>
           </div>
-            
+          
         <!-- Sidebar Filters -->
         <div class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden" id="overlay"></div>
         <aside class="sidebar-filter fixed top-0 left-0 w-64 h-full shadow-lg transform -translate-x-full transition-all duration-300 ease-in-out z-50 overflow-y-auto" id="sidebar">
@@ -667,7 +667,7 @@
             checkUserStatus();
         });
     </script>
-    <script>function toggleMenu() {const menu = document.getElementById('mobile-menu');menu.classList.toggle('hidden');}</script><div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden"><div class="mobile-menu-content w-64 h-full overflow-y-auto"><div class="p-4 border-b"><div class="flex justify-between items-center"><h2 class="text-xl font-semibold text-custom-dark">Menu</h2><button onclick="toggleMenu()" class="text-custom-dark hover:text-custom-pink"><i class="fas fa-times"></i></button></div></div><nav class="p-4"><ul class="space-y-4"><li><a href="index.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded"><i class="fas fa-home w-6"></i>Home</a></li><li><a href="InstagamShops.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded"><i class="fas fa-shopping-bag w-6"></i>Instagram Shops</a></li><li><a href="wishlist.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded"><i class="fas fa-heart w-6"></i>Wishlist</a></li><li><a href="#" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded"><i class="fas fa-box"></i>My Orders</a></li><li><a href="seller_login.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded"><i class="fas fa-cog w-6"></i>Seller login</a></li></ul></nav></div></div>
+    <script>function toggleMenu() {const menu = document.getElementById('mobile-menu');menu.classList.toggle('hidden');}</script><div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden"><div class="mobile-menu-content w-64 h-full overflow-y-auto"><div class="p-4 border-b"><div class="flex justify-between items-center"><h2 class="text-xl font-semibold text-custom-dark">Menu</h2><button onclick="toggleMenu()" class="text-custom-dark hover:text-custom-pink"><i class="fas fa-times"></i></button></div></div><nav class="p-4"><ul class="space-y-4"><li><a href="index.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded"><i class="fas fa-home w-6"></i>Home</a></li><li><a href="InstagamShops.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded"><i class="fas fa-shopping-bag w-6"></i>Instagram Shops</a></li><li><a href="wishlist.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded"><i class="fas fa-heart w-6"></i>Wishlist</a></li><li><a href="order.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded"><i class="fas fa-box"></i>My Orders</a></li><li><a href="seller_login.html" class="mobile-menu-link flex items-center hover:outline hover:outline-custom-pink hover:outline-2 p-2 rounded"><i class="fas fa-cog w-6"></i>Seller login</a></li></ul></nav></div></div>
     
     <script>
         // Cart Functions
